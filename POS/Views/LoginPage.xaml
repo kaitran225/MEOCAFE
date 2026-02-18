@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="POS.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:POS.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel
+        MaxWidth="480"
+        Margin="0,48,0,0"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        Spacing="20">
+
+        <!--  Username  -->
+        <TextBox
+            x:Name="UsernameTextBox"
+            Width="350"
+            PlaceholderText="Tên đăng nhập" />
+
+        <!--  Password  -->
+        <PasswordBox
+            x:Name="PasswordBox"
+            Width="350"
+            PlaceholderText="Mật khẩu" />
+
+        <!--  Role  -->
+        <!--
+        <ComboBox
+                x:Name="RoleComboBox"
+                Width="350"
+                SelectedIndex="0">
+            <ComboBoxItem Content="Quản lý" />
+            <ComboBoxItem Content="Thu ngân" />
+        </ComboBox>
+        -->
+
+        <!--  Login button  -->
+        <Button
+            Name="Manager"
+            Width="350"
+            Height="Auto"
+            HorizontalAlignment="Center"
+            Click="Manager_Click"
+            Content="Quản lý"
+            Style="{StaticResource AccentButtonStyle}" />
+        <Button
+            Name="Cashier"
+            Width="350"
+            Height="Auto"
+            HorizontalAlignment="Center"
+            Click="Cashier_Click"
+            Content="Thu ngân 123"
+            Style="{StaticResource AccentButtonStyle}" />
+
+    </StackPanel>
+</Page>
