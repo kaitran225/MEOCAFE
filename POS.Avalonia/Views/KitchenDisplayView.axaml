@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:models="using:POS.Avalonia.Models"
+             x:Class="POS.Avalonia.Views.KitchenDisplayView" x:DataType="vm:KitchenDisplayViewModel"
+             x:Name="Self">
+  <StackPanel Spacing="16" Margin="24">
+    <TextBlock Text="Kitchen display" FontWeight="Bold" FontSize="20"/>
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+      <TextBlock Text="Status:" VerticalAlignment="Center" Margin="0,0,4,0"/>
+      <Button Content="Active" Command="{Binding SetStatusFilterCommand}" CommandParameter="active" Padding="8,4"/>
+      <Button Content="Sent" Command="{Binding SetStatusFilterCommand}" CommandParameter="sent" Padding="8,4"/>
+      <Button Content="In progress" Command="{Binding SetStatusFilterCommand}" CommandParameter="in_progress" Padding="8,4"/>
+      <Button Content="Done" Command="{Binding SetStatusFilterCommand}" CommandParameter="done" Padding="8,4"/>
+      <TextBlock Text="Auto-refresh (sec):" VerticalAlignment="Center" Margin="16,0,4,0"/>
+      <TextBox Text="{Binding AutoRefreshSecondsText}" Width="40" Padding="4"/>
+      <Button Content="Start preparing" Command="{Binding StartPreparingCommand}" CommandParameter="{Binding SelectedOrder}" Padding="8,4"/>
+      <Button Content="Mark prepared" Command="{Binding MarkPreparedCommand}" CommandParameter="{Binding SelectedOrder}" Padding="8,4"/>
+    </StackPanel>
+    <ListBox ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}" MinHeight="300"
+             FontSize="{Binding DisplayFontSize}">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="models:KitchenOrderDisplay">
+          <Border Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="16" Margin="0,0,0,8"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel Spacing="8">
+              <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock Text="{Binding OrderId}" FontWeight="Bold"/>
+                <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:g}'}"/>
+                <TextBlock Text="{Binding Status}" Foreground="{StaticResource SecondaryBrush}" FontSize="12"/>
+              </StackPanel>
+              <ItemsControl ItemsSource="{Binding Lines}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate x:DataType="models:KitchenOrderLine">
+                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,2">
+                      <TextBlock Text="{Binding Quantity}" FontWeight="SemiBold" MinWidth="24"/>
+                      <TextBlock Text="{Binding ProductName}"/>
+                      <TextBlock Text="{Binding OptionsSummary}" Foreground="{StaticResource OnSurfaceMutedBrush}" FontSize="12"/>
+                    </StackPanel>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>

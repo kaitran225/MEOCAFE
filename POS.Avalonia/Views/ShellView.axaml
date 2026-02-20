@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             x:Class="POS.Avalonia.Views.ShellView"
+             x:DataType="vm:ShellViewModel">
+  <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*" Background="{StaticResource BackgroundBrush}">
+    <!-- App bar: black 30% -->
+    <Border Grid.Row="0" Grid.ColumnSpan="2" Background="{StaticResource BlackSurfaceBrush}"
+            Padding="20,14" BoxShadow="0 2 12 0 #25000000">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <Border Width="32" Height="32" CornerRadius="6" Background="{StaticResource AppBarIconBgBrush}" VerticalAlignment="Center">
+            <TextBlock Text="☕" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <TextBlock Text="MEOCAFE POS" FontSize="{StaticResource TitleFontSize}"
+                     FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnPrimaryBrush}"
+                     VerticalAlignment="Center"/>
+        </StackPanel>
+        <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="{StaticResource BodyFontSize}"
+                   Foreground="{StaticResource OnPrimaryBrush}" Opacity="0.92"
+                   VerticalAlignment="Center" Margin="24,0,0,0"/>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+          <Border Background="{StaticResource AppBarUserBgBrush}" CornerRadius="6" Padding="10,6" VerticalAlignment="Center">
+            <TextBlock Text="{Binding CurrentUserName}" FontSize="{StaticResource CaptionFontSize}"
+                       Foreground="{StaticResource OnPrimaryBrush}" Opacity="0.95"/>
+          </Border>
+          <Button Content="Logout" Command="{Binding LogoutCommand}"
+                  Background="{StaticResource AppBarButtonBgBrush}" Foreground="{StaticResource OnPrimaryBrush}"
+                  BorderThickness="1" BorderBrush="{StaticResource AppBarButtonBorderBrush}"/>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <!-- Sidebar: black 30%, matcha selected -->
+    <Border Grid.Row="1" Grid.Column="0" Background="{StaticResource SidebarBrush}"
+            BorderBrush="{StaticResource SidebarBorderBrush}" BorderThickness="0,0,1,0"
+            Padding="12,20">
+      <ListBox ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedNavItem}"
+               Background="Transparent" BorderThickness="0" Padding="0" Classes="NavList">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="vm:NavItem">
+            <TextBlock Text="{Binding Label}" Margin="12,10"
+                       FontSize="{StaticResource BodyFontSize}"
+                       Foreground="{StaticResource OnPrimaryBrush}"/>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Border>
+    <!-- Content: white card on warm background -->
+    <Border Grid.Row="1" Grid.Column="1" Margin="20" CornerRadius="{StaticResource CornerRadius16}"
+            Background="{StaticResource SurfaceBrush}" Padding="28"
+            BoxShadow="0 4 20 0 #18000000" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+      <ContentControl Content="{Binding CurrentContent}"/>
+    </Border>
+  </Grid>
+</UserControl>

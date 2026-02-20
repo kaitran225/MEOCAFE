@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             x:Class="POS.Avalonia.Views.CustomerManagementView" x:DataType="vm:CustomerManagementViewModel">
+  <Grid ColumnDefinitions="300,*" Margin="24">
+    <StackPanel Grid.Column="0" Spacing="8" Margin="0,0,16,0">
+      <TextBlock Text="Customers" FontWeight="Bold" FontSize="20"/>
+      <TextBox Text="{Binding SearchTerm}" Watermark="Search name or phone"/>
+      <Button Content="Search" Command="{Binding SearchCommand}"/>
+      <ListBox ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" MinHeight="300">
+        <ListBox.ItemTemplate>
+          <DataTemplate x:DataType="core:Customer">
+            <StackPanel Margin="4,2">
+              <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+              <TextBlock Text="{Binding PhoneNumber}" FontSize="12" Foreground="Gray"/>
+            </StackPanel>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </StackPanel>
+    <Border Grid.Column="1" Background="{StaticResource SurfaceBrush}" Padding="16" CornerRadius="8">
+      <StackPanel Spacing="12" IsVisible="{Binding HasSelectedCustomer}">
+        <TextBlock Text="Customer detail" FontWeight="Bold" FontSize="16"/>
+        <TextBlock Text="{Binding SelectedCustomer.Name}" FontSize="14"/>
+        <TextBlock Text="{Binding SelectedCustomer.PhoneNumber}" FontSize="14"/>
+        <TextBlock Text="{Binding SelectedCustomer.Email}" FontSize="14"/>
+        <TextBlock Text="{Binding SelectedCustomer.Address}" FontSize="14"/>
+        <TextBlock FontSize="14">
+          <Run Text="Points: "/><Run Text="{Binding SelectedCustomer.Point}"/>
+        </TextBlock>
+        <TextBlock Text="Recent orders" FontWeight="SemiBold" Margin="0,8,0,0"/>
+        <ListBox ItemsSource="{Binding CustomerOrders}" MinHeight="150">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="core:Order">
+              <StackPanel Orientation="Horizontal" Spacing="8" Margin="2">
+                <TextBlock Text="{Binding Id}" FontWeight="SemiBold" MinWidth="40"/>
+                <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:g}'}"/>
+                <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:C0}'}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Border>
+  </Grid>
+</UserControl>

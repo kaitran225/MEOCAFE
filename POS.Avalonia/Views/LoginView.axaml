@@ -1,0 +1,65 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:conv="using:Avalonia.Data.Converters"
+             x:Class="POS.Avalonia.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+  <Panel Background="{StaticResource BackgroundBrush}"
+         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Border HorizontalAlignment="Center" VerticalAlignment="Center"
+            Background="{StaticResource SurfaceBrush}"
+            Padding="32"
+            CornerRadius="{StaticResource CornerRadius12}"
+            MinWidth="340"
+            BoxShadow="0 4 20 0 #20000000">
+      <StackPanel Spacing="20">
+        <TextBlock Text="MEOCAFE POS"
+                   FontSize="{StaticResource LargeTitleFontSize}"
+                   FontWeight="{StaticResource LargeTitleFontWeight}"
+                   Foreground="{StaticResource PrimaryBrush}"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,8"/>
+        <TextBlock Text="Sign in to continue"
+                   FontSize="{StaticResource CaptionFontSize}"
+                   Foreground="{StaticResource OnSurfaceBrush}"
+                   Opacity="0.8"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,8"/>
+        <TextBox Watermark="Username"
+                 Text="{Binding Username}"
+                 Padding="12,10"
+                 FontSize="{StaticResource BodyFontSize}"
+                 CornerRadius="{StaticResource CornerRadius8}"/>
+        <TextBox Watermark="Password"
+                 PasswordChar="•"
+                 Text="{Binding Password}"
+                 Padding="12,10"
+                 FontSize="{StaticResource BodyFontSize}"
+                 CornerRadius="{StaticResource CornerRadius8}"/>
+        <Border Background="{StaticResource ErrorBgBrush}"
+                Padding="12,8"
+                CornerRadius="{StaticResource CornerRadius4}"
+                IsVisible="{Binding ErrorMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
+          <TextBlock Text="{Binding ErrorMessage}"
+                     Foreground="{StaticResource ErrorBrush}"
+                     TextWrapping="Wrap"
+                     FontSize="{StaticResource CaptionFontSize}"/>
+        </Border>
+        <Button Content="Login"
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding NotBusy}"
+                Padding="24,12"
+                CornerRadius="{StaticResource CornerRadius8}"
+                HorizontalAlignment="Stretch"
+                Background="{StaticResource PrimaryBrush}"
+                Foreground="{StaticResource OnPrimaryBrush}"
+                FontWeight="{StaticResource SubtitleFontWeight}"
+                FontSize="{StaticResource BodyFontSize}"/>
+        <ProgressBar IsIndeterminate="True"
+                    IsVisible="{Binding IsBusy}"
+                    Height="4"
+                    Margin="0,4,0,0"/>
+      </StackPanel>
+    </Border>
+  </Panel>
+</UserControl>

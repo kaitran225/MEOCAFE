@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             x:Class="POS.Avalonia.Views.ShiftRegisterView" x:DataType="vm:ShiftRegisterViewModel">
+  <StackPanel Spacing="16" Margin="24">
+    <TextBlock Text="Shift register" FontWeight="Bold" FontSize="20"/>
+    <Button Content="Refresh" Command="{Binding LoadCurrentCommand}" HorizontalAlignment="Left"/>
+    <StackPanel IsVisible="{Binding HasCurrentShift}">
+      <TextBlock Text="Current shift" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding CurrentShift.StartAt, StringFormat='Started: {0:g}'}"/>
+      <TextBlock Text="{Binding CurrentShift.OpeningCash, StringFormat='Opening cash: {0:N0}'}"/>
+      <TextBox Text="{Binding ClosingCashText}" Watermark="Closing cash" Margin="0,8,0,0"/>
+      <Button Content="Clock out" Command="{Binding ClockOutCommand}" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+    </StackPanel>
+    <StackPanel IsVisible="{Binding NoCurrentShift}">
+      <TextBox Text="{Binding OpeningCashText}" Watermark="Opening cash"/>
+      <Button Content="Clock in" Command="{Binding ClockInCommand}" HorizontalAlignment="Left"/>
+    </StackPanel>
+    <TextBlock Text="Today's sessions" FontWeight="SemiBold" Margin="0,16,0,0"/>
+    <ListBox ItemsSource="{Binding SessionsToday}" MinHeight="150">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="core:ShiftSession">
+          <StackPanel Margin="4">
+            <TextBlock Text="{Binding Username}"/>
+            <TextBlock Text="{Binding StartAt, StringFormat='{}{0:g}'}" FontSize="12"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>

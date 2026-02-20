@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             x:Class="POS.Avalonia.Views.AuditLogView" x:DataType="vm:AuditLogViewModel">
+  <StackPanel Spacing="16" Margin="24">
+    <TextBlock Text="Audit log" FontWeight="Bold" FontSize="20"/>
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <TextBox Text="{Binding FilterUser}" Watermark="User" Width="120"/>
+      <TextBox Text="{Binding FilterAction}" Watermark="Action" Width="120"/>
+      <Button Content="Load" Command="{Binding LoadCommand}"/>
+    </StackPanel>
+    <ListBox ItemsSource="{Binding Entries}" MinHeight="300">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="core:AuditLogEntry">
+          <StackPanel Margin="4">
+            <TextBlock FontSize="12">
+              <Run Text="{Binding CreatedAt, StringFormat='{}{0:g}'}"/>
+              <Run Text=" | "/>
+              <Run Text="{Binding Username}" FontWeight="SemiBold"/>
+              <Run Text=" | "/>
+              <Run Text="{Binding Action}"/>
+            </TextBlock>
+            <TextBlock Text="{Binding Details}" FontSize="11" Foreground="Gray" TextWrapping="Wrap"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+  </StackPanel>
+</UserControl>

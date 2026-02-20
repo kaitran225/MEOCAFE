@@ -1,0 +1,53 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- ========== GLOBAL THEME: Black 30% | White 60% | Brown 20% accent | Matcha 10% ========== -->
+
+  <!-- Matcha 10% - primary accent (CTAs, success, nav selected) -->
+  <SolidColorBrush x:Key="PrimaryBrush" Color="#6B8E6B"/>
+  <SolidColorBrush x:Key="PrimaryLightBrush" Color="#D4E5D2"/>
+  <SolidColorBrush x:Key="SuccessBrush" Color="#5A7D5A"/>
+
+  <!-- Brown 20% - secondary accent (prices, secondary actions, borders, warmth) -->
+  <SolidColorBrush x:Key="SecondaryBrush" Color="#6B4423"/>
+  <SolidColorBrush x:Key="SecondaryLightBrush" Color="#E8DED4"/>
+
+  <!-- Semantic -->
+  <SolidColorBrush x:Key="ErrorBrush" Color="#C53030"/>
+  <SolidColorBrush x:Key="ErrorBgBrush" Color="#15D13438"/>
+
+  <!-- White 60% - main backgrounds and surfaces -->
+  <SolidColorBrush x:Key="BackgroundBrush" Color="#FAFAF9"/>
+  <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF"/>
+  <SolidColorBrush x:Key="SurfaceMutedBrush" Color="#F5F5F4"/>
+  <SolidColorBrush x:Key="BorderBrush" Color="#E5E0D9"/>
+
+  <!-- Black 30% - app bar, sidebar, text -->
+  <SolidColorBrush x:Key="BlackBrush" Color="#1A1A1A"/>
+  <SolidColorBrush x:Key="BlackSurfaceBrush" Color="#252525"/>
+  <SolidColorBrush x:Key="SidebarBrush" Color="#252525"/>
+  <SolidColorBrush x:Key="OnSurfaceBrush" Color="#1A1A1A"/>
+  <SolidColorBrush x:Key="OnSurfaceMutedBrush" Color="#5C5C5C"/>
+
+  <!-- On dark (app bar / sidebar): white text -->
+  <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarIconBgBrush" Color="#33FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarUserBgBrush" Color="#28FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarButtonBgBrush" Color="#45FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarButtonBorderBrush" Color="#38FFFFFF"/>
+
+  <!-- Navigation (matcha tint when selected on dark sidebar) -->
+  <SolidColorBrush x:Key="NavSelectedBrush" Color="#2A3D2A"/>
+  <SolidColorBrush x:Key="NavSelectedFgBrush" Color="#A8D4A4"/>
+  <SolidColorBrush x:Key="SidebarBorderBrush" Color="#20FFFFFF"/>
+
+  <!-- Overlays -->
+  <SolidColorBrush x:Key="OverlayDimBrush" Color="#80000000"/>
+
+  <!-- Shadows -->
+  <x:String x:Key="ShadowAppBar">0 2 12 0 #25000000</x:String>
+  <x:String x:Key="ShadowContent">0 4 20 0 #18000000</x:String>
+  <x:String x:Key="ShadowCard">0 2 12 0 #0F000000</x:String>
+  <x:String x:Key="ShadowDialog">0 4 24 0 #30000000</x:String>
+  <x:String x:Key="ShadowLogin">0 4 20 0 #20000000</x:String>
+  <x:String x:Key="ShadowCardLight">0 2 8 0 #12000000</x:String>
+</ResourceDictionary>

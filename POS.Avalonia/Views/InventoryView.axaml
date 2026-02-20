@@ -1,0 +1,72 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             x:Class="POS.Avalonia.Views.InventoryView" x:Name="Root" x:DataType="vm:InventoryViewModel">
+  <Grid RowDefinitions="Auto,*" Margin="24">
+    <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,16">
+      <TextBlock Text="Inventory" FontWeight="Bold" FontSize="20"/>
+      <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+    </StackPanel>
+    <Grid Grid.Row="1" ColumnDefinitions="*,*">
+      <StackPanel Grid.Column="0" Margin="0,0,16,0">
+        <TextBlock Text="Low stock" FontWeight="SemiBold" Margin="0,0,0,8"/>
+        <ListBox ItemsSource="{Binding LowStockItems}" MinHeight="120">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="core:MenuItem">
+              <StackPanel Orientation="Horizontal" Spacing="8" Margin="4">
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" Foreground="{StaticResource ErrorBrush}"/>
+                <TextBlock Text="(reorder: " VerticalAlignment="Center" FontSize="12"/>
+                <TextBlock Text="{Binding ReorderLevel}" VerticalAlignment="Center" FontSize="12"/>
+                <TextBlock Text=")" VerticalAlignment="Center" FontSize="12"/>
+              </StackPanel>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+      <StackPanel Grid.Column="1">
+        <TextBlock Text="All products" FontWeight="SemiBold" Margin="0,0,0,8"/>
+        <ListBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" MinHeight="250">
+          <ListBox.ItemTemplate>
+            <DataTemplate x:DataType="core:MenuItem">
+              <Grid ColumnDefinitions="*,Auto,Auto,Auto" Margin="4">
+                <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Quantity}" VerticalAlignment="Center" Margin="8,0"/>
+                <Button Grid.Column="2" Content="Adjust" Command="{Binding #Root.DataContext.OpenAdjustCommand}" CommandParameter="{Binding}" Padding="8,4" Margin="0,0,4,0"/>
+                <Button Grid.Column="3" Content="Stock in" Command="{Binding #Root.DataContext.OpenStockInCommand}" CommandParameter="{Binding}" Padding="8,4"/>
+              </Grid>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Grid>
+    <!-- Adjust overlay -->
+    <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsAdjustOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="24" CornerRadius="8" MinWidth="280">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Adjust quantity" FontWeight="Bold"/>
+          <TextBox Text="{Binding AdjustQuantityText}" Watermark="Change amount (+/-)"/>
+          <TextBox Text="{Binding AdjustReason}" Watermark="Reason"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Apply" Command="{Binding ConfirmAdjustCommand}"/>
+            <Button Content="Cancel" Command="{Binding CloseAdjustCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+    <!-- Stock-in overlay -->
+    <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsStockInOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="100" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="24" CornerRadius="8" MinWidth="280">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Stock in" FontWeight="Bold"/>
+          <TextBox Text="{Binding StockInQuantityText}" Watermark="Quantity"/>
+          <TextBox Text="{Binding StockInReference}" Watermark="Reference"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Receive" Command="{Binding ConfirmStockInCommand}"/>
+            <Button Content="Cancel" Command="{Binding CloseStockInCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+  </Grid>
+</UserControl>

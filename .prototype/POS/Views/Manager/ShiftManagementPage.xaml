@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="POS.Views.Manager.ShiftManagementPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:POS.Views.Manager"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:POS.Models"
+    DataContext="{x:Bind shiftManagementViewModel, Mode=TwoWay}"
+    mc:Ignorable="d">
+
+
+    <Page.Resources>
+        <Style x:Key="ShiftButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+
+        <SolidColorBrush x:Key="NONFULL" Color="#000000" />
+        <SolidColorBrush x:Key="FULL" Color="#FFA500" />
+        <SolidColorBrush x:Key="TextNONFULL" Color="#ffffff" />
+        <SolidColorBrush x:Key="TextFULL" Color="#ffffff" />
+
+
+    </Page.Resources>
+    <ScrollViewer
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Top"
+        HorizontalScrollBarVisibility="Auto"
+        HorizontalScrollMode="Enabled"
+        IsTabStop="True"
+        IsVerticalScrollChainingEnabled="True"
+        VerticalScrollBarVisibility="Auto"
+        VerticalScrollMode="Enabled"
+        ZoomMode="Enabled">
+        <StackPanel Margin="20">
+            <!--  Title  -->
+            <ContentDialog
+                x:Name="ErrorDialog"
+                Title="Thông báo"
+                PrimaryButtonText="OK">
+                <TextBlock x:Name="ErrorMessageTextBlock" />
+            </ContentDialog>
+            <TextBlock
+                Margin="0,0,0,20"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="Ca làm việc" />
+
+            <!--  Date Picker  -->
+            <DatePicker
+                x:Name="shiftDatePicker"
+                Margin="0,0,0,20"
+                DateChanged="ShiftDatePicker_DateChanged"
+                Header="Chọn ngày" />
+
+            <!--  Shift Grid  -->
+            <Grid x:Name="shiftGridPanel" Margin="0,0,0,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+
+            <TextBlock
+                Margin="0,0,0,20"
+                Style="{ThemeResource TitleTextBlockStyle}"
+                Text="Thống kê ca làm nhân viên " />
+            <ScrollViewer
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                HorizontalScrollBarVisibility="Auto"
+                HorizontalScrollMode="Enabled"
+                IsTabStop="True"
+                IsVerticalScrollChainingEnabled="True"
+                VerticalScrollBarVisibility="Auto"
+                VerticalScrollMode="Enabled"
+                ViewChanged="ScrollViewer_ViewChanged_2"
+                ZoomMode="Enabled">
+
+                <ListView
+                    x:Name="Listshift"
+                    Height="500"
+                    ItemsSource="{x:Bind shiftManagementViewModel.Shiftstatistics}">
+                    <ListView.Header>
+                        <Grid Padding="16,6" ColumnSpacing="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+                            <TextBlock
+                                Grid.Column="0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="Employee username" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="Total shifts" />
+                            <TextBlock
+                                Grid.Column="2"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="Late" />
+                            <TextBlock
+                                Grid.Column="3"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="On Time" />
+
+                        </Grid>
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+                        <!--  *******************DATA***************  -->
+
+                        <DataTemplate x:DataType="model:ShiftStatistic">
+                            <Grid ColumnSpacing="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{x:Bind employees_username}" />
+                                <TextBlock Grid.Column="1" Text="{x:Bind total}" />
+                                <TextBlock Grid.Column="2" Text="{x:Bind late}" />
+                                <TextBlock Grid.Column="3" Text="{x:Bind on_time}" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                    <ListView.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </ScrollViewer>
+        </StackPanel>
+    </ScrollViewer>
+
+</Page>

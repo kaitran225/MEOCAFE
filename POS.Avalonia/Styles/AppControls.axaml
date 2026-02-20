@@ -1,0 +1,78 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Overrides for consistent look (FluentTheme loaded in App.axaml) -->
+  <Style Selector="Button">
+    <Setter Property="MinHeight" Value="36"/>
+    <Setter Property="Padding" Value="16,8"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="FontSize" Value="14"/>
+  </Style>
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+  </Style>
+  <!-- TextBox -->
+  <Style Selector="TextBox">
+    <Setter Property="MinHeight" Value="36"/>
+    <Setter Property="Padding" Value="12,10"/>
+    <Setter Property="CornerRadius" Value="8"/>
+  </Style>
+  <!-- ListBox: light surface (60% white), rounded -->
+  <Style Selector="ListBox">
+    <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="Padding" Value="4"/>
+  </Style>
+  <Style Selector="ListBoxItem">
+    <Setter Property="CornerRadius" Value="6"/>
+    <Setter Property="Padding" Value="12,10"/>
+    <Setter Property="MinHeight" Value="40"/>
+  </Style>
+  <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
+  </Style>
+  <Style Selector="ListBoxItem:selected TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- Sidebar nav: keep dark selected (matcha tint) with light text -->
+  <Style Selector="ListBox.NavList ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource NavSelectedBrush}"/>
+  </Style>
+  <Style Selector="ListBox.NavList ListBoxItem:selected TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource NavSelectedFgBrush}"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- Category tabs: selected = matcha tint + bottom border -->
+  <Style Selector="ListBox.CategoryTabs ListBoxItem">
+    <Setter Property="Padding" Value="0"/>
+  </Style>
+  <Style Selector="ListBox.CategoryTabs ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="BorderThickness" Value="0,0,0,3"/>
+  </Style>
+  <Style Selector="ListBox.CategoryTabs ListBoxItem:selected TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
+  </Style>
+  <!-- Bill tabs: same tab header look -->
+  <Style Selector="ListBox.BillTabs ListBoxItem">
+    <Setter Property="Padding" Value="0"/>
+  </Style>
+  <Style Selector="ListBox.BillTabs ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
+    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="BorderThickness" Value="0,0,0,3"/>
+  </Style>
+  <Style Selector="ListBox.BillTabs ListBoxItem:selected TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
+  </Style>
+  <!-- ComboBox -->
+  <Style Selector="ComboBox">
+    <Setter Property="MinHeight" Value="36"/>
+    <Setter Property="CornerRadius" Value="8"/>
+  </Style>
+</Styles>

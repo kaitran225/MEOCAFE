@@ -1,0 +1,15 @@
+E:\MEOCAFE\POS.Core\bin\Debug\net9.0\POS.Core.deps.json
+E:\MEOCAFE\POS.Core\bin\Debug\net9.0\POS.Core.dll
+E:\MEOCAFE\POS.Core\bin\Debug\net9.0\POS.Core.pdb
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.csproj.AssemblyReference.cache
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.GeneratedMSBuildEditorConfig.editorconfig
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.AssemblyInfoInputs.cache
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.AssemblyInfo.cs
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.csproj.CoreCompileInputs.cache
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.sourcelink.json
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.csproj.Fody.CopyLocal.cache
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.csproj.Fody.RuntimeCopyLocal.cache
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.dll
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\refint\POS.Core.dll
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\POS.Core.pdb
+E:\MEOCAFE\POS.Core\obj\Debug\net9.0\ref\POS.Core.dll

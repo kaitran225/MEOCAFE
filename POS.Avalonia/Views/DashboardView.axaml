@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.DashboardView"
+             x:DataType="vm:DashboardViewModel">
+  <StackPanel Spacing="{StaticResource Spacing32}">
+    <controls:PageTitle Title="Dashboard">
+      <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+    </controls:PageTitle>
+    <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4" Margin="0,0,0,8"/>
+    <StackPanel Spacing="{StaticResource Spacing32}" IsVisible="{Binding NotLoading}">
+      <!-- KPI row: cards with colored left accent -->
+      <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Margin="0,0,0,8">
+        <Border Grid.Column="0" Margin="0,0,12,0" Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="4,0,0,0"
+                CornerRadius="{StaticResource CornerRadius12}" Padding="24,20"
+                BoxShadow="0 2 12 0 #0F000000">
+          <StackPanel Spacing="8">
+            <TextBlock Text="Total sales (this year)" FontSize="{StaticResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Text="{Binding TotalSales, StringFormat='{}{0:N0}'}" FontSize="28"
+                       FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+          </StackPanel>
+        </Border>
+        <Border Grid.Column="1" Margin="12,0,0,0" Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource SecondaryBrush}" BorderThickness="4,0,0,0"
+                CornerRadius="{StaticResource CornerRadius12}" Padding="24,20"
+                BoxShadow="0 2 12 0 #0F000000">
+          <StackPanel Spacing="8">
+            <TextBlock Text="Average ticket" FontSize="{StaticResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Text="{Binding AverageTicket, StringFormat='{}{0:N0}'}" FontSize="28"
+                       FontWeight="Bold" Foreground="{StaticResource SecondaryBrush}"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+      <!-- Top products section -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius12}"
+              Padding="24" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              BoxShadow="0 2 12 0 #0F000000">
+        <StackPanel Spacing="{StaticResource Spacing16}">
+          <TextBlock Text="Top products (week)" FontSize="{StaticResource SubtitleFontSize}"
+                     FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <ItemsControl ItemsSource="{Binding TopProducts}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Border Padding="14,12" Margin="0,4" Background="{StaticResource PrimaryLightBrush}"
+                        CornerRadius="{StaticResource CornerRadius8}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="{Binding Key}" FontSize="{StaticResource BodyFontSize}"
+                               Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Value, StringFormat='{}{0:N0}'}"
+                               FontSize="{StaticResource BodyFontSize}" FontWeight="SemiBold"
+                               Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center"/>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <!-- Empty state when no products -->
+          <Border Padding="32,24" Margin="0,8,0,0" Background="{StaticResource BackgroundBrush}"
+                  CornerRadius="{StaticResource CornerRadius8}" HorizontalAlignment="Stretch"
+                  IsVisible="{Binding TopProductsEmpty}">
+            <StackPanel HorizontalAlignment="Center" Spacing="8">
+              <TextBlock Text="☕" FontSize="32" HorizontalAlignment="Center" Opacity="0.6"/>
+              <TextBlock Text="No sales this week yet" FontSize="{StaticResource BodyFontSize}"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Text="Orders will show up here" FontSize="{StaticResource CaptionFontSize}"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.9" HorizontalAlignment="Center"/>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

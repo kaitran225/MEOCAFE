@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             x:Class="POS.Avalonia.Views.OrderHistoryView" x:DataType="vm:OrderHistoryViewModel">
+  <StackPanel Spacing="16" Margin="24">
+    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="20"/>
+    <Button Content="Refresh" Command="{Binding LoadOrdersCommand}" HorizontalAlignment="Left"/>
+    <ListBox ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder}" MinHeight="200">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="core:Order">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="{Binding Id}" FontWeight="SemiBold"/>
+            <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:g}'}"/>
+            <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:C0}'}"/>
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <StackPanel Orientation="Horizontal" Spacing="8">
+      <Button Content="Reprint receipt" Command="{Binding ReprintCommand}"/>
+      <Button Content="Reprint kitchen ticket" Command="{Binding ReprintKitchenTicketCommand}"/>
+      <Button Content="Refund" Command="{Binding OpenRefundCommand}"/>
+    </StackPanel>
+    <Border IsVisible="{Binding IsRefundOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="100" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <StackPanel Spacing="8" Width="280" Background="{StaticResource SurfaceBrush}" Margin="24">
+        <TextBlock Text="Refund" FontWeight="Bold"/>
+        <TextBox Text="{Binding RefundAmountText}" Watermark="Amount"/>
+        <TextBox Text="{Binding RefundReason}" Watermark="Reason"/>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="Confirm" Command="{Binding ConfirmRefundCommand}"/>
+          <Button Content="Cancel" Command="{Binding CloseRefundCommand}"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+  </StackPanel>
+</UserControl>

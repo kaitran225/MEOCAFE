@@ -1,0 +1,15 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="POS.Avalonia.Controls.PageTitle"
+             x:Name="Root">
+  <Grid ColumnDefinitions="*,Auto">
+    <TextBlock Text="{Binding #Root.Title}"
+               FontSize="{StaticResource TitleFontSize}"
+               FontWeight="{StaticResource TitleFontWeight}"
+               Foreground="{StaticResource OnSurfaceBrush}"
+               VerticalAlignment="Center"/>
+    <ContentPresenter Grid.Column="1"
+                      Content="{Binding #Root.ActionContent}"
+                      VerticalAlignment="Center"/>
+  </Grid>
+</UserControl>

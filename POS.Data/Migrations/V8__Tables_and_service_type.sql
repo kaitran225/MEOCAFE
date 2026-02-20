@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS tables (
+    id       SERIAL PRIMARY KEY,
+    name     TEXT NOT NULL,
+    capacity INTEGER NOT NULL DEFAULT 2,
+    zone     TEXT,
+    status   TEXT NOT NULL DEFAULT 'empty'
+);
+
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS table_id INTEGER REFERENCES tables(id);
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS service_type TEXT DEFAULT 'Dine-in';
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivery_address TEXT;
+ALTER TABLE orders ADD COLUMN IF NOT EXISTS delivery_fee NUMERIC(18,2) DEFAULT 0;

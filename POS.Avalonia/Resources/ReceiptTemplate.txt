@@ -1,0 +1,18 @@
+{{HEADER}}
+{{BUSINESS_NAME}}
+{{ADDRESS}}
+{{TAX_ID}}
+--------------------------------
+{{LINES}}
+{{LINE_ITEMS}}
+--------------------------------
+{{TOTALS}}
+Subtotal:    {{SUBTOTAL}}
+Discount:    {{DISCOUNT}}
+Tax:         {{TAX}}
+Total:       {{GRAND_TOTAL}}
+Payment:     {{PAYMENT_METHOD}}
+--------------------------------
+{{FOOTER}}
+{{THANK_YOU}}
+{{FOOTER_TAX_ID}}

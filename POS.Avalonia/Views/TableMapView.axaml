@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels" xmlns:models="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.TableMapView" x:Name="Root" x:DataType="vm:TableMapViewModel">
+  <StackPanel Margin="24" Spacing="16">
+    <controls:PageTitle Title="{Binding Title}">
+      <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+    </controls:PageTitle>
+    <ItemsControl ItemsSource="{Binding Tables}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel/>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate DataType="models:Table">
+          <Border Width="100" Height="80" Margin="8" Padding="8"
+                  Background="{StaticResource SurfaceBrush}" CornerRadius="8"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel Spacing="4">
+              <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="14"/>
+              <TextBlock Text="{Binding Status}" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Button Content="New order" Command="{Binding #Root.DataContext.NewOrderAtTableCommand}" CommandParameter="{Binding}"
+                      Padding="6,4" FontSize="11" HorizontalAlignment="Stretch"/>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>

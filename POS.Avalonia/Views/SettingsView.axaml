@@ -1,0 +1,60 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels" xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.SettingsView" x:DataType="vm:SettingsViewModel">
+  <ScrollViewer>
+    <StackPanel Margin="24" Spacing="24" MaxWidth="600">
+      <controls:PageTitle Title="{Binding Title}">
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="Refresh" Command="{Binding RefreshCommand}"/>
+          <Button Content="Save" Command="{Binding SaveCommand}" Classes="primary" IsEnabled="{Binding CanSave}"/>
+          <TextBlock Text="Saved." Foreground="{StaticResource SuccessBrush}" VerticalAlignment="Center"
+                     IsVisible="{Binding SaveSuccess}"/>
+        </StackPanel>
+      </controls:PageTitle>
+
+      <!-- Business -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Business" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBox Text="{Binding BusinessName}" Watermark="Business name"/>
+          <TextBox Text="{Binding BusinessAddress}" Watermark="Address"/>
+          <TextBox Text="{Binding BusinessTaxId}" Watermark="Tax ID"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Receipt -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Receipt" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBox Text="{Binding ReceiptThankYou}" Watermark="Thank you text"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Tax -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Tax" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBox Text="{Binding TaxName}" Watermark="Tax name"/>
+          <TextBox Text="{Binding TaxRate}" Watermark="Rate (e.g. 0.1)"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Database -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Database" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBlock Text="Restart app to apply database changes." FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBox Text="{Binding DbHost}" Watermark="Host"/>
+          <TextBox Text="{Binding DbPort}" Watermark="Port"/>
+          <TextBox Text="{Binding DbUser}" Watermark="User"/>
+          <TextBox Text="{Binding DbPassword}" Watermark="Password" PasswordChar="*"/>
+          <TextBox Text="{Binding DbName}" Watermark="Database name"/>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

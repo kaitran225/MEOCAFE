@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="POS.Avalonia.Controls.ModalOverlay"
+             x:Name="Root">
+  <Panel IsVisible="{Binding #Root.IsOpen}" ZIndex="100"
+         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Border Background="{StaticResource OverlayDimBrush}"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ZIndex="100"/>
+    <Border HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{StaticResource SurfaceBrush}"
+            Padding="{StaticResource Margin24}"
+            CornerRadius="{StaticResource CornerRadius12}"
+            MinWidth="260"
+            ZIndex="101"
+            BoxShadow="0 4 24 0 #30000000">
+      <StackPanel Spacing="{StaticResource Spacing16}">
+        <TextBlock Text="{Binding #Root.Title}"
+                   FontSize="{StaticResource SubtitleFontSize}"
+                   FontWeight="{StaticResource TitleFontWeight}"
+                   Foreground="{StaticResource OnSurfaceBrush}"/>
+        <ContentPresenter Content="{Binding #Root.DialogContent}"/>
+      </StackPanel>
+    </Border>
+  </Panel>
+</UserControl>
