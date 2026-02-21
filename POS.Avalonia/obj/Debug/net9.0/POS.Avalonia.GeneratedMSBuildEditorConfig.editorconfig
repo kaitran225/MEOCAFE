@@ -45,6 +45,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [E:/MEOCAFE/POS.Avalonia/Styles/Components.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[E:/MEOCAFE/POS.Avalonia/Styles/Icons.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [E:/MEOCAFE/POS.Avalonia/Styles/Radius.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

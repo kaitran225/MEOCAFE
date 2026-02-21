@@ -22,7 +22,18 @@ public partial class App : Application
         {
             DisableAvaloniaDataAnnotationValidation();
             var mainVm = Program.GetService<MainViewModel>();
-            desktop.MainWindow = new MainWindow { DataContext = mainVm };
+            var mainWindow = new MainWindow { DataContext = mainVm };
+            try
+            {
+                var store = Program.GetService<Services.ISettingsStore>();
+                var sizeKey = store.Get("UI:Size") ?? Services.UiSizePresets.Key1080;
+                Services.UiSizePresetValues.ApplyToApplication(sizeKey);
+                var (w, h) = Services.UiSizePresets.GetDimensions(sizeKey);
+                mainWindow.Width = w;
+                mainWindow.Height = h;
+            }
+            catch { /* first run: keep XAML default size */ }
+            desktop.MainWindow = mainWindow;
         }
 
         base.OnFrameworkInitializationCompleted();

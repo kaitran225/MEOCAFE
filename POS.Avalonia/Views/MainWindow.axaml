@@ -5,8 +5,9 @@
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="MEOCAFE POS"
-        MinWidth="1024" MinHeight="640"
-        Width="1280" Height="800"
+        MinWidth="854" MinHeight="480"
+        Width="1920" Height="1080"
+        CanResize="False"
         Background="{StaticResource BackgroundBrush}">
   <ContentControl Content="{Binding CurrentContent}" Background="{StaticResource BackgroundBrush}"/>
 </Window>

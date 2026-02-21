@@ -3,19 +3,23 @@
   <!-- Overrides for consistent look (FluentTheme loaded in App.axaml) -->
   <Style Selector="Button">
     <Setter Property="MinHeight" Value="36"/>
-    <Setter Property="Padding" Value="16,8"/>
-    <Setter Property="CornerRadius" Value="8"/>
-    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="Padding" Value="{DynamicResource Margin8}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
+    <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}"/>
   </Style>
   <Style Selector="Button.primary">
     <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+  </Style>
+  <Style Selector="Button.danger">
+    <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
     <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
   </Style>
   <!-- TextBox -->
   <Style Selector="TextBox">
     <Setter Property="MinHeight" Value="36"/>
     <Setter Property="Padding" Value="12,10"/>
-    <Setter Property="CornerRadius" Value="8"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
   </Style>
   <!-- ListBox: light surface (60% white), rounded -->
   <Style Selector="ListBox">
@@ -23,8 +27,8 @@
     <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
     <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
-    <Setter Property="CornerRadius" Value="8"/>
-    <Setter Property="Padding" Value="4"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
+    <Setter Property="Padding" Value="{DynamicResource Margin4}"/>
   </Style>
   <Style Selector="ListBoxItem">
     <Setter Property="CornerRadius" Value="6"/>

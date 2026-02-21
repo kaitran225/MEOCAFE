@@ -1,4 +1,82 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="POS.Avalonia.Views.DiscountManagementView">
-  <TextBlock Text="Discount management (Phase 4)" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.DiscountManagementView"
+             x:Name="Root"
+             x:DataType="vm:DiscountManagementViewModel">
+  <Grid RowDefinitions="Auto,*" Margin="0">
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="0,0,0,20">
+      <controls:PageTitle Title="Discount management">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+          <Button Content="Add discount" Command="{Binding OpenAddCommand}" Classes="primary"/>
+        </StackPanel>
+      </controls:PageTitle>
+    </StackPanel>
+    <Border Grid.Row="1" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="1" CornerRadius="{DynamicResource CornerRadius12}" Padding="16">
+      <StackPanel Spacing="8">
+        <TextBlock Text="Discounts" FontSize="{DynamicResource SubtitleFontSize}"
+                   FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+        <ListBox ItemsSource="{Binding Discounts}" SelectedItem="{Binding SelectedDiscount}" MinHeight="320"
+                 Background="{StaticResource SurfaceBrush}" BorderThickness="0">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="core:Discount">
+              <Border Padding="12,10" Margin="0,2" CornerRadius="8">
+                <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                  <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"
+                             FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  <TextBlock Grid.Column="1" Text="{Binding Percentage, StringFormat='{}{0}%'}" VerticalAlignment="Center" Margin="16,0,0,0"
+                             FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource SecondaryBrush}"/>
+                  <TextBlock Grid.Column="2" Text="{Binding StartDate, StringFormat='{}{0:yyyy-MM-dd}'}" VerticalAlignment="Center" Margin="8,0,0,0"
+                             FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8" Margin="16,0,0,0">
+                    <Button Content="Edit" Command="{Binding #Root.DataContext.OpenEditCommand}" CommandParameter="{Binding}" Padding="10,6" FontSize="{DynamicResource CaptionFontSize}"/>
+                    <Button Content="Delete" Command="{Binding #Root.DataContext.RequestDeleteCommand}" CommandParameter="{Binding}" Padding="10,6" FontSize="{DynamicResource CaptionFontSize}"/>
+                  </StackPanel>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Border>
+    <!-- Edit overlay -->
+    <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsEditOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="320"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+          <TextBlock Text="Discount" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding FormName}" Watermark="Name"/>
+          <TextBox Text="{Binding FormDescription}" Watermark="Description"/>
+          <TextBox Text="{Binding FormPercentage}" Watermark="Percentage (e.g. 10)"/>
+          <TextBox Text="{Binding FormStartDate}" Watermark="Start date (yyyy-MM-dd)"/>
+          <TextBox Text="{Binding FormEndDate}" Watermark="End date (yyyy-MM-dd)"/>
+          <CheckBox IsChecked="{Binding FormIsDisabled}" Content="Disabled"/>
+          <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Save" Command="{Binding SaveCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CloseEditCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+    <!-- Delete confirm overlay -->
+    <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsDeleteConfirmOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="101">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="280"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Delete discount?" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBlock Text="{Binding DeleteTarget.Name}" FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+            <Button Content="Delete" Command="{Binding ConfirmDeleteCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CancelDeleteCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+  </Grid>
 </UserControl>

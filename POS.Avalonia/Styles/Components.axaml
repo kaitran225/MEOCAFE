@@ -3,16 +3,16 @@
                     xmlns:models="using:POS.Core.Models">
   <!-- Reusable ProductCard layout for menu items (categories, quick keys). -->
   <DataTemplate x:Key="ProductCardTemplate" DataType="models:MenuItem">
-    <Border Padding="{StaticResource Margin8}"
+    <Border Padding="{DynamicResource Margin8}"
             Margin="0,2"
             Background="{StaticResource SurfaceBrush}"
-            CornerRadius="{StaticResource CornerRadius8}"
+            CornerRadius="{DynamicResource CornerRadius8}"
             BorderBrush="{StaticResource BorderBrush}"
             BorderThickness="1">
-      <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing8}">
+      <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
         <Border Width="48"
                 Height="48"
-                CornerRadius="{StaticResource CornerRadius4}"
+                CornerRadius="{DynamicResource CornerRadius4}"
                 Background="{StaticResource BackgroundBrush}"
                 VerticalAlignment="Center">
           <!-- Image placeholder; bind to ImageUrl when available -->
@@ -25,12 +25,12 @@
         </Border>
         <StackPanel VerticalAlignment="Center" Spacing="2">
           <TextBlock Text="{Binding Name}"
-                     FontSize="{StaticResource BodyFontSize}"
+                     FontSize="{DynamicResource BodyFontSize}"
                      FontWeight="{StaticResource BodyFontWeight}"
                      Foreground="{StaticResource OnSurfaceBrush}"
                      TextTrimming="CharacterEllipsis"/>
           <TextBlock Text="{Binding SellPrice, StringFormat={}{0:C0}}"
-                     FontSize="{StaticResource CaptionFontSize}"
+                     FontSize="{DynamicResource CaptionFontSize}"
                      Foreground="{StaticResource SecondaryBrush}"/>
         </StackPanel>
       </StackPanel>
@@ -40,24 +40,24 @@
   <!-- Category list item template -->
   <DataTemplate x:Key="CategoryItemTemplate" DataType="models:Category">
     <TextBlock Text="{Binding Name}"
-               Margin="{StaticResource Margin8}"
-               FontSize="{StaticResource BodyFontSize}"
+               Margin="{DynamicResource Margin8}"
+               FontSize="{DynamicResource BodyFontSize}"
                Foreground="{StaticResource OnSurfaceBrush}"/>
   </DataTemplate>
 
   <!-- Product grid card: vertical card with icon, name, price (use in ItemsControl with grid; bind Command in view) -->
   <DataTemplate x:Key="ProductGridCardTemplate" DataType="models:MenuItem">
-    <Border Padding="{StaticResource Margin8}" Margin="2" Background="{StaticResource SurfaceBrush}"
-            CornerRadius="{StaticResource CornerRadius8}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+    <Border Padding="{DynamicResource Margin8}" Margin="2" Background="{StaticResource SurfaceBrush}"
+            CornerRadius="{DynamicResource CornerRadius8}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
       <StackPanel HorizontalAlignment="Center" Spacing="6">
-        <Border Width="56" Height="56" CornerRadius="{StaticResource CornerRadius8}"
+        <Border Width="56" Height="56" CornerRadius="{DynamicResource CornerRadius8}"
                 Background="{StaticResource SecondaryLightBrush}" HorizontalAlignment="Center">
           <TextBlock Text="☕" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center"
                      Foreground="{StaticResource SecondaryBrush}" Opacity="0.9"/>
         </Border>
-        <TextBlock Text="{Binding Name}" FontSize="{StaticResource CaptionFontSize}" FontWeight="SemiBold"
+        <TextBlock Text="{Binding Name}" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
                    Foreground="{StaticResource OnSurfaceBrush}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="110" TextTrimming="CharacterEllipsis"/>
-        <TextBlock Text="{Binding SellPrice, StringFormat={}{0:N0} ₫}" FontSize="{StaticResource CaptionFontSize}"
+        <TextBlock Text="{Binding SellPrice, StringFormat={}{0:N0} ₫}" FontSize="{DynamicResource CaptionFontSize}"
                    Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Center"/>
       </StackPanel>
     </Border>

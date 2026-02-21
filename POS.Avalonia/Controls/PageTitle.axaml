@@ -4,7 +4,7 @@
              x:Name="Root">
   <Grid ColumnDefinitions="*,Auto">
     <TextBlock Text="{Binding #Root.Title}"
-               FontSize="{StaticResource TitleFontSize}"
+               FontSize="{DynamicResource TitleFontSize}"
                FontWeight="{StaticResource TitleFontWeight}"
                Foreground="{StaticResource OnSurfaceBrush}"
                VerticalAlignment="Center"/>

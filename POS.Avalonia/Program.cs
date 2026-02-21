@@ -13,6 +13,11 @@ sealed class Program
 {
     public static IHost? Host { get; private set; }
 
+    /// <summary>Fired when display size should be applied (e.g. after saving Settings). (Width, Height).</summary>
+    public static event Action<int, int>? OnApplyDisplaySize;
+
+    public static void ApplyDisplaySize(int width, int height) => OnApplyDisplaySize?.Invoke(width, height);
+
     [STAThread]
     public static void Main(string[] args)
     {
@@ -45,12 +50,13 @@ sealed class Program
                 services.AddSingleton<POS.Core.Contracts.IRefundRepository, POS.Data.Repositories.RefundRepository>();
                 services.AddSingleton<IAnalyticsRepository, AnalyticsRepository>();
                 services.AddSingleton<POS.Avalonia.Services.IReceiptService, POS.Avalonia.Services.ReceiptService>();
-                services.AddSingleton<POS.Avalonia.Services.IPrintService, POS.Avalonia.Services.PrintServiceStub>();
+                services.AddSingleton<POS.Avalonia.Services.IPrintService, POS.Avalonia.Services.ReceiptPrintService>();
                 services.AddSingleton<POS.Avalonia.Services.IKitchenDisplayService, POS.Avalonia.Services.KitchenDisplayService>();
                 services.AddSingleton<POS.Avalonia.Services.IAuditLogger, POS.Avalonia.Services.AuditLogger>();
                 services.AddSingleton<Services.CurrentUserService>();
                 services.AddSingleton<Services.IAppNavigator, Services.AppNavigator>();
                 services.AddSingleton<POS.Avalonia.Services.ISettingsStore, POS.Avalonia.Services.SettingsStore>();
+                services.AddSingleton<POS.Avalonia.Services.IStoragePickerService, POS.Avalonia.Services.AvaloniaStoragePickerService>();
                 services.AddSingleton<POS.Avalonia.Services.PendingTableService, POS.Avalonia.Services.PendingTableService>();
                 services.AddSingleton<Services.IViewModelResolver, Services.ViewModelResolver>();
                 services.AddTransient<ViewModels.MainViewModel>();

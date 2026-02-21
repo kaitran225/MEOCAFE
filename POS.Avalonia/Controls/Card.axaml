@@ -6,8 +6,8 @@
       <Border Background="{StaticResource SurfaceBrush}"
               BorderBrush="{StaticResource BorderBrush}"
               BorderThickness="1"
-              CornerRadius="{StaticResource CornerRadius12}"
-              Padding="{StaticResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}"
+              Padding="{DynamicResource Margin24}"
               BoxShadow="0 2 8 0 #12000000">
         <ContentPresenter Content="{TemplateBinding Content}"/>
       </Border>

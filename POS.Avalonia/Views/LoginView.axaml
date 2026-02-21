@@ -9,7 +9,7 @@
     <Border HorizontalAlignment="Center" VerticalAlignment="Center"
             Background="{StaticResource SurfaceBrush}"
             Padding="32"
-            CornerRadius="{StaticResource CornerRadius12}"
+            CornerRadius="{DynamicResource CornerRadius12}"
             MinWidth="340"
             BoxShadow="0 4 20 0 #20000000">
       <StackPanel Spacing="20">
@@ -20,7 +20,7 @@
                    HorizontalAlignment="Center"
                    Margin="0,0,0,8"/>
         <TextBlock Text="Sign in to continue"
-                   FontSize="{StaticResource CaptionFontSize}"
+                   FontSize="{DynamicResource CaptionFontSize}"
                    Foreground="{StaticResource OnSurfaceBrush}"
                    Opacity="0.8"
                    HorizontalAlignment="Center"
@@ -28,33 +28,33 @@
         <TextBox Watermark="Username"
                  Text="{Binding Username}"
                  Padding="12,10"
-                 FontSize="{StaticResource BodyFontSize}"
-                 CornerRadius="{StaticResource CornerRadius8}"/>
+                 FontSize="{DynamicResource BodyFontSize}"
+                 CornerRadius="{DynamicResource CornerRadius8}"/>
         <TextBox Watermark="Password"
                  PasswordChar="•"
                  Text="{Binding Password}"
                  Padding="12,10"
-                 FontSize="{StaticResource BodyFontSize}"
-                 CornerRadius="{StaticResource CornerRadius8}"/>
+                 FontSize="{DynamicResource BodyFontSize}"
+                 CornerRadius="{DynamicResource CornerRadius8}"/>
         <Border Background="{StaticResource ErrorBgBrush}"
                 Padding="12,8"
-                CornerRadius="{StaticResource CornerRadius4}"
+                CornerRadius="{DynamicResource CornerRadius4}"
                 IsVisible="{Binding ErrorMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
           <TextBlock Text="{Binding ErrorMessage}"
                      Foreground="{StaticResource ErrorBrush}"
                      TextWrapping="Wrap"
-                     FontSize="{StaticResource CaptionFontSize}"/>
+                     FontSize="{DynamicResource CaptionFontSize}"/>
         </Border>
         <Button Content="Login"
                 Command="{Binding LoginCommand}"
                 IsEnabled="{Binding NotBusy}"
                 Padding="24,12"
-                CornerRadius="{StaticResource CornerRadius8}"
+                CornerRadius="{DynamicResource CornerRadius8}"
                 HorizontalAlignment="Stretch"
                 Background="{StaticResource PrimaryBrush}"
                 Foreground="{StaticResource OnPrimaryBrush}"
                 FontWeight="{StaticResource SubtitleFontWeight}"
-                FontSize="{StaticResource BodyFontSize}"/>
+                FontSize="{DynamicResource BodyFontSize}"/>
         <ProgressBar IsIndeterminate="True"
                     IsVisible="{Binding IsBusy}"
                     Height="4"

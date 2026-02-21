@@ -12,11 +12,22 @@
         </StackPanel>
       </controls:PageTitle>
 
-      <!-- Business -->
-      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+      <!-- Display: fixed UI size -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
               Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
         <StackPanel Spacing="8">
-          <TextBlock Text="Business" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBlock Text="Display size" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
+          <TextBlock Text="Fixed window size for POS (e.g. kiosk or secondary screen). Applied when you save." FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <ComboBox ItemsSource="{Binding UiSizeOptions}" SelectedItem="{Binding SelectedUiSize}"
+                    MinWidth="120" HorizontalAlignment="Left"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Business -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Business" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
           <TextBox Text="{Binding BusinessName}" Watermark="Business name"/>
           <TextBox Text="{Binding BusinessAddress}" Watermark="Address"/>
           <TextBox Text="{Binding BusinessTaxId}" Watermark="Tax ID"/>
@@ -24,29 +35,50 @@
       </Border>
 
       <!-- Receipt -->
-      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
               Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
         <StackPanel Spacing="8">
-          <TextBlock Text="Receipt" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBlock Text="Receipt" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
           <TextBox Text="{Binding ReceiptThankYou}" Watermark="Thank you text"/>
         </StackPanel>
       </Border>
 
-      <!-- Tax -->
-      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+      <!-- Payment methods -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
               Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
         <StackPanel Spacing="8">
-          <TextBlock Text="Tax" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBlock Text="Payment methods" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
+          <TextBox Text="{Binding PaymentMethods}" Watermark="e.g. Cash, Card"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Tax -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Tax" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
           <TextBox Text="{Binding TaxName}" Watermark="Tax name"/>
           <TextBox Text="{Binding TaxRate}" Watermark="Rate (e.g. 0.1)"/>
         </StackPanel>
       </Border>
 
-      <!-- Database -->
-      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius8}"
+      <!-- Printers -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
               Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
         <StackPanel Spacing="8">
-          <TextBlock Text="Database" FontWeight="SemiBold" FontSize="{StaticResource SubtitleFontSize}"/>
+          <TextBlock Text="Printers" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
+          <TextBlock Text="Host:port (e.g. 192.168.1.50:9100). Leave empty to log only." FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBox Text="{Binding PrinterReceipt}" Watermark="Receipt printer (host:port)"/>
+          <TextBox Text="{Binding PrinterKitchen}" Watermark="Kitchen printer (host:port)"/>
+          <Button Content="Test print receipt" Command="{Binding TestPrintCommand}"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Database -->
+      <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+              Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Database" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}"/>
           <TextBlock Text="Restart app to apply database changes." FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
           <TextBox Text="{Binding DbHost}" Watermark="Host"/>
           <TextBox Text="{Binding DbPort}" Watermark="Port"/>

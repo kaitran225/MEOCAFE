@@ -8,10 +8,10 @@
              x:DataType="vm:OrderSelectionViewModel">
   <Grid>
     <Grid RowDefinitions="*" ColumnDefinitions="*,400">
-    <!-- Left: categories above products, slim, no header -->
-    <StackPanel Grid.Row="0" Grid.Column="0" Margin="4" Spacing="4">
-      <!-- Slim category tabs above -->
-      <ListBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+    <!-- Left: sticky category strip, search, then product grid -->
+    <Grid Grid.Row="0" Grid.Column="0" Margin="4" RowDefinitions="Auto,Auto,*">
+      <!-- Category tabs always visible (sticky) -->
+      <ListBox Grid.Row="0" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
                Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0" Classes="CategoryTabs">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
@@ -26,9 +26,9 @@
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
-      <TextBox Watermark="Search" Text="{Binding SearchTerm}" Padding="8,6" MinHeight="28" FontSize="12"/>
-      <!-- Product grid below -->
-      <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" IsVisible="True">
+      <TextBox Grid.Row="1" Watermark="Search" Text="{Binding SearchTerm}" Padding="8,6" MinHeight="32" FontSize="12" Margin="0,4,0,0"/>
+      <!-- Product grid: larger cards (120–140px), scroll only products -->
+      <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0">
         <ItemsControl ItemsSource="{Binding FilteredMenuItems}">
           <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
@@ -37,19 +37,19 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate DataType="models:MenuItem">
-              <Button Width="100" Padding="0" Margin="2" Background="Transparent" BorderThickness="0"
-                      Command="{Binding #Root.DataContext.AddProductCommand}" CommandParameter="{Binding}">
-                <Border Padding="6" Background="{StaticResource SurfaceBrush}"
-                        CornerRadius="6" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-                  <StackPanel HorizontalAlignment="Center" Spacing="4">
-                    <Border Width="40" Height="40" CornerRadius="6"
+              <Button Width="160" Padding="0" Margin="6" Background="Transparent" BorderThickness="0"
+                      Command="{Binding #Root.DataContext.SelectProductForCustomizeCommand}" CommandParameter="{Binding}">
+                <Border Padding="12" Background="{StaticResource SurfaceBrush}"
+                        CornerRadius="{DynamicResource CornerRadius8}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                  <StackPanel HorizontalAlignment="Center" Spacing="8">
+                    <TextBlock Text="{Binding Name}" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="136" TextTrimming="CharacterEllipsis"/>
+                    <Border Width="80" Height="80" CornerRadius="{DynamicResource CornerRadius8}"
                             Background="{StaticResource SecondaryLightBrush}" HorizontalAlignment="Center">
-                      <TextBlock Text="☕" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"
+                      <TextBlock Text="☕" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center"
                                  Foreground="{StaticResource SecondaryBrush}" Opacity="0.9"/>
                     </Border>
-                    <TextBlock Text="{Binding Name}" FontSize="11" FontWeight="SemiBold"
-                               Foreground="{StaticResource OnSurfaceBrush}" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="88" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock Text="{Binding SellPrice, StringFormat={}{0:N0} ₫}" FontSize="11"
+                    <TextBlock Text="{Binding SellPrice, StringFormat={}{0:N0} ₫}" FontSize="{DynamicResource CaptionFontSize}"
                                Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Center"/>
                   </StackPanel>
                 </Border>
@@ -58,9 +58,9 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </ScrollViewer>
-    </StackPanel>
+    </Grid>
     <!-- Right: standalone bill tab bar above, then bill section -->
-    <StackPanel Grid.Row="0" Grid.Column="1" Margin="{StaticResource Margin8}" Spacing="0">
+    <StackPanel Grid.Row="0" Grid.Column="1" Margin="{DynamicResource Margin8}" Spacing="0">
       <!-- Standalone bill tab strip above the bill section -->
       <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,1,1,0"
               CornerRadius="8,8,0,0" Padding="8,6">
@@ -80,24 +80,36 @@
               </DataTemplate>
             </ListBox.ItemTemplate>
           </ListBox>
-          <Button Grid.Column="1" Content="Hold" Command="{Binding HoldBillCommand}" Padding="8,4" FontSize="12" Margin="0,0,4,0"/>
-          <Button Grid.Column="2" Content="Recall" Command="{Binding OpenRecallCommand}" Padding="8,4" FontSize="12" Margin="0,0,4,0"/>
-          <Button Grid.Column="3" Content="+" Command="{Binding NewBillCommand}" Padding="8,4" FontSize="14" FontWeight="SemiBold" MinWidth="36"/>
+          <Button Grid.Column="1" Command="{Binding HoldBillCommand}" Padding="8,4" Margin="0,0,4,0" ToolTip.Tip="Hold">
+            <PathIcon Data="{StaticResource IconBookmark}" Width="18" Height="18"/>
+          </Button>
+          <Button Grid.Column="2" Command="{Binding OpenRecallCommand}" Padding="8,4" Margin="0,0,4,0" ToolTip.Tip="Recall">
+            <PathIcon Data="{StaticResource IconHistory}" Width="18" Height="18"/>
+          </Button>
+          <Button Grid.Column="3" Command="{Binding NewBillCommand}" Padding="8,4" MinWidth="36" ToolTip.Tip="New bill">
+            <PathIcon Data="{StaticResource IconAdd}" Width="20" Height="20"/>
+          </Button>
         </Grid>
       </Border>
       <!-- Bill section (customer, lines, totals, actions) -->
-      <Border Background="{StaticResource BackgroundBrush}" CornerRadius="0,0,8,8" Padding="{StaticResource Margin8}"
+      <Border Background="{StaticResource BackgroundBrush}" CornerRadius="0,0,8,8" Padding="{DynamicResource Margin8}"
               BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,1,1">
-        <StackPanel Spacing="{StaticResource Spacing4}">
+        <StackPanel Spacing="{DynamicResource Spacing4}">
           <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,4">
-            <Button Content="Customer" Command="{Binding OpenCustomerSearchCommand}" Padding="8,4"/>
-            <Button Content="New customer" Command="{Binding OpenNewCustomerCommand}" Padding="8,4"/>
-            <TextBlock Text="{Binding CustomerDisplayText}" VerticalAlignment="Center" FontSize="{StaticResource BodyFontSize}" IsVisible="{Binding HasCustomer}"/>
-            <Button Content="Clear" Command="{Binding ClearCustomerCommand}" Padding="4,2" IsVisible="{Binding HasCustomer}"/>
+            <Button Command="{Binding OpenCustomerSearchCommand}" Padding="8,4" ToolTip.Tip="Customer">
+              <PathIcon Data="{StaticResource IconPerson}" Width="18" Height="18"/>
+            </Button>
+            <Button Command="{Binding OpenNewCustomerCommand}" Padding="8,4" ToolTip.Tip="New customer">
+              <PathIcon Data="{StaticResource IconPerson}" Width="18" Height="18"/>
+            </Button>
+            <TextBlock Text="{Binding CustomerDisplayText}" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}" IsVisible="{Binding HasCustomer}"/>
+            <Button Command="{Binding ClearCustomerCommand}" Padding="6,4" IsVisible="{Binding HasCustomer}" ToolTip.Tip="Clear customer">
+              <PathIcon Data="{StaticResource IconDelete}" Width="16" Height="16"/>
+            </Button>
             <Button Content="Redeem points" Command="{Binding OpenRedeemPointsCommand}" Padding="8,4" IsVisible="{Binding HasCustomer}"/>
           </StackPanel>
           <StackPanel Spacing="4" Margin="0,0,0,4">
-            <TextBlock Text="Service type" FontSize="{StaticResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Text="Service type" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
             <StackPanel Orientation="Horizontal" Spacing="4">
               <Button Content="Dine-in" Command="{Binding SetServiceTypeCommand}" CommandParameter="Dine-in" Padding="8,4" FontSize="12"/>
               <Button Content="Takeaway" Command="{Binding SetServiceTypeCommand}" CommandParameter="Takeaway" Padding="8,4" FontSize="12"/>
@@ -126,135 +138,167 @@
               </StackPanel>
             </StackPanel>
           </StackPanel>
-          <TextBlock Text="Current bill" FontWeight="{StaticResource TitleFontWeight}" FontSize="{StaticResource SubtitleFontSize}"/>
-          <ScrollViewer MaxHeight="200">
+          <TextBlock Text="{Binding CurrentBill.Label, StringFormat='Current bill: {0}'}" FontWeight="{StaticResource TitleFontWeight}" FontSize="{DynamicResource SubtitleFontSize}"/>
+          <ScrollViewer MaxHeight="220">
             <ItemsControl ItemsSource="{Binding CurrentBill.Lines}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="vm:BillLineViewModel">
-                  <Border Padding="{StaticResource Margin8}" Margin="0,2" Background="{StaticResource SurfaceBrush}"
-                          CornerRadius="{StaticResource CornerRadius4}">
+                  <Border Padding="12,10" Margin="0,3" Background="{StaticResource SurfaceBrush}"
+                          CornerRadius="{DynamicResource CornerRadius4}">
                     <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
-                      <TextBlock Grid.Column="0" Text="{Binding ProductName}" VerticalAlignment="Center" FontSize="{StaticResource BodyFontSize}" TextTrimming="CharacterEllipsis"/>
+                      <Button Grid.Column="0" Command="{Binding #Root.DataContext.CustomizeLineCommand}" CommandParameter="{Binding}"
+                              Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                          <TextBlock Text="{Binding ProductName}" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}" TextTrimming="CharacterEllipsis"/>
+                          <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                          <TextBlock Text="{Binding LineTotal, StringFormat={}{0:C0}}" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}"/>
+                        </StackPanel>
+                      </Button>
                       <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center" Margin="8,0">
-                        <Button Content="-" Command="{Binding DecrementQtyCommand}" Padding="4,0" Width="28"/>
-                        <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" MinWidth="24" TextAlignment="Center"/>
-                        <Button Content="+" Command="{Binding IncrementQtyCommand}" Padding="4,0" Width="28"/>
+                        <Button Command="{Binding DecrementQtyCommand}" Padding="6,6" MinWidth="36" MinHeight="36" ToolTip.Tip="Decrease">
+                          <PathIcon Data="{StaticResource IconSubtract}" Width="14" Height="14"/>
+                        </Button>
+                        <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" MinWidth="28" TextAlignment="Center"/>
+                        <Button Command="{Binding IncrementQtyCommand}" Padding="6,6" MinWidth="36" MinHeight="36" ToolTip.Tip="Increase">
+                          <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14"/>
+                        </Button>
                       </StackPanel>
-                      <TextBlock Grid.Column="2" Text="{Binding LineTotal, StringFormat={}{0:C0}}" VerticalAlignment="Center" Margin="8,0" FontSize="{StaticResource BodyFontSize}"/>
-                      <Button Grid.Column="3" Content="Customize" Command="{Binding #Root.DataContext.CustomizeLineCommand}" CommandParameter="{Binding}" Padding="4,0" FontSize="{StaticResource CaptionFontSize}"/>
-                      <Button Grid.Column="4" Content="Void" Command="{Binding #Root.DataContext.RequestVoidLineCommand}" CommandParameter="{Binding}" Padding="4,0"/>
+                      <Button Grid.Column="2" Command="{Binding #Root.DataContext.CustomizeLineCommand}" CommandParameter="{Binding}" Padding="8,6" MinHeight="36" ToolTip.Tip="Customize">
+                        <PathIcon Data="{StaticResource IconEdit}" Width="16" Height="16"/>
+                      </Button>
+                      <Button Grid.Column="3" Command="{Binding #Root.DataContext.RequestVoidLineCommand}" CommandParameter="{Binding}" Padding="8,6" MinHeight="36" ToolTip.Tip="Void line">
+                        <PathIcon Data="{StaticResource IconDelete}" Width="16" Height="16"/>
+                      </Button>
                     </Grid>
                   </Border>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
           </ScrollViewer>
-          <Border Padding="{StaticResource Margin8}" Margin="0,8,0,0" Background="{StaticResource SurfaceBrush}" CornerRadius="{StaticResource CornerRadius4}">
+          <!-- Sticky totals at bottom of bill panel -->
+          <Border Padding="{DynamicResource Margin8}" Margin="0,8,0,0" Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius4}">
             <StackPanel Spacing="4">
               <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="Subtotal" FontSize="{StaticResource BodyFontSize}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.Subtotal, StringFormat={}{0:C0}}" FontSize="{StaticResource BodyFontSize}"/>
+                <TextBlock Grid.Column="0" Text="Subtotal" FontSize="{DynamicResource BodyFontSize}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.Subtotal, StringFormat={}{0:C0}}" FontSize="{DynamicResource BodyFontSize}"/>
               </Grid>
               <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="Discount" FontSize="{StaticResource BodyFontSize}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.DiscountAmount, StringFormat={}{0:C0}}" FontSize="{StaticResource BodyFontSize}"/>
+                <TextBlock Grid.Column="0" Text="Discount" FontSize="{DynamicResource BodyFontSize}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.DiscountAmount, StringFormat={}{0:C0}}" FontSize="{DynamicResource BodyFontSize}"/>
               </Grid>
               <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="Tax" FontSize="{StaticResource BodyFontSize}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.TaxAmount, StringFormat={}{0:C0}}" FontSize="{StaticResource BodyFontSize}"/>
+                <TextBlock Grid.Column="0" Text="Tax" FontSize="{DynamicResource BodyFontSize}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.TaxAmount, StringFormat={}{0:C0}}" FontSize="{DynamicResource BodyFontSize}"/>
               </Grid>
               <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
-                <TextBlock Grid.Column="0" Text="Total" FontWeight="{StaticResource TitleFontWeight}" FontSize="{StaticResource SubtitleFontSize}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.GrandTotal, StringFormat={}{0:C0}}" FontWeight="{StaticResource TitleFontWeight}" FontSize="{StaticResource SubtitleFontSize}"/>
+                <TextBlock Grid.Column="0" Text="Total" FontWeight="{StaticResource TitleFontWeight}" FontSize="{DynamicResource SubtitleFontSize}"/>
+                <TextBlock Grid.Column="1" Text="{Binding CurrentBill.GrandTotal, StringFormat={}{0:C0}}" FontWeight="{StaticResource TitleFontWeight}" FontSize="{DynamicResource SubtitleFontSize}"/>
               </Grid>
             </StackPanel>
           </Border>
-          <Button Content="Pay" Command="{Binding PayCommand}" HorizontalAlignment="Stretch" Padding="{StaticResource Margin8}"
-                  CornerRadius="{StaticResource CornerRadius8}" FontSize="{StaticResource BodyFontSize}"/>
-          <Button Content="Void bill" Command="{Binding RequestVoidBillCommand}" HorizontalAlignment="Stretch" Padding="8,4" Margin="0,4,0,0" CornerRadius="{StaticResource CornerRadius8}"/>
+          <Button Content="Pay" Command="{Binding PayCommand}" HorizontalAlignment="Stretch" MinHeight="52" Padding="20,14"
+                  CornerRadius="{DynamicResource CornerRadius8}" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Classes="primary"/>
+          <Button Command="{Binding OpenMergeDialogCommand}" HorizontalAlignment="Stretch" Padding="8,4" Margin="0,4,0,0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Merge another bill into current">
+            <TextBlock Text="Merge bill" FontSize="{DynamicResource CaptionFontSize}"/>
+          </Button>
+          <Button Command="{Binding RequestVoidBillCommand}" HorizontalAlignment="Stretch" Padding="8,4" Margin="0,4,0,0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Void bill">
+            <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
+              <PathIcon Data="{StaticResource IconDelete}" Width="16" Height="16"/>
+              <TextBlock Text="Void bill" FontSize="{DynamicResource CaptionFontSize}"/>
+            </StackPanel>
+          </Button>
         </StackPanel>
       </Border>
     </StackPanel>
     </Grid>
 
-    <!-- Dialog: Customize line – drink detail + customization table -->
-    <Border IsVisible="{Binding IsCustomizationOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
-              Padding="24" CornerRadius="{StaticResource CornerRadius12}" MinWidth="360" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-        <StackPanel Spacing="16">
-          <TextBlock Text="Customize line" FontSize="{StaticResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
-          <!-- Drink detail block -->
-          <Border Background="{StaticResource PrimaryLightBrush}" CornerRadius="8" Padding="12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-            <StackPanel Spacing="6">
-              <TextBlock Text="{Binding CustomizationLine.ProductName}" FontSize="{StaticResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="Unit price" FontSize="{StaticResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CustomizationLine.UnitPrice, StringFormat='{}{0:N0} ₫'}" FontSize="{StaticResource CaptionFontSize}" Foreground="{StaticResource SecondaryBrush}"/>
-              </Grid>
-              <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="Quantity" FontSize="{StaticResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CustomizationLine.Quantity}" FontSize="{StaticResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
-              </Grid>
-              <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
-                <TextBlock Grid.Column="0" Text="Line total" FontSize="{StaticResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <TextBlock Grid.Column="1" Text="{Binding CustomizationLine.LineTotal, StringFormat='{}{0:N0} ₫'}" FontSize="{StaticResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource SecondaryBrush}"/>
-              </Grid>
+    <!-- Dialog: Customize line – two columns (left: image/name/price/qty/total; right: options); footer: Add to order + Close -->
+    <Border x:Name="CustomizationOverlay" IsVisible="{Binding IsCustomizationOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border x:Name="CustomizationDialogPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="480" MaxWidth="560" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              Focusable="True">
+        <Border.KeyBindings>
+          <KeyBinding Gesture="Enter" Command="{Binding ConfirmCustomizationCommand}"/>
+          <KeyBinding Gesture="Escape" Command="{Binding CloseCustomizationCommand}"/>
+        </Border.KeyBindings>
+        <StackPanel Spacing="20">
+          <TextBlock Text="Customize line" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <Grid ColumnDefinitions="*,*">
+              <StackPanel Grid.Column="0" Spacing="12" Margin="0,0,12,0">
+            <!-- Left: image, name, unit price, quantity stepper, line total -->
+              <Border Width="120" Height="120" CornerRadius="8" Background="{StaticResource SecondaryLightBrush}" HorizontalAlignment="Center">
+                <TextBlock Text="☕" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource SecondaryBrush}" Opacity="0.9"/>
+              </Border>
+              <TextBlock Text="{Binding CustomizationLine.ProductName}" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}" TextWrapping="Wrap"/>
+              <TextBlock Text="{Binding CustomizationLine.UnitPrice, StringFormat='Unit price: {0:N0} ₫'}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <!-- Quantity stepper -->
+              <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Left">
+                <Button Content="−" Command="{Binding CustomizationLine.DecrementQtyCommand}" MinWidth="44" MinHeight="44" FontSize="18" Padding="12,8"/>
+                <TextBlock Text="{Binding CustomizationLine.Quantity}" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center" MinWidth="32" TextAlignment="Center"/>
+                <Button Content="+" Command="{Binding CustomizationLine.IncrementQtyCommand}" MinWidth="44" MinHeight="44" FontSize="18" Padding="12,8"/>
+              </StackPanel>
+              <Border Background="{StaticResource PrimaryLightBrush}" CornerRadius="8" Padding="12,8">
+                <TextBlock Text="{Binding CustomizationLine.LineTotal, StringFormat='Line total: {0:N0} ₫'}" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource SecondaryBrush}"/>
+              </Border>
             </StackPanel>
-          </Border>
-          <!-- Customization table (label | button groups) -->
-          <TextBlock Text="Options" FontSize="{StaticResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-          <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="100,*">
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Ice" VerticalAlignment="Center" FontSize="{StaticResource BodyFontSize}" Margin="0,0,12,10"/>
-            <ItemsControl Grid.Row="0" Grid.Column="1" ItemsSource="{Binding IceLevels}" Margin="0,0,0,10">
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Horizontal" Spacing="4"/>
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationIceCommand}" CommandParameter="{Binding}"
-                          Padding="12,6" FontSize="{StaticResource CaptionFontSize}"
-                          Background="{Binding #Root.DataContext.CustomizationLine.IceLevel, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter={Binding}}"/>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Sugar" VerticalAlignment="Center" FontSize="{StaticResource BodyFontSize}" Margin="0,0,12,10"/>
-            <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding SugarLevels}" Margin="0,0,0,10">
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Horizontal" Spacing="4"/>
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationSugarCommand}" CommandParameter="{Binding}"
-                          Padding="12,6" FontSize="{StaticResource CaptionFontSize}"
-                          Background="{Binding #Root.DataContext.CustomizationLine.SugarLevel, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter={Binding}}"/>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Size" VerticalAlignment="Center" FontSize="{StaticResource BodyFontSize}" Margin="0,0,12,10"/>
-            <ItemsControl Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SizeOptions}" Margin="0,0,0,10">
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Horizontal" Spacing="4"/>
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationSizeCommand}" CommandParameter="{Binding}"
-                          Padding="12,6" FontSize="{StaticResource CaptionFontSize}"
-                          Background="{Binding #Root.DataContext.CustomizationLine.Size, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter={Binding}}"/>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Note" VerticalAlignment="Center" FontSize="{StaticResource BodyFontSize}" Margin="0,0,12,0"/>
-            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding CustomizationLine.Note}" Watermark="Special instructions" MinHeight="32"/>
+            <!-- Right: Ice, Sugar, Size, Note -->
+            <StackPanel Grid.Column="1" Spacing="12" Margin="12,0,0,0">
+              <TextBlock Text="Ice" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ItemsControl ItemsSource="{Binding IceLevels}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="6"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationIceCommand}" CommandParameter="{Binding}"
+                            MinHeight="44" Padding="12,10" FontSize="{DynamicResource CaptionFontSize}"
+                            Background="{Binding #Root.DataContext.CustomizationLine.IceLevel, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter={Binding}}"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Sugar" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ItemsControl ItemsSource="{Binding SugarLevels}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="6"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationSugarCommand}" CommandParameter="{Binding}"
+                            MinHeight="44" Padding="12,10" FontSize="{DynamicResource CaptionFontSize}"
+                            Background="{Binding #Root.DataContext.CustomizationLine.SugarLevel, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter={Binding}}"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Size" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ItemsControl ItemsSource="{Binding SizeOptions}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="6"/>
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationSizeCommand}" CommandParameter="{Binding}"
+                            MinHeight="44" Padding="12,10" FontSize="{DynamicResource CaptionFontSize}"
+                            Background="{Binding #Root.DataContext.CustomizationLine.Size, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter={Binding}}"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Note" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBox Text="{Binding CustomizationLine.Note}" Watermark="Special instructions" MinHeight="44"/>
+            </StackPanel>
           </Grid>
-          <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Margin="0,8,0,0">
-            <Button Content="Cancel" Command="{Binding CloseCustomizationCommand}" Padding="16,8"/>
-            <Button Content="Apply" Command="{Binding CloseCustomizationCommand}" Padding="16,8" Classes="primary"/>
+          <!-- Footer: Add to order (primary) + Close (red), same size, min 48px -->
+          <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Stretch">
+            <Button Content="Close" Command="{Binding CloseCustomizationCommand}" MinHeight="48" Padding="20,14" Classes="danger" HorizontalAlignment="Left"/>
+            <Button Content="Add to order" Command="{Binding ConfirmCustomizationCommand}" MinHeight="48" Padding="20,14" Classes="primary" HorizontalAlignment="Right"
+                    IsVisible="{Binding IsPendingAdd}"/>
+            <Button Content="Apply" Command="{Binding ConfirmCustomizationCommand}" MinHeight="48" Padding="20,14" Classes="primary" HorizontalAlignment="Right"
+                    IsVisible="{Binding !IsPendingAdd}"/>
           </StackPanel>
         </StackPanel>
       </Border>
@@ -262,10 +306,39 @@
 
     <!-- Overlay: Payment (common ModalOverlay) -->
     <controls:ModalOverlay IsOpen="{Binding IsPaymentOpen}" Title="Payment">
-      <StackPanel Spacing="{StaticResource Spacing16}">
-        <TextBlock Text="Amount" FontSize="{StaticResource CaptionFontSize}"/>
-        <TextBox Text="{Binding PaymentAmount}" />
-        <TextBlock Text="{Binding CurrentBill.GrandTotal, StringFormat='Total: {0:C0}'}" FontSize="{StaticResource BodyFontSize}"/>
+      <StackPanel Spacing="{DynamicResource Spacing16}">
+        <TextBlock Text="{Binding CurrentBill.GrandTotal, StringFormat='Total: {0:N0} ₫'}" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"/>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBox Text="{Binding CouponCode}" Watermark="Coupon code" MinWidth="120"/>
+          <Button Content="Apply" Command="{Binding ApplyCouponCommand}" Padding="8,4"/>
+        </StackPanel>
+        <CheckBox IsChecked="{Binding IsSplitPayment}" Content="Split payment"/>
+        <StackPanel IsVisible="{Binding IsSplitPayment}" Spacing="8">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <ComboBox ItemsSource="{Binding PaymentMethods}" SelectedItem="{Binding SelectedPaymentMethod}" MinWidth="80"/>
+            <TextBox Text="{Binding PaymentEntryAmount}" Watermark="Amount" MinWidth="100"/>
+            <Button Content="Add" Command="{Binding AddPaymentEntryCommand}" Padding="8,4"/>
+          </StackPanel>
+          <ItemsControl ItemsSource="{Binding PaymentEntries}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="vm:PaymentEntryViewModel">
+                <Border Padding="8,4" Margin="0,2" Background="{StaticResource SurfaceBrush}">
+                  <Grid ColumnDefinitions="*,Auto,Auto">
+                    <TextBlock Grid.Column="0" Text="{Binding Method}" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='{}{0:N0} ₫'}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    <Button Grid.Column="2" Content="Remove" Command="{Binding #Root.DataContext.RemovePaymentEntryCommand}" CommandParameter="{Binding}" Padding="4,2"/>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <TextBlock Text="{Binding SplitTotal, StringFormat='Split total: {0:N0} ₫'}" FontSize="{DynamicResource CaptionFontSize}"/>
+        </StackPanel>
+        <StackPanel IsVisible="{Binding ShowSingleAmount}">
+          <TextBlock Text="Amount" FontSize="{DynamicResource CaptionFontSize}"/>
+          <TextBox Text="{Binding PaymentAmount}"/>
+        </StackPanel>
+        <TextBox Text="{Binding TipAmountText}" Watermark="Tip (optional)"/>
         <StackPanel Orientation="Horizontal" Spacing="8">
           <Button Content="Complete" Command="{Binding CompletePaymentCommand}" Padding="16,8" Classes="primary"/>
           <Button Content="Cancel" Command="{Binding CancelPaymentCommand}" Padding="16,8"/>
@@ -275,9 +348,9 @@
 
     <!-- Overlay: Void line -->
     <Border IsVisible="{Binding IsVoidLineDialogOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{StaticResource Margin24}"
-              CornerRadius="{StaticResource CornerRadius8}" MinWidth="260">
-        <StackPanel Spacing="{StaticResource Spacing8}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius8}" MinWidth="260">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
           <TextBlock Text="Void line - Reason" FontWeight="{StaticResource TitleFontWeight}"/>
           <TextBox Text="{Binding VoidReason}" Watermark="Reason (optional)"/>
           <StackPanel Orientation="Horizontal" Spacing="8">
@@ -288,11 +361,35 @@
       </Border>
     </Border>
 
+    <!-- Overlay: Merge bill -->
+    <Border IsVisible="{Binding IsMergeConfirmOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}" CornerRadius="{DynamicResource CornerRadius8}" MinWidth="280">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Merge bill" FontWeight="{StaticResource TitleFontWeight}"/>
+          <TextBlock IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNotNull}}"
+                     Text="Merge selected bill into current? All items will be moved."/>
+          <ListBox IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNull}}"
+                   ItemsSource="{Binding MergeBillCandidates}" MinHeight="100">
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="vm:BillViewModel">
+                <Button Content="{Binding Label}" Command="{Binding #Root.DataContext.RequestMergeBillCommand}" CommandParameter="{Binding}" HorizontalAlignment="Stretch"/>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+          <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <Button Content="Confirm" Command="{Binding ConfirmMergeBillCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CancelMergeBillCommand}"/>
+          </StackPanel>
+          <Button Content="Cancel" Command="{Binding CancelMergeBillCommand}" HorizontalAlignment="Right" IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNull}}"/>
+        </StackPanel>
+      </Border>
+    </Border>
+
     <!-- Overlay: Void bill -->
     <Border IsVisible="{Binding IsVoidBillDialogOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{StaticResource Margin24}"
-              CornerRadius="{StaticResource CornerRadius8}" MinWidth="260">
-        <StackPanel Spacing="{StaticResource Spacing8}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius8}" MinWidth="260">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
           <TextBlock Text="Void bill - Reason" FontWeight="{StaticResource TitleFontWeight}"/>
           <TextBox Text="{Binding VoidBillReason}" Watermark="Reason (required)"/>
           <StackPanel Orientation="Horizontal" Spacing="8">
@@ -305,9 +402,9 @@
 
     <!-- Overlay: Recall held -->
     <Border IsVisible="{Binding IsRecallOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{StaticResource Margin24}"
-              CornerRadius="{StaticResource CornerRadius8}" MinWidth="260">
-        <StackPanel Spacing="{StaticResource Spacing8}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius8}" MinWidth="260">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
           <TextBlock Text="Recall held bill" FontWeight="{StaticResource TitleFontWeight}" Margin="0,0,0,8"/>
           <ListBox ItemsSource="{Binding HeldBills}" MinHeight="120">
             <ListBox.ItemTemplate>
@@ -323,8 +420,8 @@
 
     <!-- Overlay: Customer search -->
     <Border IsVisible="{Binding IsCustomerSearchOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{StaticResource Margin24}" CornerRadius="{StaticResource CornerRadius8}" MinWidth="320">
-        <StackPanel Spacing="{StaticResource Spacing8}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}" CornerRadius="{DynamicResource CornerRadius8}" MinWidth="320">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
           <TextBlock Text="Customer lookup" FontWeight="{StaticResource TitleFontWeight}"/>
           <TextBox Text="{Binding CustomerSearchTerm}" Watermark="Name or phone"/>
           <Button Content="Search" Command="{Binding SearchCustomersCommand}"/>
@@ -342,8 +439,8 @@
 
     <!-- Overlay: New customer -->
     <Border IsVisible="{Binding IsNewCustomerOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{StaticResource Margin24}" CornerRadius="{StaticResource CornerRadius8}" MinWidth="280">
-        <StackPanel Spacing="{StaticResource Spacing8}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}" CornerRadius="{DynamicResource CornerRadius8}" MinWidth="280">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
           <TextBlock Text="New customer" FontWeight="{StaticResource TitleFontWeight}"/>
           <TextBox Text="{Binding NewCustomerName}" Watermark="Name"/>
           <TextBox Text="{Binding NewCustomerPhone}" Watermark="Phone *"/>
@@ -359,8 +456,8 @@
 
     <!-- Overlay: Redeem points -->
     <Border IsVisible="{Binding IsRedeemPointsOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{StaticResource Margin24}" CornerRadius="{StaticResource CornerRadius8}" MinWidth="260">
-        <StackPanel Spacing="{StaticResource Spacing8}">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}" CornerRadius="{DynamicResource CornerRadius8}" MinWidth="260">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
           <TextBlock Text="Redeem points" FontWeight="{StaticResource TitleFontWeight}"/>
           <TextBox Text="{Binding PointsToRedeemText}" Watermark="Points to redeem"/>
           <StackPanel Orientation="Horizontal" Spacing="8">

@@ -1,6 +1,8 @@
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using POS.Avalonia.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace POS.Avalonia.ViewModels;
@@ -8,6 +10,11 @@ namespace POS.Avalonia.ViewModels;
 public partial class SettingsViewModel : ViewModelBase
 {
     private readonly ISettingsStore _store;
+    private readonly IPrintService _printService;
+
+    public static IReadOnlyList<string> UiSizeOptions => UiSizePresets.AllKeys;
+
+    [ObservableProperty] private string _selectedUiSize = UiSizePresets.Key1080;
 
     [ObservableProperty] private string _businessName = "";
     [ObservableProperty] private string _businessAddress = "";
@@ -20,15 +27,19 @@ public partial class SettingsViewModel : ViewModelBase
     [ObservableProperty] private string _dbUser = "postgres";
     [ObservableProperty] private string _dbPassword = "";
     [ObservableProperty] private string _dbName = "dev_meo_cf";
+    [ObservableProperty] private string _printerReceipt = "";
+    [ObservableProperty] private string _printerKitchen = "";
+    [ObservableProperty] private string _paymentMethods = "Cash, Card";
     [ObservableProperty] private bool _saveSuccess;
     [ObservableProperty] private bool _isSaving;
     public bool CanSave => !IsSaving;
 
     public string Title => "Settings";
 
-    public SettingsViewModel(ISettingsStore store)
+    public SettingsViewModel(ISettingsStore store, IPrintService printService)
     {
         _store = store;
+        _printService = printService;
         Load();
     }
 
@@ -45,6 +56,10 @@ public partial class SettingsViewModel : ViewModelBase
         DbUser = _store.Get("DB_USER") ?? "postgres";
         DbPassword = _store.Get("DB_PASSWORD") ?? "";
         DbName = _store.Get("DB_NAME") ?? "dev_meo_cf";
+        PrinterReceipt = _store.Get("Printer:Receipt") ?? "";
+        PrinterKitchen = _store.Get("Printer:Kitchen") ?? "";
+        PaymentMethods = _store.Get("PaymentMethods:Names") ?? "Cash, Card";
+        SelectedUiSize = _store.Get("UI:Size") ?? UiSizePresets.Key1080;
     }
 
     partial void OnBusinessNameChanged(string value) => _store.Set("Receipt:BusinessName", value);
@@ -58,6 +73,10 @@ public partial class SettingsViewModel : ViewModelBase
     partial void OnDbUserChanged(string value) => _store.Set("DB_USER", value);
     partial void OnDbPasswordChanged(string value) => _store.Set("DB_PASSWORD", value);
     partial void OnDbNameChanged(string value) => _store.Set("DB_NAME", value);
+    partial void OnPrinterReceiptChanged(string value) => _store.Set("Printer:Receipt", value);
+    partial void OnPrinterKitchenChanged(string value) => _store.Set("Printer:Kitchen", value);
+    partial void OnPaymentMethodsChanged(string value) => _store.Set("PaymentMethods:Names", value);
+    partial void OnSelectedUiSizeChanged(string value) => _store.Set("UI:Size", value);
 
     [RelayCommand]
     private async Task SaveAsync()
@@ -77,8 +96,18 @@ public partial class SettingsViewModel : ViewModelBase
             _store.Set("DB_USER", DbUser);
             _store.Set("DB_PASSWORD", DbPassword);
             _store.Set("DB_NAME", DbName);
+            _store.Set("Printer:Receipt", PrinterReceipt);
+            _store.Set("Printer:Kitchen", PrinterKitchen);
+            _store.Set("PaymentMethods:Names", PaymentMethods);
+            _store.Set("UI:Size", SelectedUiSize);
             await _store.SaveAsync(default).ConfigureAwait(true);
             SaveSuccess = true;
+            var (w, h) = UiSizePresets.GetDimensions(SelectedUiSize);
+            Dispatcher.UIThread.Post(() =>
+            {
+                UiSizePresetValues.ApplyToApplication(SelectedUiSize);
+                Program.ApplyDisplaySize(w, h);
+            });
         }
         finally
         {
@@ -89,4 +118,7 @@ public partial class SettingsViewModel : ViewModelBase
 
     [RelayCommand]
     private void Refresh() => Load();
+
+    [RelayCommand]
+    private void TestPrint() => _printService.PrintReceipt("Test receipt\n\n");
 }

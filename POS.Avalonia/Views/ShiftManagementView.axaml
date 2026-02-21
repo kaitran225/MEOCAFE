@@ -1,4 +1,36 @@
-<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="POS.Avalonia.Views.ShiftManagementView">
-  <TextBlock Text="Shift management (Phase 4)" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.ShiftManagementView"
+             x:Name="Root"
+             x:DataType="vm:ShiftManagementViewModel">
+  <StackPanel Margin="24" Spacing="16">
+    <controls:PageTitle Title="Shift management">
+      <StackPanel Orientation="Horizontal" Spacing="8">
+        <TextBox Text="{Binding SelectedDateText}" Watermark="Date (yyyy-MM-dd)" MinWidth="140"/>
+        <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+      </StackPanel>
+    </controls:PageTitle>
+    <TextBlock Text="{Binding SessionCountText}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+    <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="1" CornerRadius="{DynamicResource CornerRadius12}" Padding="16">
+      <ListBox ItemsSource="{Binding Sessions}" MinHeight="280" Background="{StaticResource SurfaceBrush}" BorderThickness="0">
+        <ListBox.ItemTemplate>
+          <DataTemplate DataType="core:ShiftSession">
+            <Border Padding="12,10" Margin="0,2" CornerRadius="8">
+              <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
+                <TextBlock Grid.Column="0" Text="{Binding Username}" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                <TextBlock Grid.Column="1" Text="{Binding StartAt, StringFormat='Start: {0:g}'}" VerticalAlignment="Center" Margin="16,0,0,0" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Grid.Column="2" Text="{Binding EndAt, StringFormat='End: {0:g}'}" VerticalAlignment="Center" Margin="8,0,0,0" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Grid.Column="3" Text="{Binding OpeningCash, StringFormat='Open: {0:N0}'}" VerticalAlignment="Center" Margin="8,0,0,0" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource SecondaryBrush}"/>
+                <TextBlock Grid.Column="4" Text="{Binding ClosingCash, StringFormat='Close: {0:N0}'}" VerticalAlignment="Center" Margin="8,0,0,0" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource SecondaryBrush}"/>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Border>
+  </StackPanel>
 </UserControl>

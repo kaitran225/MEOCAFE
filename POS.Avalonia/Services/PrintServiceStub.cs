@@ -14,4 +14,6 @@ public sealed class PrintServiceStub : IPrintService
     {
         Debug.WriteLine("PrintKitchenTicket (stub):\n" + kitchenTicketText);
     }
+
+    public void OpenCashDrawer() { }
 }

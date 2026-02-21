@@ -41,6 +41,40 @@ public sealed class TableRepository : ITableRepository
         return null;
     }
 
+    public async Task AddAsync(Table table, CancellationToken cancellationToken = default)
+    {
+        await using var conn = (NpgsqlConnection)_factory.CreateConnection();
+        await conn.OpenAsync(cancellationToken).ConfigureAwait(false);
+        await using var cmd = new NpgsqlCommand("INSERT INTO tables (name, capacity, zone, status) VALUES (@Name, @Capacity, @Zone, COALESCE(@Status, 'empty')) RETURNING id", conn);
+        cmd.Parameters.AddWithValue("@Name", table.Name ?? "");
+        cmd.Parameters.AddWithValue("@Capacity", table.Capacity);
+        cmd.Parameters.AddWithValue("@Zone", (object?)table.Zone ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@Status", table.Status ?? "empty");
+        table.Id = (int)(await cmd.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false) ?? 0);
+    }
+
+    public async Task UpdateAsync(Table table, CancellationToken cancellationToken = default)
+    {
+        await using var conn = (NpgsqlConnection)_factory.CreateConnection();
+        await conn.OpenAsync(cancellationToken).ConfigureAwait(false);
+        await using var cmd = new NpgsqlCommand("UPDATE tables SET name = @Name, capacity = @Capacity, zone = @Zone, status = @Status WHERE id = @Id", conn);
+        cmd.Parameters.AddWithValue("@Name", table.Name ?? "");
+        cmd.Parameters.AddWithValue("@Capacity", table.Capacity);
+        cmd.Parameters.AddWithValue("@Zone", (object?)table.Zone ?? DBNull.Value);
+        cmd.Parameters.AddWithValue("@Status", table.Status ?? "empty");
+        cmd.Parameters.AddWithValue("@Id", table.Id);
+        await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    {
+        await using var conn = (NpgsqlConnection)_factory.CreateConnection();
+        await conn.OpenAsync(cancellationToken).ConfigureAwait(false);
+        await using var cmd = new NpgsqlCommand("DELETE FROM tables WHERE id = @Id", conn);
+        cmd.Parameters.AddWithValue("@Id", id);
+        await cmd.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+    }
+
     public async Task UpdateStatusAsync(int id, string status, CancellationToken cancellationToken = default)
     {
         await using var conn = (NpgsqlConnection)_factory.CreateConnection();

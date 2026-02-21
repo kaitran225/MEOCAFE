@@ -1,0 +1,35 @@
+# Build
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+[Bb]uild/
+[Oo]ut/
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+project.lock.json
+project.fragment.lock.json
+
+# Avalonia
+*.cache
+
+# User-specific
+appsettings.Local.json
+*.log
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db

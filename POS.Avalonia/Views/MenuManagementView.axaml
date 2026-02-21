@@ -3,27 +3,30 @@
              xmlns:vm="using:POS.Avalonia.ViewModels"
              xmlns:core="using:POS.Core.Models"
              xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:conv="using:Avalonia.Data.Converters"
              x:Class="POS.Avalonia.Views.MenuManagementView"
              x:Name="Root"
              x:DataType="vm:MenuManagementViewModel">
   <Grid RowDefinitions="Auto,*" Margin="0">
-    <StackPanel Grid.Row="0" Spacing="{StaticResource Spacing16}" Margin="0,0,0,20">
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="0,0,0,20">
       <controls:PageTitle Title="Menu management">
-        <StackPanel Orientation="Horizontal" Spacing="{StaticResource Spacing8}">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
           <Button Content="Refresh" Command="{Binding LoadCommand}"/>
           <Button Content="Add product" Command="{Binding OpenAddProductCommand}" Classes="primary"/>
           <Button Content="Add category" Command="{Binding OpenAddCategoryCommand}"/>
           <Button Content="Import" Command="{Binding ImportProductsCommand}"/>
           <Button Content="Export" Command="{Binding ExportProductsCommand}"/>
+          <TextBlock Text="{Binding ExportImportMessage}" IsVisible="{Binding ExportImportMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
+                     Foreground="{StaticResource SecondaryBrush}" FontSize="{DynamicResource CaptionFontSize}" VerticalAlignment="Center"/>
         </StackPanel>
       </controls:PageTitle>
     </StackPanel>
     <Grid Grid.Row="1" ColumnDefinitions="220,*" Margin="0,0,0,0" >
       <!-- Categories: light card, matcha selected -->
       <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
-              BorderThickness="1" CornerRadius="{StaticResource CornerRadius12}" Padding="16">
+              BorderThickness="1" CornerRadius="{DynamicResource CornerRadius12}" Padding="16">
         <StackPanel Spacing="8">
-          <TextBlock Text="Categories" FontSize="{StaticResource SubtitleFontSize}"
+          <TextBlock Text="Categories" FontSize="{DynamicResource SubtitleFontSize}"
                      FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
           <ListBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" MinHeight="200"
                    Background="{StaticResource SurfaceBrush}" BorderThickness="0"/>
@@ -31,9 +34,9 @@
       </Border>
       <!-- Products: light card, brown prices, clear rows -->
       <Border Grid.Column="1" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
-              BorderThickness="1" CornerRadius="{StaticResource CornerRadius12}" Padding="16">
+              BorderThickness="1" CornerRadius="{DynamicResource CornerRadius12}" Padding="16">
         <StackPanel Spacing="8">
-          <TextBlock Text="Products" FontSize="{StaticResource SubtitleFontSize}"
+          <TextBlock Text="Products" FontSize="{DynamicResource SubtitleFontSize}"
                      FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
           <ListBox ItemsSource="{Binding Products}" SelectedItem="{Binding SelectedProduct}" MinHeight="320"
                    Background="{StaticResource SurfaceBrush}" BorderThickness="0">
@@ -42,13 +45,13 @@
                 <Border Padding="12,10" Margin="0,2" CornerRadius="8">
                   <Grid ColumnDefinitions="*,Auto,Auto,Auto">
                     <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"
-                               FontSize="{StaticResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                               FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
                     <TextBlock Grid.Column="1" Text="{Binding SellPrice, StringFormat='{}{0:N0} ₫'}" VerticalAlignment="Center" Margin="16,0,0,0"
-                               FontSize="{StaticResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource SecondaryBrush}"/>
+                               FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource SecondaryBrush}"/>
                     <TextBlock Grid.Column="2" Text="{Binding Quantity, StringFormat='Qty {0}'}" VerticalAlignment="Center" Margin="16,0,0,0"
-                               FontSize="{StaticResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                               FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
                     <Button Grid.Column="3" Content="Edit" Margin="16,0,0,0" Command="{Binding #Root.DataContext.OpenEditProductCommand}"
-                            CommandParameter="{Binding}" Padding="10,6" FontSize="{StaticResource CaptionFontSize}"/>
+                            CommandParameter="{Binding}" Padding="10,6" FontSize="{DynamicResource CaptionFontSize}"/>
                   </Grid>
                 </Border>
               </DataTemplate>
@@ -60,10 +63,10 @@
     <!-- Product edit overlay -->
     <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsProductEditOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="100">
       <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
-              Padding="24" CornerRadius="{StaticResource CornerRadius12}" MinWidth="320"
+              Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="320"
               BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-        <StackPanel Spacing="{StaticResource Spacing16}">
-          <TextBlock Text="Edit product" FontSize="{StaticResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+          <TextBlock Text="Edit product" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
           <TextBox Text="{Binding ProductName}" Watermark="Name"/>
           <TextBox Text="{Binding ProductPrice}" Watermark="Price"/>
           <TextBox Text="{Binding ProductQuantity}" Watermark="Quantity"/>
@@ -79,10 +82,10 @@
     <!-- Category edit overlay -->
     <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsCategoryEditOpen}" Background="{StaticResource OverlayDimBrush}" ZIndex="100">
       <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
-              Padding="24" CornerRadius="{StaticResource CornerRadius12}" MinWidth="280"
+              Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="280"
               BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-        <StackPanel Spacing="{StaticResource Spacing16}">
-          <TextBlock Text="New category" FontSize="{StaticResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+          <TextBlock Text="New category" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
           <TextBox Text="{Binding CategoryName}" Watermark="Name"/>
           <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
             <Button Content="Save" Command="{Binding SaveCategoryCommand}" Classes="primary"/>

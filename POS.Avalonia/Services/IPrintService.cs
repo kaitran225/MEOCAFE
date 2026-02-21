@@ -4,4 +4,5 @@ public interface IPrintService
 {
     void PrintReceipt(string receiptText);
     void PrintKitchenTicket(string kitchenTicketText);
+    void OpenCashDrawer();
 }

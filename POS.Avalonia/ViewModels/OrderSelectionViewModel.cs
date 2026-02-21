@@ -20,6 +20,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
     private readonly IOrderDetailOptionRepository _optionRepo;
     private readonly ICustomerRepository _customerRepo;
     private readonly ITableRepository _tableRepo;
+    private readonly IDiscountRepository _discountRepo;
     private readonly IReceiptService _receiptService;
     private readonly IPrintService _printService;
     private readonly Services.IAuditLogger _auditLogger;
@@ -39,6 +40,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
     [ObservableProperty] private string _searchTerm = "";
     [ObservableProperty] private BillLineViewModel? _customizationLine;
     [ObservableProperty] private bool _isCustomizationOpen;
+    [ObservableProperty] private bool _isPendingAdd;
     [ObservableProperty] private bool _isPaymentOpen;
     [ObservableProperty] private decimal _paymentAmount;
     [ObservableProperty] private bool _isVoidLineDialogOpen;
@@ -62,9 +64,22 @@ public partial class OrderSelectionViewModel : ViewModelBase
     [ObservableProperty] private ObservableCollection<Table> _tables = new();
     [ObservableProperty] private string _deliveryAddress = "";
     [ObservableProperty] private string _deliveryFeeText = "0";
+    [ObservableProperty] private bool _isMergeConfirmOpen;
+    [ObservableProperty] private BillViewModel? _mergeSourceBill;
+    [ObservableProperty] private ObservableCollection<BillViewModel> _mergeBillCandidates = new();
+    [ObservableProperty] private bool _isSplitPayment;
+    [ObservableProperty] private ObservableCollection<PaymentEntryViewModel> _paymentEntries = new();
+    [ObservableProperty] private string _selectedPaymentMethod = "Cash";
+    [ObservableProperty] private decimal _paymentEntryAmount;
+    [ObservableProperty] private string _tipAmountText = "";
+    [ObservableProperty] private string _couponCode = "";
 
+    public decimal SplitTotal => PaymentEntries.Sum(e => e.Amount);
+    public bool ShowSingleAmount => !IsSplitPayment;
+    public bool CanCompletePayment => CurrentBill != null && (!IsSplitPayment && PaymentAmount >= (CurrentBill.GrandTotal - 0.01m) && PaymentAmount <= (CurrentBill.GrandTotal + 0.01m) || IsSplitPayment && Math.Abs(SplitTotal - CurrentBill.GrandTotal) < 0.01m);
     public string[] IceLevels { get; } = { "None", "Less", "Normal", "More" };
     public string[] ServiceTypes { get; } = { "Dine-in", "Takeaway", "Delivery" };
+    public string[] PaymentMethods { get; } = { "Cash", "Card" };
     public string[] SugarLevels { get; } = { "None", "Less", "Normal", "More" };
     public string[] SizeOptions { get; } = { "S", "M", "L" };
 
@@ -80,6 +95,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
         IOrderDetailOptionRepository optionRepo,
         ICustomerRepository customerRepo,
         ITableRepository tableRepo,
+        IDiscountRepository discountRepo,
         IReceiptService receiptService,
         IPrintService printService,
         Services.IAuditLogger auditLogger,
@@ -93,11 +109,11 @@ public partial class OrderSelectionViewModel : ViewModelBase
         _optionRepo = optionRepo;
         _customerRepo = customerRepo;
         _tableRepo = tableRepo;
+        _discountRepo = discountRepo;
         _receiptService = receiptService;
         _printService = printService;
         _auditLogger = auditLogger;
         _pendingTable = pendingTable;
-        _tableRepo = tableRepo;
         _taxRate = decimal.TryParse(configuration["Tax:Rate"], out var tr) ? tr : 0.1m;
         _loyaltyEarnPerAmount = decimal.TryParse(configuration["Loyalty:EarnPerAmount"], out var ea) ? ea : 10000m;
         _loyaltyEarnPoints = int.TryParse(configuration["Loyalty:EarnPoints"], out var ep) ? ep : 1;
@@ -111,6 +127,9 @@ public partial class OrderSelectionViewModel : ViewModelBase
     partial void OnSelectedCategoryChanged(Category? value) => FilterMenuItems();
     partial void OnSearchTermChanged(string value) => FilterMenuItems();
     partial void OnCurrentBillIndexChanged(int value) => OnPropertyChanged(nameof(CurrentBill));
+    partial void OnPaymentAmountChanged(decimal value) => OnPropertyChanged(nameof(CanCompletePayment));
+    partial void OnIsSplitPaymentChanged(bool value) { OnPropertyChanged(nameof(CanCompletePayment)); OnPropertyChanged(nameof(ShowSingleAmount)); }
+    partial void OnPaymentEntriesChanged(ObservableCollection<PaymentEntryViewModel> value) { OnPropertyChanged(nameof(SplitTotal)); OnPropertyChanged(nameof(CanCompletePayment)); }
     partial void OnSelectedCustomerChanged(Customer? value) { OnPropertyChanged(nameof(CustomerDisplayText)); OnPropertyChanged(nameof(HasCustomer)); }
 
     [RelayCommand]
@@ -209,6 +228,27 @@ public partial class OrderSelectionViewModel : ViewModelBase
     }
 
     [RelayCommand(CanExecute = nameof(CanAddProduct))]
+    private void SelectProductForCustomize(MenuItem? item)
+    {
+        if (item == null || CurrentBill == null) return;
+        var line = new BillLineViewModel
+        {
+            MenuItemId = item.Id,
+            ProductName = item.Name ?? "",
+            Quantity = 1,
+            UnitPrice = item.SellPrice,
+            LineTotal = item.SellPrice,
+            ParentBill = CurrentBill,
+            IceLevel = "Normal",
+            SugarLevel = "Normal",
+            Size = "M"
+        };
+        CustomizationLine = line;
+        IsPendingAdd = true;
+        IsCustomizationOpen = true;
+    }
+
+    [RelayCommand(CanExecute = nameof(CanAddProduct))]
     private void AddProduct(MenuItem? item)
     {
         if (item == null || CurrentBill == null) return;
@@ -238,6 +278,17 @@ public partial class OrderSelectionViewModel : ViewModelBase
     private bool CanAddProduct(MenuItem? item) => item != null && CurrentBill != null;
 
     [RelayCommand]
+    private void AddPendingLineToOrder()
+    {
+        if (CurrentBill == null || CustomizationLine == null || !IsPendingAdd) return;
+        CurrentBill.Lines.Add(CustomizationLine);
+        CurrentBill.RecalcTotals();
+        IsCustomizationOpen = false;
+        CustomizationLine = null;
+        IsPendingAdd = false;
+    }
+
+    [RelayCommand]
     private void RemoveLine(BillLineViewModel? line)
     {
         if (line == null || CurrentBill == null) return;
@@ -246,10 +297,66 @@ public partial class OrderSelectionViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void OpenMergeDialog()
+    {
+        if (CurrentBill == null || Bills.Count < 2) return;
+        MergeSourceBill = null;
+        MergeBillCandidates = new ObservableCollection<BillViewModel>(Bills.Where(b => b != CurrentBill));
+        IsMergeConfirmOpen = true;
+    }
+
+    [RelayCommand]
+    private void RequestMergeBill(BillViewModel? source)
+    {
+        if (source == null || CurrentBill == null || source == CurrentBill || !Bills.Contains(source)) return;
+        MergeSourceBill = source;
+        IsMergeConfirmOpen = true;
+    }
+
+    [RelayCommand]
+    private void ConfirmMergeBill()
+    {
+        if (MergeSourceBill == null || CurrentBill == null || MergeSourceBill == CurrentBill) { IsMergeConfirmOpen = false; MergeSourceBill = null; return; }
+        var source = MergeSourceBill;
+        var idx = Bills.IndexOf(source);
+        foreach (var line in source.Lines.ToList())
+        {
+            var copy = new BillLineViewModel
+            {
+                MenuItemId = line.MenuItemId,
+                ProductName = line.ProductName,
+                Quantity = line.Quantity,
+                UnitPrice = line.UnitPrice,
+                IceLevel = line.IceLevel,
+                SugarLevel = line.SugarLevel,
+                Size = line.Size,
+                Note = line.Note,
+                IsCombo = line.IsCombo,
+                ParentBill = CurrentBill
+            };
+            copy.RecalcTotal();
+            CurrentBill.Lines.Add(copy);
+        }
+        CurrentBill.RecalcTotals();
+        Bills.Remove(source);
+        if (CurrentBillIndex >= Bills.Count) CurrentBillIndex = Math.Max(0, Bills.Count - 1);
+        IsMergeConfirmOpen = false;
+        MergeSourceBill = null;
+    }
+
+    [RelayCommand]
+    private void CancelMergeBill()
+    {
+        IsMergeConfirmOpen = false;
+        MergeSourceBill = null;
+    }
+
+    [RelayCommand]
     private void CustomizeLine(BillLineViewModel? line)
     {
         if (line == null) return;
         CustomizationLine = line;
+        IsPendingAdd = false;
         IsCustomizationOpen = true;
     }
 
@@ -258,6 +365,16 @@ public partial class OrderSelectionViewModel : ViewModelBase
     {
         IsCustomizationOpen = false;
         CustomizationLine = null;
+        IsPendingAdd = false;
+    }
+
+    [RelayCommand]
+    private void ConfirmCustomization()
+    {
+        if (IsPendingAdd)
+            AddPendingLineToOrder();
+        else
+            CloseCustomization();
     }
 
     [RelayCommand]
@@ -283,19 +400,58 @@ public partial class OrderSelectionViewModel : ViewModelBase
     {
         if (CurrentBill == null) return;
         PaymentAmount = CurrentBill.GrandTotal;
+        PaymentEntries.Clear();
+        IsSplitPayment = false;
+        TipAmountText = "";
         IsPaymentOpen = true;
+        OnPropertyChanged(nameof(CanCompletePayment));
     }
 
     [RelayCommand]
+    private void AddPaymentEntry()
+    {
+        if (CurrentBill == null || PaymentEntryAmount <= 0) return;
+        PaymentEntries.Add(new PaymentEntryViewModel { Method = SelectedPaymentMethod, Amount = PaymentEntryAmount });
+        PaymentEntryAmount = 0;
+        OnPropertyChanged(nameof(SplitTotal));
+        OnPropertyChanged(nameof(CanCompletePayment));
+    }
+
+    [RelayCommand]
+    private void RemovePaymentEntry(PaymentEntryViewModel? entry)
+    {
+        if (entry != null) PaymentEntries.Remove(entry);
+        OnPropertyChanged(nameof(SplitTotal));
+        OnPropertyChanged(nameof(CanCompletePayment));
+    }
+
+    [RelayCommand]
+    private async Task ApplyCouponAsync()
+    {
+        if (CurrentBill == null || string.IsNullOrWhiteSpace(CouponCode)) return;
+        var discounts = await _discountRepo.GetAllAsync(default).ConfigureAwait(true);
+        var discount = discounts.FirstOrDefault(d => string.Equals((d.Name ?? "").Trim(), CouponCode.Trim(), StringComparison.OrdinalIgnoreCase) && d.IsActive);
+        if (discount == null) return;
+        CurrentBill.DiscountAmount = Math.Round(CurrentBill.Subtotal * (discount.Percentage / 100m), 2);
+        CurrentBill.RecalcTotals();
+        OnPropertyChanged(nameof(CanCompletePayment));
+    }
+
+    [RelayCommand(CanExecute = nameof(CanCompletePayment))]
     private async Task CompletePaymentAsync()
     {
-        if (CurrentBill == null) return;
+        if (CurrentBill == null || !CanCompletePayment) return;
         try
         {
+            var paymentNote = IsSplitPayment && PaymentEntries.Count > 0
+                ? "Payment: " + string.Join(", ", PaymentEntries.Select(e => $"{e.Method} {e.Amount:N0}"))
+                : null;
+            var tip = decimal.TryParse(TipAmountText?.Replace(",", ""), out var t) ? t : 0m;
+            var tipNote = tip > 0 ? " Tip: " + tip.ToString("N0") : "";
             var order = new Order
             {
                 TotalPrice = CurrentBill.GrandTotal,
-                Note = null,
+                Note = (paymentNote ?? "") + tipNote,
                 PhoneNumber = SelectedCustomer?.PhoneNumber,
                 CustomerId = SelectedCustomer?.Id,
                 TableId = CurrentBill.TableId,
@@ -330,6 +486,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
             var receiptData = await _receiptService.BuildReceiptFromOrderAsync(orderId, "Cash", default).ConfigureAwait(true);
             var receiptText = _receiptService.FormatReceiptAsText(receiptData);
             _printService.PrintReceipt(receiptText);
+            _printService.OpenCashDrawer();
         }
         finally
         {
@@ -338,6 +495,8 @@ public partial class OrderSelectionViewModel : ViewModelBase
             if (Bills.Count == 0) NewBill();
             IsPaymentOpen = false;
             PaymentAmount = 0;
+            TipAmountText = "";
+            PaymentEntries.Clear();
         }
     }
 
