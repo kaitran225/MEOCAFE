@@ -171,8 +171,8 @@ public class RichTextBlock : TextBlock
 
     private Inline MakeMentionChip(string name)
     {
-        var bg = ResolveBrush("PrimaryLightBrush") ?? new SolidColorBrush(Color.Parse("#D4E5D2"));
-        var fg = ResolveBrush("PrimaryBrush") ?? new SolidColorBrush(Color.Parse("#6B8E6B"));
+        var bg = ResolveBrush("PrimaryLightBrush") ?? new SolidColorBrush(Color.Parse("#17302E"));
+        var fg = ResolveBrush("PrimaryBrush") ?? new SolidColorBrush(Color.Parse("#4FB3A6"));
         var fontSize = FontSize > 0 ? FontSize : 13d;
 
         var label = new TextBlock

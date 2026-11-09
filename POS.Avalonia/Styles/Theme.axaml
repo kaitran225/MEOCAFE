@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- HienXanh theme: warm graphite canvas, off-white ink, muted olive brand accent,
-       terracotta reserved for attention. Hairline borders instead of shadows.
+  <!-- HienXanh theme: cool slate canvas, high-contrast ink, one deep-teal accent,
+       slate-blue secondary series, semantic status hues. Hairline borders instead
+       of shadows; input borders reach 3:1 so editable fields stay findable.
        Each variant defines Color tokens; semantic brushes derive from them.
        Views reference brushes with DynamicResource so a theme switch applies live. -->
 
@@ -18,51 +19,51 @@
     <!-- ============================ DARK (default) ============================ -->
     <ResourceDictionary x:Key="Dark">
       <!-- Primitive color tokens -->
-      <Color x:Key="PrimaryColor">#9BAF7D</Color>
-      <Color x:Key="PrimaryLightColor">#2A3222</Color>
-      <Color x:Key="PrimaryHoverColor">#A9BD8B</Color>
-      <Color x:Key="PrimaryPressedColor">#8A9E6D</Color>
-      <Color x:Key="SecondaryColor">#D97757</Color>
-      <Color x:Key="SecondaryLightColor">#3A2A22</Color>
-      <Color x:Key="ErrorColor">#E07A6E</Color>
-      <Color x:Key="ErrorBgColor">#33E07A6E</Color>
-      <Color x:Key="SuccessColor">#8FBF7B</Color>
-      <Color x:Key="SuccessBgColor">#338FBF7B</Color>
-      <Color x:Key="WarningColor">#E0B267</Color>
-      <Color x:Key="InfoColor">#82B1DC</Color>
-      <Color x:Key="AccentAmberColor">#E0B267</Color>
-      <Color x:Key="DangerColor">#E07A6E</Color>
-      <Color x:Key="DangerLightColor">#33E07A6E</Color>
-      <Color x:Key="FocusColor">#CFE0B4</Color>
+      <Color x:Key="PrimaryColor">#4FB3A6</Color>
+      <Color x:Key="PrimaryLightColor">#17302E</Color>
+      <Color x:Key="PrimaryHoverColor">#5FC4B6</Color>
+      <Color x:Key="PrimaryPressedColor">#3E9C90</Color>
+      <Color x:Key="SecondaryColor">#93A8C6</Color>
+      <Color x:Key="SecondaryLightColor">#1E2A38</Color>
+      <Color x:Key="ErrorColor">#EC8B82</Color>
+      <Color x:Key="ErrorBgColor">#33EC8B82</Color>
+      <Color x:Key="SuccessColor">#6FC08A</Color>
+      <Color x:Key="SuccessBgColor">#336FC08A</Color>
+      <Color x:Key="WarningColor">#E4AF66</Color>
+      <Color x:Key="InfoColor">#7FB2E0</Color>
+      <Color x:Key="AccentAmberColor">#E4AF66</Color>
+      <Color x:Key="DangerColor">#EC8B82</Color>
+      <Color x:Key="DangerLightColor">#33EC8B82</Color>
+      <Color x:Key="FocusColor">#7FD3C6</Color>
 
-      <Color x:Key="BackgroundColor">#141413</Color>
-      <Color x:Key="SurfaceColor">#1C1B19</Color>
-      <Color x:Key="SurfaceMutedColor">#262523</Color>
-      <Color x:Key="BorderColor">#353330</Color>
-      <Color x:Key="BorderStrongColor">#4A4741</Color>
-      <Color x:Key="BlackColor">#0E0E0D</Color>
-      <Color x:Key="BlackSurfaceColor">#181716</Color>
-      <Color x:Key="SidebarColor">#181716</Color>
-      <Color x:Key="OnSurfaceColor">#FAF9F5</Color>
-      <Color x:Key="OnSurfaceMutedColor">#B0AEA5</Color>
-      <Color x:Key="OnPrimaryColor">#12130F</Color>
+      <Color x:Key="BackgroundColor">#0F1316</Color>
+      <Color x:Key="SurfaceColor">#161B1F</Color>
+      <Color x:Key="SurfaceMutedColor">#1E242A</Color>
+      <Color x:Key="BorderColor">#2B333A</Color>
+      <Color x:Key="BorderStrongColor">#5E6B78</Color>
+      <Color x:Key="BlackColor">#0A0D0F</Color>
+      <Color x:Key="BlackSurfaceColor">#141A1E</Color>
+      <Color x:Key="SidebarColor">#12171B</Color>
+      <Color x:Key="OnSurfaceColor">#EDF2F6</Color>
+      <Color x:Key="OnSurfaceMutedColor">#A3AFBA</Color>
+      <Color x:Key="OnPrimaryColor">#0A1214</Color>
 
-      <Color x:Key="NavSelectedColor">#9BAF7D</Color>
-      <Color x:Key="SidebarBorderColor">#302E2A</Color>
-      <Color x:Key="SidebarHoverColor">#24231F</Color>
-      <Color x:Key="SidebarItemColor">#339BAF7D</Color>
+      <Color x:Key="NavSelectedColor">#4FB3A6</Color>
+      <Color x:Key="SidebarBorderColor">#262F37</Color>
+      <Color x:Key="SidebarHoverColor">#1B2229</Color>
+      <Color x:Key="SidebarItemColor">#334FB3A6</Color>
       <Color x:Key="AppBarIconBgColor">#22FFFFFF</Color>
       <Color x:Key="AppBarUserBgColor">#18FFFFFF</Color>
       <Color x:Key="AppBarButtonBgColor">#30FFFFFF</Color>
       <Color x:Key="AppBarButtonBorderColor">#28FFFFFF</Color>
 
-      <Color x:Key="OverlayDimColor">#CC0A0A09</Color>
-      <Color x:Key="OverlayDimStrongColor">#E60A0A09</Color>
-      <Color x:Key="StockLowColor">#E0B267</Color>
-      <Color x:Key="AvailableColor">#8FBF7B</Color>
-      <Color x:Key="OccupiedColor">#E0B267</Color>
-      <Color x:Key="DarkBorderHoverColor">#4A4741</Color>
-      <Color x:Key="DarkTextSecondaryColor">#B7CC98</Color>
+      <Color x:Key="OverlayDimColor">#CC080B0D</Color>
+      <Color x:Key="OverlayDimStrongColor">#E6080B0D</Color>
+      <Color x:Key="StockLowColor">#E4AF66</Color>
+      <Color x:Key="AvailableColor">#6FC08A</Color>
+      <Color x:Key="OccupiedColor">#E4AF66</Color>
+      <Color x:Key="DarkBorderHoverColor">#5E6B78</Color>
+      <Color x:Key="DarkTextSecondaryColor">#A9C7C1</Color>
 
       <!-- Semantic brushes -->
       <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
@@ -147,51 +148,51 @@
 
     <!-- ============================ LIGHT ============================ -->
     <ResourceDictionary x:Key="Light">
-      <Color x:Key="PrimaryColor">#52653D</Color>
-      <Color x:Key="PrimaryLightColor">#E9EEDE</Color>
-      <Color x:Key="PrimaryHoverColor">#5D7146</Color>
-      <Color x:Key="PrimaryPressedColor">#435334</Color>
-      <Color x:Key="SecondaryColor">#A8552F</Color>
-      <Color x:Key="SecondaryLightColor">#F6E8E1</Color>
-      <Color x:Key="ErrorColor">#B0392C</Color>
-      <Color x:Key="ErrorBgColor">#1AB0392C</Color>
-      <Color x:Key="SuccessColor">#4C7042</Color>
-      <Color x:Key="SuccessBgColor">#1A4C7042</Color>
-      <Color x:Key="WarningColor">#96631C</Color>
-      <Color x:Key="InfoColor">#3D6C93</Color>
-      <Color x:Key="AccentAmberColor">#96631C</Color>
-      <Color x:Key="DangerColor">#B0392C</Color>
-      <Color x:Key="DangerLightColor">#1AB0392C</Color>
-      <Color x:Key="FocusColor">#52653D</Color>
+      <Color x:Key="PrimaryColor">#0F6B62</Color>
+      <Color x:Key="PrimaryLightColor">#E3F1EF</Color>
+      <Color x:Key="PrimaryHoverColor">#0C5A52</Color>
+      <Color x:Key="PrimaryPressedColor">#094740</Color>
+      <Color x:Key="SecondaryColor">#3D5A78</Color>
+      <Color x:Key="SecondaryLightColor">#E8EEF4</Color>
+      <Color x:Key="ErrorColor">#A63429</Color>
+      <Color x:Key="ErrorBgColor">#1AA63429</Color>
+      <Color x:Key="SuccessColor">#2C6E45</Color>
+      <Color x:Key="SuccessBgColor">#1A2C6E45</Color>
+      <Color x:Key="WarningColor">#7C530C</Color>
+      <Color x:Key="InfoColor">#2C5E86</Color>
+      <Color x:Key="AccentAmberColor">#7C530C</Color>
+      <Color x:Key="DangerColor">#A63429</Color>
+      <Color x:Key="DangerLightColor">#1AA63429</Color>
+      <Color x:Key="FocusColor">#0F6B62</Color>
 
-      <Color x:Key="BackgroundColor">#FAF9F5</Color>
+      <Color x:Key="BackgroundColor">#F5F7F9</Color>
       <Color x:Key="SurfaceColor">#FFFFFF</Color>
-      <Color x:Key="SurfaceMutedColor">#F0EEE7</Color>
-      <Color x:Key="BorderColor">#E3E0D5</Color>
-      <Color x:Key="BorderStrongColor">#C9C5B6</Color>
-      <Color x:Key="BlackColor">#141413</Color>
+      <Color x:Key="SurfaceMutedColor">#EDF1F5</Color>
+      <Color x:Key="BorderColor">#D5DDE5</Color>
+      <Color x:Key="BorderStrongColor">#8794A2</Color>
+      <Color x:Key="BlackColor">#0F1316</Color>
       <Color x:Key="BlackSurfaceColor">#FFFFFF</Color>
       <Color x:Key="SidebarColor">#FFFFFF</Color>
-      <Color x:Key="OnSurfaceColor">#141413</Color>
-      <Color x:Key="OnSurfaceMutedColor">#6B675E</Color>
-      <Color x:Key="OnPrimaryColor">#FBFBF7</Color>
+      <Color x:Key="OnSurfaceColor">#101820</Color>
+      <Color x:Key="OnSurfaceMutedColor">#55636F</Color>
+      <Color x:Key="OnPrimaryColor">#FFFFFF</Color>
 
-      <Color x:Key="NavSelectedColor">#52653D</Color>
-      <Color x:Key="SidebarBorderColor">#E8E5DA</Color>
-      <Color x:Key="SidebarHoverColor">#F2F0E8</Color>
-      <Color x:Key="SidebarItemColor">#1452653D</Color>
+      <Color x:Key="NavSelectedColor">#0F6B62</Color>
+      <Color x:Key="SidebarBorderColor">#E1E7EE</Color>
+      <Color x:Key="SidebarHoverColor">#F0F4F8</Color>
+      <Color x:Key="SidebarItemColor">#140F6B62</Color>
       <Color x:Key="AppBarIconBgColor">#12000000</Color>
       <Color x:Key="AppBarUserBgColor">#0D000000</Color>
       <Color x:Key="AppBarButtonBgColor">#1F000000</Color>
       <Color x:Key="AppBarButtonBorderColor">#1F000000</Color>
 
-      <Color x:Key="OverlayDimColor">#99000000</Color>
-      <Color x:Key="OverlayDimStrongColor">#CC000000</Color>
-      <Color x:Key="StockLowColor">#96631C</Color>
-      <Color x:Key="AvailableColor">#3E7A3C</Color>
-      <Color x:Key="OccupiedColor">#96631C</Color>
-      <Color x:Key="DarkBorderHoverColor">#BDB9AB</Color>
-      <Color x:Key="DarkTextSecondaryColor">#52653D</Color>
+      <Color x:Key="OverlayDimColor">#99080B0D</Color>
+      <Color x:Key="OverlayDimStrongColor">#CC080B0D</Color>
+      <Color x:Key="StockLowColor">#7C530C</Color>
+      <Color x:Key="AvailableColor">#2C6E45</Color>
+      <Color x:Key="OccupiedColor">#7C530C</Color>
+      <Color x:Key="DarkBorderHoverColor">#A9B5C2</Color>
+      <Color x:Key="DarkTextSecondaryColor">#0F6B62</Color>
 
       <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
       <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{StaticResource PrimaryHoverColor}"/>

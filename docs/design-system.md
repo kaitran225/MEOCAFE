@@ -24,23 +24,29 @@ exceptions are allowed to live.
 Screens reference the semantic **brush** (`PrimaryBrush`), never the raw
 `Color` token (`PrimaryColor`) and never a hex literal.
 
+Cool slate neutrals, one deep-teal accent, and status hues that stay legible as
+text, as fills, and on their own 20% tints.
+
 | Role | Dark | Light | Brush |
 | --- | --- | --- | --- |
-| Brand accent | `#9BAF7D` | `#52653D` | `PrimaryBrush` |
-| Ink on accent | `#12130F` | `#FBFBF7` | `OnPrimaryBrush` |
-| Canvas | `#141413` | `#FAF9F5` | `BackgroundBrush` |
-| Card / panel | `#1C1B19` | `#FFFFFF` | `SurfaceBrush` |
-| Inset / icon plate | `#262523` | `#F0EEE7` | `SurfaceMutedBrush` |
-| Hairline | `#353330` | `#E3E0D5` | `BorderBrush` |
-| Input / divider | `#4A4741` | `#C9C5B6` | `BorderStrongBrush` |
-| Primary text | `#FAF9F5` | `#141413` | `OnSurfaceBrush` |
-| Secondary text | `#B0AEA5` | `#6B675E` | `OnSurfaceMutedBrush` |
-| Attention | `#D97757` | `#A8552F` | `SecondaryBrush` |
-| Destructive | `#E07A6E` | `#B0392C` | `ErrorBrush` |
-| Success | `#8FBF7B` | `#4C7042` | `SuccessBrush` |
-| Pending | `#E0B267` | `#96631C` | `WarningBrush` |
-| Notice | `#82B1DC` | `#3D6C93` | `InfoBrush` |
-| Focus ring | `#CFE0B4` | `#52653D` | `FocusBrush` |
+| Brand accent | `#4FB3A6` | `#0F6B62` | `PrimaryBrush` |
+| Ink on accent | `#0A1214` | `#FFFFFF` | `OnPrimaryBrush` |
+| Canvas | `#0F1316` | `#F5F7F9` | `BackgroundBrush` |
+| Card / panel | `#161B1F` | `#FFFFFF` | `SurfaceBrush` |
+| Inset / icon plate | `#1E242A` | `#EDF1F5` | `SurfaceMutedBrush` |
+| Hairline | `#2B333A` | `#D5DDE5` | `BorderBrush` |
+| Input / divider | `#5E6B78` | `#8794A2` | `BorderStrongBrush` |
+| Primary text | `#EDF2F6` | `#101820` | `OnSurfaceBrush` |
+| Secondary text | `#A3AFBA` | `#55636F` | `OnSurfaceMutedBrush` |
+| Attention | `#93A8C6` | `#3D5A78` | `SecondaryBrush` |
+| Destructive | `#EC8B82` | `#A63429` | `ErrorBrush` |
+| Success | `#6FC08A` | `#2C6E45` | `SuccessBrush` |
+| Pending | `#E4AF66` | `#7C530C` | `WarningBrush` |
+| Notice | `#7FB2E0` | `#2C5E86` | `InfoBrush` |
+| Focus ring | `#7FD3C6` | `#0F6B62` | `FocusBrush` |
+
+`Border` is a hairline (decorative). `BorderStrong` is the boundary of an
+editable control and clears 3:1 against `Surface` — inputs rely on it.
 
 Adding a role means adding it to **both** variants in `Theme.axaml`, plus a
 `Color` token and a `SolidColorBrush` alias, in the same change.

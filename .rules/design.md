@@ -15,27 +15,28 @@ a whole shift, so "premium" here means calm and legible, never dark-and-glowy.
 
 ### 1.1 Color
 
-Warm graphite base, off-white ink, muted olive brand accent, terracotta reserved
-for attention. Values live only in `Styles/Theme.axaml`; screens reference the
-semantic brushes with `DynamicResource` and never hardcode a hex.
+Cool slate base, high-contrast ink, one deep-teal brand accent, slate-blue for
+secondary data, amber reserved for attention. Values live only in
+`Styles/Theme.axaml`; screens reference the semantic brushes with `DynamicResource`
+and never hardcode a hex.
 
 | Role | Dark | Light | Use for |
 | --- | --- | --- | --- |
-| Primary | `#9BAF7D` | `#52653D` | brand accent, active state, primary text-on-dark accent |
-| OnPrimary | `#12130F` | `#FBFBF7` | text/icons drawn on a Primary fill |
-| Background | `#141413` | `#FAF9F5` | app canvas behind everything |
-| Surface | `#1C1B19` | `#FFFFFF` | cards, tiles, panels, dialogs |
-| SurfaceMuted | `#262523` | `#F0EEE7` | icon plates, table headers, inset areas |
-| Border | `#353330` | `#E3E0D5` | hairlines (1px) separating surface from canvas |
-| BorderStrong | `#4A4741` | `#C9C5B6` | inputs, dividers inside a surface |
-| OnSurface | `#FAF9F5` | `#141413` | primary text |
-| OnSurfaceMuted | `#B0AEA5` | `#6B675E` | secondary text, captions |
-| Secondary | `#D97757` | `#A8552F` | attention: money, warnings that need action |
-| Error | `#E07A6E` | `#B0392C` | destructive, failure |
-| Success | `#8FBF7B` | `#4C7042` | completed, in stock |
-| Warning | `#E0B267` | `#96631C` | pending, low stock |
-| Info | `#82B1DC` | `#3D6C93` | neutral notices |
-| Focus | `#CFE0B4` | `#52653D` | keyboard focus ring only |
+| Primary | `#4FB3A6` | `#0F6B62` | brand accent, active state, primary text-on-dark accent |
+| OnPrimary | `#0A1214` | `#FFFFFF` | text/icons drawn on a Primary fill |
+| Background | `#0F1316` | `#F5F7F9` | app canvas behind everything |
+| Surface | `#161B1F` | `#FFFFFF` | cards, tiles, panels, dialogs |
+| SurfaceMuted | `#1E242A` | `#EDF1F5` | icon plates, table headers, inset areas |
+| Border | `#2B333A` | `#D5DDE5` | hairlines (1px) separating surface from canvas |
+| BorderStrong | `#5E6B78` | `#8794A2` | inputs, dividers inside a surface (3:1 on Surface) |
+| OnSurface | `#EDF2F6` | `#101820` | primary text |
+| OnSurfaceMuted | `#A3AFBA` | `#55636F` | secondary text, captions |
+| Secondary | `#93A8C6` | `#3D5A78` | secondary data series, quieter emphasis |
+| Error | `#EC8B82` | `#A63429` | destructive, failure |
+| Success | `#6FC08A` | `#2C6E45` | completed, in stock |
+| Warning | `#E4AF66` | `#7C530C` | pending, low stock |
+| Info | `#7FB2E0` | `#2C5E86` | neutral notices |
+| Focus | `#7FD3C6` | `#0F6B62` | keyboard focus ring only |
 
 Rules:
 
@@ -43,8 +44,9 @@ Rules:
   else is neutral. If a screen has three green buttons, two of them are wrong.
 - Status color is information, never decoration. A card border is never tinted
   to "add life".
-- Text on any fill must reach 4.5:1. `OnPrimary` exists because a light Primary
-  in dark mode cannot carry white text — use it instead of `#FFFFFF`.
+- Text on any fill must reach 4.5:1, including text on its own 20% status tint.
+  `OnPrimary` exists because a light Primary in dark mode cannot carry white
+  text — use it instead of `#FFFFFF`.
 - Never introduce a new hex in a view. If a role is missing, add a token to both
   variants of `Theme.axaml` in the same commit.
 - No gradients as background decoration. No glow. No colored drop shadows.

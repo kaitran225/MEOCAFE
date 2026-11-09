@@ -27,6 +27,6 @@ public partial class StatusBadge : UserControl
     public StatusBadge()
     {
         InitializeComponent();
-        BadgeBrush = new SolidColorBrush(Color.Parse("#6B8E6B"));
+        BadgeBrush = new SolidColorBrush(Color.Parse("#4FB3A6"));
     }
 }

@@ -63,6 +63,6 @@ public partial class KpiCard : UserControl
     public KpiCard()
     {
         InitializeComponent();
-        AccentBrush = new SolidColorBrush(Color.Parse("#6B8E6B"));
+        AccentBrush = new SolidColorBrush(Color.Parse("#4FB3A6"));
     }
 }
