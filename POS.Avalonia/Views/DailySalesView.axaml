@@ -1,0 +1,259 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:System="clr-namespace:System;assembly=System.Runtime"
+             x:Class="POS.Avalonia.Views.DailySalesView"
+             x:DataType="vm:DailySalesViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*">
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
+      <controls:PageTitle Title="Daily Sales Analytics">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <Border Background="{StaticResource SurfaceMutedBrush}"
+                  CornerRadius="{DynamicResource CornerRadius8}" Padding="12,8">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconCalendar}" Width="16" Height="16"
+                        Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="{Binding Source={x:Static System:DateTime.Today}, StringFormat='{}{0:dddd, MMMM d, yyyy}'}"
+                         FontSize="{DynamicResource CaptionFontSize}"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </Border>
+          <Button Command="{Binding LoadCommand}" Classes="primary" Padding="12,8"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
+                        Foreground="{StaticResource OnPrimaryBrush}"/>
+              <TextBlock Text="Refresh"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </controls:PageTitle>
+      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
+    </StackPanel>
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,24">
+      <StackPanel Spacing="{DynamicResource Spacing24}">
+      <!-- KPI row -->
+      <Grid ColumnDefinitions="*,*,*" IsVisible="{Binding NotLoading}">
+        <controls:KpiCard Grid.Column="0" Margin="0,0,8,0"
+                          Title="Today's Revenue"
+                          Value="{Binding TodayRevenue, StringFormat='{}{0:N0} ₫'}"
+                          Subtitle="Total sales today"
+                          AccentBrush="{StaticResource PrimaryBrush}"/>
+        <controls:KpiCard Grid.Column="1" Margin="8,0"
+                          Title="Orders"
+                          Value="{Binding TodayOrderCount}"
+                          Subtitle="Transactions today"
+                          AccentBrush="{StaticResource SecondaryBrush}"/>
+        <controls:KpiCard Grid.Column="2" Margin="8,0,0,0"
+                          Title="Avg Ticket"
+                          Value="{Binding TodayAvgTicket, StringFormat='{}{0:N0} ₫'}"
+                          Subtitle="Per transaction"
+                          AccentBrush="#FFFBBF24"/>
+      </Grid>
+
+      <!-- Two-column layout: Chart + Top Products -->
+      <Grid ColumnDefinitions="2*,*" IsVisible="{Binding NotLoading}">
+
+        <!-- Left: Hourly Sales Chart -->
+        <Border Grid.Column="0" Margin="0,0,8,0" Background="{StaticResource SurfaceBrush}"
+                CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                BoxShadow="0 2 12 0 #0F000000">
+          <StackPanel Spacing="{DynamicResource Spacing16}">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Hourly Sales"
+                           FontSize="{DynamicResource SubtitleFontSize}"
+                           FontWeight="{StaticResource SubtitleFontWeight}"
+                           Foreground="{StaticResource OnSurfaceBrush}"/>
+                <TextBlock Text="Revenue distribution across business hours"
+                           FontSize="{DynamicResource CaptionFontSize}"
+                           Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              </StackPanel>
+              <Border Grid.Column="1" Background="{StaticResource SurfaceMutedBrush}"
+                      CornerRadius="100" Padding="10,6">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <PathIcon Data="{StaticResource IconBarChart}" Width="14" Height="14"
+                            Foreground="{StaticResource PrimaryBrush}"/>
+                  <TextBlock Text="Hourly" FontSize="{DynamicResource CaptionFontSize}"
+                             FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
+                </StackPanel>
+              </Border>
+            </Grid>
+
+            <Border Height="1" Background="{StaticResource BorderBrush}"/>
+
+            <!-- Bar Chart (placeholder hours 8AM-8PM) -->
+            <Grid Height="180" ColumnDefinitions="*,*,*,*,*,*,*,*,*,*,*,*" VerticalAlignment="Bottom"
+                  Margin="0,12,0,0">
+              <Border Grid.Column="0" Background="{StaticResource PrimaryBrush}" Opacity="0.3"
+                      CornerRadius="4,4,0,0" Height="25" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="1" Background="{StaticResource PrimaryBrush}" Opacity="0.5"
+                      CornerRadius="4,4,0,0" Height="50" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="2" Background="{StaticResource PrimaryBrush}" Opacity="0.7"
+                      CornerRadius="4,4,0,0" Height="90" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="3" Background="{StaticResource PrimaryBrush}" Opacity="0.85"
+                      CornerRadius="4,4,0,0" Height="130" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="4" Background="{StaticResource PrimaryBrush}"
+                      CornerRadius="4,4,0,0" Height="180" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="5" Background="{StaticResource PrimaryBrush}" Opacity="0.9"
+                      CornerRadius="4,4,0,0" Height="155" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="6" Background="{StaticResource PrimaryBrush}" Opacity="0.6"
+                      CornerRadius="4,4,0,0" Height="80" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="7" Background="{StaticResource PrimaryBrush}" Opacity="0.5"
+                      CornerRadius="4,4,0,0" Height="60" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="8" Background="{StaticResource PrimaryBrush}" Opacity="0.75"
+                      CornerRadius="4,4,0,0" Height="110" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="9" Background="{StaticResource PrimaryBrush}" Opacity="0.95"
+                      CornerRadius="4,4,0,0" Height="165" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="10" Background="{StaticResource PrimaryBrush}" Opacity="0.8"
+                      CornerRadius="4,4,0,0" Height="120" VerticalAlignment="Bottom" Margin="3,0"/>
+              <Border Grid.Column="11" Background="{StaticResource PrimaryBrush}" Opacity="0.4"
+                      CornerRadius="4,4,0,0" Height="35" VerticalAlignment="Bottom" Margin="3,0"/>
+            </Grid>
+            <!-- Hour labels -->
+            <Grid ColumnDefinitions="*,*,*,*,*,*,*,*,*,*,*,*" Margin="0,4,0,0">
+              <TextBlock Grid.Column="0" Text="8" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="1" Text="9" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="2" Text="10" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="3" Text="11" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="4" Text="12" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="5" Text="1" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="6" Text="2" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="7" Text="3" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="8" Text="4" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="9" Text="5" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="10" Text="6" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="11" Text="7" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+            </Grid>
+          </StackPanel>
+        </Border>
+
+        <!-- Right: Top Selling Products -->
+        <Border Grid.Column="1" Margin="8,0,0,0" Background="{StaticResource SurfaceBrush}"
+                CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                BoxShadow="0 2 12 0 #0F000000">
+          <StackPanel Spacing="{DynamicResource Spacing16}">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Top Selling Products"
+                         FontSize="{DynamicResource SubtitleFontSize}"
+                         FontWeight="{StaticResource SubtitleFontWeight}"
+                         Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="This week's best performers"
+                         FontSize="{DynamicResource CaptionFontSize}"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+
+            <Border Height="1" Background="{StaticResource BorderBrush}"/>
+
+            <ItemsControl ItemsSource="{Binding TopProducts}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Border Padding="8,10" Margin="0,2"
+                          CornerRadius="{DynamicResource CornerRadius8}">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                      <Border Grid.Column="0" Width="32" Height="32" CornerRadius="8"
+                              Background="{StaticResource SurfaceMutedBrush}" Margin="0,0,12,0">
+                        <PathIcon Data="{StaticResource IconCoffee}" Width="16" Height="16"
+                                  Foreground="{StaticResource PrimaryBrush}"/>
+                      </Border>
+                      <TextBlock Grid.Column="1" Text="{Binding Key}" VerticalAlignment="Center"
+                                 FontSize="{DynamicResource BodyFontSize}"
+                                 Foreground="{StaticResource OnSurfaceBrush}"
+                                 TextTrimming="CharacterEllipsis"/>
+                      <TextBlock Grid.Column="2" Text="{Binding Value, StringFormat='{}{0:N0}'}"
+                                 VerticalAlignment="Center"
+                                 FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
+                                 Foreground="{StaticResource PrimaryBrush}"/>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!-- Empty state for top products -->
+            <StackPanel IsVisible="{Binding !HasTopProducts}" HorizontalAlignment="Center" Spacing="8" Margin="0,16">
+              <PathIcon Data="{StaticResource IconCoffee}" Width="32" Height="32"
+                        Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.3"
+                        HorizontalAlignment="Center"/>
+              <TextBlock Text="No product data yet"
+                         FontSize="{DynamicResource CaptionFontSize}"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </Grid>
+
+      <!-- Payment Methods Breakdown -->
+      <Border Background="{StaticResource SurfaceBrush}"
+              CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              BoxShadow="0 2 12 0 #0F000000"
+              IsVisible="{Binding NotLoading}">
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+          <StackPanel Spacing="2">
+            <TextBlock Text="Payment Methods"
+                       FontSize="{DynamicResource SubtitleFontSize}"
+                       FontWeight="{StaticResource SubtitleFontWeight}"
+                       Foreground="{StaticResource OnSurfaceBrush}"/>
+            <TextBlock Text="Breakdown of payment types used today"
+                       FontSize="{DynamicResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          </StackPanel>
+
+          <Border Height="1" Background="{StaticResource BorderBrush}"/>
+
+          <Grid ColumnDefinitions="*,*,*" Margin="0,8">
+            <!-- Cash -->
+            <Border Grid.Column="0" Margin="0,0,8,0" Background="{StaticResource SurfaceMutedBrush}"
+                    CornerRadius="{DynamicResource CornerRadius8}" Padding="16,14">
+              <StackPanel Spacing="4">
+                <TextBlock Text="Cash" FontSize="{DynamicResource CaptionFontSize}"
+                           FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="65%" FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
+                           Foreground="{StaticResource SuccessBrush}"/>
+                <Border Height="6" CornerRadius="3" Background="{StaticResource BorderBrush}" Margin="0,4,0,0">
+                  <Border Background="{StaticResource SuccessBrush}" CornerRadius="3"
+                          HorizontalAlignment="Left" Width="130"/>
+                </Border>
+              </StackPanel>
+            </Border>
+            <!-- Card -->
+            <Border Grid.Column="1" Margin="4,0" Background="{StaticResource SurfaceMutedBrush}"
+                    CornerRadius="{DynamicResource CornerRadius8}" Padding="16,14">
+              <StackPanel Spacing="4">
+                <TextBlock Text="Card" FontSize="{DynamicResource CaptionFontSize}"
+                           FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="25%" FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
+                           Foreground="{StaticResource PrimaryBrush}"/>
+                <Border Height="6" CornerRadius="3" Background="{StaticResource BorderBrush}" Margin="0,4,0,0">
+                  <Border Background="{StaticResource PrimaryBrush}" CornerRadius="3"
+                          HorizontalAlignment="Left" Width="50"/>
+                </Border>
+              </StackPanel>
+            </Border>
+            <!-- Transfer -->
+            <Border Grid.Column="2" Margin="8,0,0,0" Background="{StaticResource SurfaceMutedBrush}"
+                    CornerRadius="{DynamicResource CornerRadius8}" Padding="16,14">
+              <StackPanel Spacing="4">
+                <TextBlock Text="Transfer" FontSize="{DynamicResource CaptionFontSize}"
+                           FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="10%" FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
+                           Foreground="{StaticResource SecondaryBrush}"/>
+                <Border Height="6" CornerRadius="3" Background="{StaticResource BorderBrush}" Margin="0,4,0,0">
+                  <Border Background="{StaticResource SecondaryBrush}" CornerRadius="3"
+                          HorizontalAlignment="Left" Width="20"/>
+                </Border>
+              </StackPanel>
+            </Border>
+          </Grid>
+        </StackPanel>
+      </Border>
+
+    </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

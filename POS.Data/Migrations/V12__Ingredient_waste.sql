@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS ingredient_waste (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_name TEXT NOT NULL,
+    quantity REAL NOT NULL,
+    unit TEXT NOT NULL DEFAULT '',
+    reason TEXT NOT NULL DEFAULT '',
+    logged_by TEXT NOT NULL DEFAULT '',
+    logged_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT
+);

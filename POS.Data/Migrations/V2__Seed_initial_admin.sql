@@ -1,0 +1,1 @@
+-- Login removed: no default employee seed for HienXanh POS.

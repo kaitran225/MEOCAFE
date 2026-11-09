@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- Dark theme variant -->
+  <SolidColorBrush x:Key="PrimaryBrush" Color="#60A5FA"/>
+  <SolidColorBrush x:Key="SecondaryBrush" Color="#A78BFA"/>
+  <SolidColorBrush x:Key="BackgroundBrush" Color="#1A1A1A"/>
+  <SolidColorBrush x:Key="SurfaceBrush" Color="#2D2D2D"/>
+  <SolidColorBrush x:Key="ErrorBrush" Color="#F87171"/>
+  <SolidColorBrush x:Key="SuccessBrush" Color="#4ADE80"/>
+  <SolidColorBrush x:Key="OnPrimaryBrush" Color="#000000"/>
+  <SolidColorBrush x:Key="OnSurfaceBrush" Color="#F3F3F3"/>
+</ResourceDictionary>

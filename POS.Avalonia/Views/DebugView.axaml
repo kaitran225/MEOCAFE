@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels" xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.DebugView" x:DataType="vm:DebugViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <ScrollViewer>
+    <StackPanel Margin="24" Spacing="24" MaxWidth="500">
+      <controls:PageTitle Title="{Binding Title}"/>
+      <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+              Padding="20" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Current window size" FontWeight="SemiBold" FontSize="{DynamicResource SubtitleFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBlock Text="{Binding DebugInfo.DimensionText}" FontSize="{DynamicResource TitleFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <StackPanel Orientation="Horizontal" Spacing="16">
+            <StackPanel Spacing="4">
+              <TextBlock Text="Width" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="{Binding DebugInfo.Width}" FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </StackPanel>
+            <StackPanel Spacing="4">
+              <TextBlock Text="Height" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="{Binding DebugInfo.Height}" FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </StackPanel>
+            <StackPanel Spacing="4">
+              <TextBlock Text="Full screen" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="{Binding DebugInfo.IsFullScreen}" FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

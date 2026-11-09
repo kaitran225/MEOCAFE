@@ -1,0 +1,432 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:avaloniaModels="using:POS.Avalonia.Models"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:conv="using:Avalonia.Data.Converters"
+             xmlns:appconv="using:POS.Avalonia.Converters"
+             x:Class="POS.Avalonia.Views.RecipeBookView"
+             x:Name="Root"
+             x:DataType="vm:RecipeBookViewModel"
+             Background="{StaticResource BackgroundBrush}">
+
+  <UserControl.Resources>
+    <appconv:BoolToBrushConverter x:Key="IngredientHighlightConverter"
+                                  WhenTrue="{StaticResource PrimaryLightBrush}"
+                                  WhenFalse="Transparent"/>
+  </UserControl.Resources>
+
+  <Grid RowDefinitions="Auto,*">
+    <ProgressBar Grid.Row="0" IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
+
+    <!-- Two-column: 420px left, * right -->
+    <Grid Grid.Row="1" ColumnDefinitions="420,*" IsVisible="{Binding !IsLoading}" Margin="24,16,24,24">
+
+      <!-- LEFT: 420px recipe list with category filter + search + image thumbnails -->
+      <Border Grid.Column="0"
+              Background="{StaticResource SurfaceBrush}"
+              BorderBrush="{StaticResource BorderBrush}"
+              BorderThickness="1"
+              CornerRadius="{DynamicResource CornerRadius12}"
+              Padding="0">
+        <Grid RowDefinitions="Auto,Auto,Auto,*">
+          <Border Grid.Row="0" Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+              <TextBlock Text="Recipes" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+              <Button Grid.Column="1" Command="{Binding NewRecipeCommand}" Padding="8,6" Margin="0,0,8,0"
+                      Classes="primary" CornerRadius="{DynamicResource CornerRadius8}"
+                      ToolTip.Tip="Add a new recipe">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <PathIcon Data="{StaticResource IconPlus}" Width="14" Height="14"/>
+                  <TextBlock Text="New" VerticalAlignment="Center" FontSize="12"/>
+                </StackPanel>
+              </Button>
+              <Button Grid.Column="2" Command="{Binding LoadCommand}" Padding="8,6"
+                      Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                      BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <PathIcon Data="{StaticResource IconRefresh}" Width="14" Height="14"/>
+                  <TextBlock Text="Refresh" VerticalAlignment="Center" FontSize="12"/>
+                </StackPanel>
+              </Button>
+            </Grid>
+          </Border>
+          <!-- Category filter -->
+          <Border Grid.Row="1" Padding="16,8,16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <StackPanel Spacing="8">
+              <TextBlock Text="Category" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                        PlaceholderText="All" Background="{StaticResource SurfaceMutedBrush}"
+                        Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+            </StackPanel>
+          </Border>
+          <!-- Search -->
+          <Border Grid.Row="2" Padding="16,8,16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <TextBox Text="{Binding SearchText}" Watermark="Search recipes..."
+                     Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                     BorderBrush="{StaticResource BorderBrush}"/>
+          </Border>
+          <!-- Recipe list with thumbnails -->
+          <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="8,8">
+            <ItemsControl ItemsSource="{Binding FilteredRecipes}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="avaloniaModels:RecipeListItem">
+                  <Button Padding="0" Margin="0,0,0,4" Background="Transparent" BorderThickness="0"
+                          HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                          Command="{Binding #Root.DataContext.OpenRecipeCommand}"
+                          CommandParameter="{Binding}" Cursor="Hand">
+                    <Border Padding="12,10" CornerRadius="{DynamicResource CornerRadius8}"
+                            Background="Transparent"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="0">
+                      <Border.Styles>
+                        <Style Selector="Border:pointerover">
+                          <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+                        </Style>
+                      </Border.Styles>
+                      <Grid ColumnDefinitions="Auto,*">
+                        <!-- Image thumbnail 56x56 -->
+                        <Border Width="56" Height="56" CornerRadius="{DynamicResource CornerRadius8}"
+                                Background="{StaticResource SurfaceMutedBrush}"
+                                Margin="0,0,12,0"
+                                ClipToBounds="True">
+                          <PathIcon Data="{StaticResource IconCoffee}" Width="24" Height="24"
+                                    Foreground="{StaticResource PrimaryBrush}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                          <TextBlock Text="{Binding MenuItemName}"
+                                     FontSize="14" FontWeight="SemiBold"
+                                     Foreground="{StaticResource OnSurfaceBrush}"
+                                     TextTrimming="CharacterEllipsis"/>
+                          <TextBlock FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}">
+                            <TextBlock.Text>
+                              <MultiBinding StringFormat="{}{0} ingredients · {1} steps">
+                                <Binding Path="Recipe.Ingredients.Count"/>
+                                <Binding Path="Recipe.Steps.Count"/>
+                              </MultiBinding>
+                            </TextBlock.Text>
+                          </TextBlock>
+                        </StackPanel>
+                        <PathIcon Grid.Column="1" Data="{StaticResource IconChevronRight}"
+                                 Width="12" Height="12" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                                 VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                      </Grid>
+                    </Border>
+                  </Button>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </Grid>
+      </Border>
+
+      <!-- RIGHT: Detail - side-by-side ingredients | steps, steps as timeline -->
+      <Panel Grid.Column="1" Margin="24,0,0,0">
+        <!-- Empty state -->
+        <controls:Card IsVisible="{Binding SelectedRecipeItem, Converter={x:Static conv:ObjectConverters.IsNull}}"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
+            <PathIcon Data="{StaticResource IconRecipe}" Width="48" Height="48"
+                      Foreground="{StaticResource OnSurfaceMutedBrush}"
+                      HorizontalAlignment="Center" Opacity="0.4"/>
+            <TextBlock Text="Select a recipe to view details"
+                       FontSize="14" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                       HorizontalAlignment="Center"/>
+          </StackPanel>
+        </controls:Card>
+
+        <!-- Detail: header + side-by-side ingredients | steps (timeline) -->
+        <controls:Card IsVisible="{Binding SelectedRecipeItem, Converter={x:Static conv:ObjectConverters.IsNotNull}}">
+          <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="0" x:DataType="avaloniaModels:RecipeListItem" DataContext="{Binding SelectedRecipeItem}">
+
+              <!-- Recipe header with larger icon -->
+              <Border Padding="24,24,24,20" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                  <Border Grid.Column="0" Width="64" Height="64" CornerRadius="32"
+                          Background="{StaticResource SurfaceMutedBrush}" Margin="0,0,20,0">
+                    <PathIcon Data="{StaticResource IconCoffee}" Width="28" Height="28"
+                              Foreground="{StaticResource PrimaryBrush}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                  </Border>
+                  <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="8">
+                    <TextBlock Text="{Binding MenuItemName}"
+                               FontSize="22" FontWeight="Bold"
+                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                      <Border Background="{StaticResource SurfaceMutedBrush}"
+                              CornerRadius="100" Padding="10,4">
+                        <TextBlock Text="{Binding Recipe.Ingredients.Count, StringFormat='{}{0} ingredients'}"
+                                   FontSize="12" Foreground="{StaticResource PrimaryBrush}" FontWeight="SemiBold"/>
+                      </Border>
+                      <Border Background="{StaticResource SecondaryLightBrush}"
+                              CornerRadius="100" Padding="10,4">
+                        <TextBlock Text="{Binding Recipe.Steps.Count, StringFormat='{}{0} steps'}"
+                                   FontSize="12" Foreground="{StaticResource SecondaryBrush}" FontWeight="SemiBold"/>
+                      </Border>
+                    </StackPanel>
+                  </StackPanel>
+                  <StackPanel Grid.Column="2" Spacing="6" VerticalAlignment="Top">
+                    <Button Padding="10,6" Classes="secondary"
+                            Command="{Binding #Root.DataContext.EditRecipeCommand}" CommandParameter="{Binding}">
+                      <TextBlock Text="Sửa" FontSize="12"/>
+                    </Button>
+                    <Button Padding="10,6" Classes="danger"
+                            Command="{Binding #Root.DataContext.DeleteRecipeCommand}" CommandParameter="{Binding}">
+                      <TextBlock Text="Xóa" FontSize="12"/>
+                    </Button>
+                  </StackPanel>
+                </Grid>
+              </Border>
+
+              <!-- Variant note -->
+              <Border Padding="24,16,24,0"
+                      IsVisible="{Binding Recipe.VariantNote, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
+                <Border Background="{StaticResource SurfaceMutedBrush}"
+                        CornerRadius="{DynamicResource CornerRadius8}" Padding="14,10">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <PathIcon Data="{StaticResource IconInfo}" Width="14" Height="14"
+                              Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Recipe.VariantNote}"
+                               FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               TextWrapping="Wrap" VerticalAlignment="Center"/>
+                  </StackPanel>
+                </Border>
+              </Border>
+
+              <!-- Side-by-side: Ingredients | Steps (timeline) -->
+              <Grid Margin="24,20,24,24" ColumnDefinitions="*,*">
+                <!-- Ingredients column -->
+                <StackPanel Grid.Column="0" Spacing="12">
+                  <StackPanel Orientation="Horizontal" Spacing="8">
+                    <PathIcon Data="{StaticResource IconInventory}" Width="16" Height="16"
+                              Foreground="{StaticResource PrimaryBrush}"/>
+                    <TextBlock Text="Ingredients" FontSize="14" FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </StackPanel>
+                  <ItemsControl ItemsSource="{Binding #Root.DataContext.SelectedIngredients}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="avaloniaModels:IngredientItem">
+                        <Border Padding="8,6" CornerRadius="{DynamicResource CornerRadius8}"
+                                Background="{Binding IsHighlighted, Converter={StaticResource IngredientHighlightConverter}}">
+                          <Grid ColumnDefinitions="Auto,*">
+                            <Ellipse Grid.Column="0" Width="6" Height="6" Fill="{StaticResource PrimaryBrush}"
+                                     VerticalAlignment="Center" Margin="4,0,12,0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Text}"
+                                       FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"
+                                       TextWrapping="Wrap" VerticalAlignment="Center"/>
+                          </Grid>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+
+                <!-- Steps column - timeline (vertical line + numbered steps) -->
+                <StackPanel Grid.Column="1" Spacing="0" Margin="32,0,0,0">
+                  <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,12">
+                    <PathIcon Data="{StaticResource IconRecipe}" Width="16" Height="16"
+                              Foreground="{StaticResource SecondaryBrush}"/>
+                    <TextBlock Text="Steps" FontSize="14" FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </StackPanel>
+                  <ItemsControl ItemsSource="{Binding StepsWithNumber}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="avaloniaModels:StepEntry">
+                        <Border Padding="0,8">
+                          <Grid ColumnDefinitions="Auto,*">
+                            <!-- Timeline: number circle + vertical line -->
+                            <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Margin="0,8,0,0">
+                              <Border Width="28" Height="28" CornerRadius="14"
+                                      Background="{StaticResource SecondaryLightBrush}"
+                                      Margin="0,0,16,0">
+                                <TextBlock Text="{Binding Number}"
+                                           FontSize="11" FontWeight="SemiBold"
+                                           Foreground="{StaticResource SecondaryBrush}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                              </Border>
+                              <Border Width="2" MinHeight="8" HorizontalAlignment="Center" Margin="13,4,13,0"
+                                      Background="{StaticResource BorderBrush}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,6,0,0" Spacing="4">
+                              <controls:RichTextBlock Html="{Binding Text}"
+                                                      TextWrapping="Wrap" FontSize="13"
+                                                      Foreground="{StaticResource OnSurfaceBrush}"
+                                                      MentionClickedCommand="{Binding #Root.DataContext.HighlightIngredientCommand}"/>
+                              <Border Background="{StaticResource DangerLightBrush}"
+                                      CornerRadius="{DynamicResource CornerRadius8}" Padding="10,6"
+                                      IsVisible="{Binding Warning, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                  <PathIcon Data="{StaticResource IconWarning}" Width="13" Height="13"
+                                            Foreground="{StaticResource DangerBrush}" VerticalAlignment="Top" Margin="0,1,0,0"/>
+                                  <TextBlock Text="{Binding Warning}" FontSize="12"
+                                             Foreground="{StaticResource DangerBrush}"
+                                             TextWrapping="Wrap"/>
+                                </StackPanel>
+                              </Border>
+                            </StackPanel>
+                          </Grid>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+              </Grid>
+            </StackPanel>
+          </ScrollViewer>
+        </controls:Card>
+      </Panel>
+    </Grid>
+
+    <!-- Recipe editor modal -->
+    <Border IsVisible="{Binding Editor.IsOpen}" Background="#80000000">
+      <Border MaxWidth="920" MaxHeight="760" Margin="24"
+              Background="{StaticResource SurfaceBrush}"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              CornerRadius="{DynamicResource CornerRadius12}" Padding="0"
+              HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid RowDefinitions="Auto,*,Auto" DataContext="{Binding Editor}">
+          <Border Grid.Row="0" Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold"
+                         Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+              <Button Grid.Column="1" Command="{Binding CloseCommand}" Padding="8,6"
+                      Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                      BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Close">
+                <PathIcon Data="{StaticResource IconClose}" Width="14" Height="14"/>
+              </Button>
+            </Grid>
+          </Border>
+
+          <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Spacing="16" Margin="20,16">
+              <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                <StackPanel Spacing="6">
+                  <TextBlock Text="Menu item" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <ComboBox ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedMenuItem}"
+                            PlaceholderText="Choose drink…" MinWidth="220"
+                            Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                            BorderBrush="{StaticResource BorderBrush}">
+                    <ComboBox.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                      </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                  </ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Spacing="6">
+                  <TextBlock Text="Variant note (optional)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBox Text="{Binding VariantNote}" Watermark="e.g. size M, less ice"
+                           Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                           BorderBrush="{StaticResource BorderBrush}"/>
+                </StackPanel>
+              </Grid>
+
+              <StackPanel Spacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                  <TextBlock Text="Ingredients" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                  <Button Grid.Column="1" Command="{Binding AddIngredientCommand}" Padding="8,4"
+                          Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <PathIcon Data="{StaticResource IconPlus}" Width="12" Height="12"/>
+                      <TextBlock Text="Add" FontSize="12" VerticalAlignment="Center"/>
+                    </StackPanel>
+                  </Button>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding Ingredients}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid ColumnDefinitions="*,Auto,Auto,Auto" Margin="0,0,0,6" ColumnSpacing="6">
+                        <TextBox Text="{Binding Text, Mode=TwoWay}" Watermark="Ingredient (e.g. 30ml espresso)"
+                                 Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                                 BorderBrush="{StaticResource BorderBrush}"/>
+                        <Button Grid.Column="1" Command="{Binding #Root.DataContext.Editor.MoveIngredientUpCommand}" CommandParameter="{Binding}"
+                                Padding="6,4" Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move up">↑</Button>
+                        <Button Grid.Column="2" Command="{Binding #Root.DataContext.Editor.MoveIngredientDownCommand}" CommandParameter="{Binding}"
+                                Padding="6,4" Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move down">↓</Button>
+                        <Button Grid.Column="3" Command="{Binding #Root.DataContext.Editor.RemoveIngredientCommand}" CommandParameter="{Binding}"
+                                Padding="6,4" Background="{StaticResource DangerLightBrush}" Foreground="{StaticResource DangerBrush}"
+                                BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Remove">
+                          <PathIcon Data="{StaticResource IconDelete}" Width="12" Height="12"/>
+                        </Button>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+
+              <StackPanel Spacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                  <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <TextBlock Text="Steps (rich text)" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    <TextBlock Text="— link ingredients with [[name]]" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
+                  </StackPanel>
+                  <Button Grid.Column="1" Command="{Binding AddStepCommand}" Padding="8,4"
+                          Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                      <PathIcon Data="{StaticResource IconPlus}" Width="12" Height="12"/>
+                      <TextBlock Text="Add step" FontSize="12" VerticalAlignment="Center"/>
+                    </StackPanel>
+                  </Button>
+                </Grid>
+                <ItemsControl ItemsSource="{Binding Steps}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Border Margin="0,0,0,10" Padding="12" CornerRadius="{DynamicResource CornerRadius8}"
+                              Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                        <StackPanel Spacing="8">
+                          <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="6">
+                            <Border Width="24" Height="24" CornerRadius="12" Background="{StaticResource SecondaryLightBrush}" VerticalAlignment="Center">
+                              <PathIcon Data="{StaticResource IconRecipe}" Width="12" Height="12" Foreground="{StaticResource SecondaryBrush}"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Grid.Column="1" Text="Step" FontSize="12" FontWeight="SemiBold"
+                                       Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="2" Command="{Binding #Root.DataContext.Editor.MoveStepUpCommand}" CommandParameter="{Binding}"
+                                    Padding="6,4" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                    CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move up">↑</Button>
+                            <Button Grid.Column="3" Command="{Binding #Root.DataContext.Editor.MoveStepDownCommand}" CommandParameter="{Binding}"
+                                    Padding="6,4" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                    CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move down">↓</Button>
+                            <Button Grid.Column="4" Command="{Binding #Root.DataContext.Editor.RemoveStepCommand}" CommandParameter="{Binding}"
+                                    Padding="6,4" Background="{StaticResource DangerLightBrush}" Foreground="{StaticResource DangerBrush}"
+                                    BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Remove">
+                              <PathIcon Data="{StaticResource IconDelete}" Width="12" Height="12"/>
+                            </Button>
+                          </Grid>
+                          <controls:RichTextEditor Html="{Binding Html, Mode=TwoWay}"
+                                                   Mentions="{Binding #Root.DataContext.Editor.IngredientNames}"/>
+                        </StackPanel>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+
+              <Border IsVisible="{Binding Error, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
+                      Background="{StaticResource DangerLightBrush}" CornerRadius="{DynamicResource CornerRadius8}" Padding="12,8">
+                <TextBlock Text="{Binding Error}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap" FontSize="12"/>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
+
+          <Border Grid.Row="2" Padding="20,14" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+              <Button Content="Cancel" Command="{Binding CloseCommand}" Padding="14,8"
+                      Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}"/>
+              <Button Content="Save recipe" Command="{Binding SaveCommand}" Padding="14,8"
+                      Classes="primary" CornerRadius="{DynamicResource CornerRadius8}"/>
+            </StackPanel>
+          </Border>
+        </Grid>
+      </Border>
+    </Border>
+  </Grid>
+</UserControl>

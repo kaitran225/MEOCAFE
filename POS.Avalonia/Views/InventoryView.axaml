@@ -1,0 +1,387 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:conv="using:POS.Avalonia.Converters"
+             x:Class="POS.Avalonia.Views.InventoryView" x:Name="Root" x:DataType="vm:InventoryViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <UserControl.Resources>
+    <conv:IdInListConverter x:Key="IdInListConverter"/>
+    <conv:StockBarMaximumConverter x:Key="StockBarMaximumConverter"/>
+  </UserControl.Resources>
+  <Panel>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*">
+      <!-- Header -->
+      <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+              BorderThickness="0,0,0,1" Padding="24,20" Margin="0,0,0,16">
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Text="Inventory &amp; Stock" FontSize="24" FontWeight="Bold"
+                     Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+          <Button Grid.Column="1" Command="{Binding LoadCommand}" Padding="12,8"
+                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                  BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"/>
+              <TextBlock Text="Refresh" VerticalAlignment="Center" FontSize="13"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+      </Border>
+
+      <ProgressBar Grid.Row="1" IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4" Margin="0,0,0,8"/>
+
+      <!-- KPI row -->
+      <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="24" Margin="24,0,24,16">
+        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" MinWidth="140">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryBrush}" Opacity="0.2">
+              <PathIcon Data="{StaticResource IconInventory}" Width="20" Height="20"
+                        Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding Items.Count}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Total Items" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" MinWidth="140">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource KpiWarningBgBrush}">
+              <PathIcon Data="{StaticResource IconWarning}" Width="20" Height="20"
+                        Foreground="{StaticResource KpiIconWarningBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding LowStockItems.Count}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Low Stock" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" MinWidth="140">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource KpiErrorBgBrush}">
+              <PathIcon Data="{StaticResource IconInfo}" Width="20" Height="20"
+                        Foreground="{StaticResource KpiIconErrorBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Spacing="2">
+              <TextBlock Text="—" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Out of Stock" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <!-- Low Stock Alert -->
+      <Border Grid.Row="3" Background="{StaticResource ErrorBgBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+              Padding="16,12" Margin="24,0,24,8" IsVisible="{Binding LowStockItems.Count}">
+        <Grid ColumnDefinitions="Auto,*">
+          <PathIcon Data="{StaticResource IconWarning}" Width="18" Height="18"
+                    Foreground="{StaticResource ErrorBrush}" VerticalAlignment="Center" Margin="0,0,12,0"/>
+          <ItemsControl Grid.Column="1" ItemsSource="{Binding LowStockItems}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <WrapPanel Orientation="Horizontal"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="core:MenuItem">
+                <Border Background="{StaticResource BadgeAlertBrush}" CornerRadius="100"
+                        Padding="10,4" Margin="0,2,8,2" BorderBrush="{StaticResource ErrorBrush}" BorderThickness="1">
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold"
+                               Foreground="{StaticResource ErrorBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Quantity, StringFormat='({0} left)'}"
+                               FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               VerticalAlignment="Center"/>
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </Border>
+
+      <!-- Search + category filter -->
+      <Grid Grid.Row="4" ColumnDefinitions="240,*,Auto" Margin="24,0,24,12" IsVisible="{Binding !IsLoading}">
+        <controls:SearchBox Grid.Column="0" Text="{Binding SearchText}" Watermark="Search items..."/>
+        <ComboBox Grid.Column="1" ItemsSource="{Binding Categories}" Margin="16,0,0,0"
+                  SelectedItem="{Binding SelectedCategory}" MinWidth="160" HorizontalAlignment="Left"
+                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                  BorderBrush="{StaticResource BorderBrush}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate DataType="core:Category">
+              <TextBlock Text="{Binding Name}"/>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Grid.Column="2" Command="{Binding SelectAllCategoriesCommand}" Padding="10,8"
+                Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+          <TextBlock Text="All categories" FontSize="12"/>
+        </Button>
+      </Grid>
+
+      <!-- Table card -->
+      <controls:Card Grid.Row="5" Padding="24" Margin="24,0,24,0"
+              IsVisible="{Binding !IsLoading}">
+        <Grid RowDefinitions="Auto,Auto,*">
+          <TextBlock Grid.Row="0" Text="All Inventory Items" FontSize="16" FontWeight="SemiBold"
+                     Foreground="{StaticResource OnSurfaceBrush}" Margin="0,0,0,12"/>
+
+          <!-- Table header: checkbox, name, category, in stock, reorder, unit, stock bar, status, actions -->
+          <Border Grid.Row="1" Padding="0,0,0,10" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,2*,*,Auto,Auto,Auto,100,100,Auto">
+              <CheckBox Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center"
+                       Command="{Binding ToggleSelectAllCommand}"/>
+              <TextBlock Grid.Column="1" Text="Item Name" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Grid.Column="2" Text="Category" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Grid.Column="3" Text="In Stock" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="4" Text="Reorder" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="5" Text="Unit" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="6" Text="Stock" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="7" Text="Status" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="8" Text="Actions" FontSize="11" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+            </Grid>
+          </Border>
+
+          <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,8,0,0">
+            <ItemsControl ItemsSource="{Binding PagedItems}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="core:MenuItem">
+                  <Border Padding="12,10" Margin="0,1" CornerRadius="{DynamicResource CornerRadius8}"
+                          Background="Transparent">
+                    <Border.Styles>
+                      <Style Selector="Border:pointerover">
+                        <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+                      </Style>
+                    </Border.Styles>
+                    <Grid ColumnDefinitions="Auto,2*,*,Auto,Auto,Auto,100,100,Auto">
+                      <CheckBox Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center"
+                                Command="{Binding #Root.DataContext.ToggleSelectItemCommand}"
+                                CommandParameter="{Binding}">
+                        <CheckBox.IsChecked>
+                          <MultiBinding Converter="{StaticResource IdInListConverter}">
+                            <Binding Path="Id"/>
+                            <Binding ElementName="Root" Path="DataContext.SelectedIds"/>
+                          </MultiBinding>
+                        </CheckBox.IsChecked>
+                      </CheckBox>
+                      <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold"
+                                   Foreground="{StaticResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding SellPrice, StringFormat='{}{0:N0} ₫'}"
+                                   FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                      </StackPanel>
+                      <TextBlock Grid.Column="2" Text="{Binding Category.Name, FallbackValue='—'}"
+                                 FontSize="13" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                      <TextBlock Grid.Column="3" Text="{Binding Quantity}" FontSize="13" FontWeight="SemiBold"
+                                 Foreground="{StaticResource OnSurfaceBrush}"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      <TextBlock Grid.Column="4" Text="{Binding ReorderLevel}"
+                                 FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      <TextBlock Grid.Column="5" Text="units" FontSize="12"
+                                 Foreground="{StaticResource OnSurfaceMutedBrush}"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      <Border Grid.Column="6" Height="8" CornerRadius="4" VerticalAlignment="Center"
+                              Background="{StaticResource SurfaceMutedBrush}" MinWidth="60">
+                        <Border.Child>
+                          <ProgressBar Minimum="0" VerticalAlignment="Stretch" HorizontalAlignment="Left"
+                                       Foreground="{StaticResource PrimaryBrush}"
+                                       Background="Transparent" BorderThickness="0"
+                                       ClipToBounds="True">
+                            <ProgressBar.Value>
+                              <Binding Path="Quantity"/>
+                            </ProgressBar.Value>
+                            <ProgressBar.Maximum>
+                              <MultiBinding Converter="{StaticResource StockBarMaximumConverter}">
+                                <Binding Path="Quantity"/>
+                                <Binding Path="ReorderLevel"/>
+                              </MultiBinding>
+                            </ProgressBar.Maximum>
+                          </ProgressBar>
+                        </Border.Child>
+                      </Border>
+                      <Panel Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <controls:StatusBadge Text="In Stock" BadgeBrush="{StaticResource SuccessBrush}">
+                          <controls:StatusBadge.IsVisible>
+                            <Binding Path="Quantity" Converter="{x:Static ObjectConverters.IsNotNull}"/>
+                          </controls:StatusBadge.IsVisible>
+                        </controls:StatusBadge>
+                        <controls:StatusBadge Text="Low Stock" BadgeBrush="{StaticResource StockLowBrush}">
+                          <controls:StatusBadge.IsVisible>
+                            <Binding Path="Quantity" Converter="{x:Static ObjectConverters.IsNotNull}"/>
+                          </controls:StatusBadge.IsVisible>
+                        </controls:StatusBadge>
+                      </Panel>
+                      <StackPanel Grid.Column="8" Orientation="Horizontal" Spacing="4"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Command="{Binding #Root.DataContext.OpenAdjustCommand}"
+                                CommandParameter="{Binding}" Padding="8,6" CornerRadius="{DynamicResource CornerRadius8}"
+                                Background="Transparent" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}"
+                                ToolTip.Tip="Adjust quantity">
+                          <PathIcon Data="{StaticResource IconEdit}" Width="14" Height="14"
+                                    Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                        </Button>
+                        <Button Command="{Binding #Root.DataContext.OpenStockInCommand}"
+                                CommandParameter="{Binding}" Padding="8,6" CornerRadius="{DynamicResource CornerRadius8}"
+                                Background="{StaticResource SurfaceMutedBrush}" BorderThickness="0"
+                                ToolTip.Tip="Add stock">
+                          <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14"
+                                    Foreground="{StaticResource PrimaryBrush}"/>
+                        </Button>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </Grid>
+      </controls:Card>
+
+      <!-- Pagination -->
+      <Border Grid.Row="6" Padding="24,12" Margin="24,0"
+              IsVisible="{Binding !IsLoading}">
+        <StackPanel Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+          <TextBlock VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}">
+            <Run Text="Showing "/>
+            <Run Text="{Binding TotalFiltered}"/>
+            <Run Text=" items"/>
+          </TextBlock>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Command="{Binding PrevPageCommand}" Content="Previous" Padding="12,6"
+                    IsEnabled="{Binding HasPrevPage}"
+                    Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    CornerRadius="{DynamicResource CornerRadius8}"/>
+            <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+              <TextBlock Text="{Binding CurrentPage}" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text=" of " FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="{Binding TotalPages}" FontSize="13"
+                         Foreground="{StaticResource OnSurfaceBrush}"/>
+            </StackPanel>
+            <Button Command="{Binding NextPageCommand}" Content="Next" Padding="12,6"
+                    IsEnabled="{Binding HasNextPage}"
+                    Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    CornerRadius="{DynamicResource CornerRadius8}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <!-- Empty state -->
+      <Border Grid.Row="5" Padding="32,24" Margin="24,0"
+              Background="{StaticResource BackgroundBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+              HorizontalAlignment="Stretch" VerticalAlignment="Top"
+              IsVisible="{Binding NoItems}">
+        <StackPanel HorizontalAlignment="Center" Spacing="8">
+          <PathIcon Data="{StaticResource IconInventory}" Width="32" Height="32"
+                    Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.5"/>
+          <TextBlock Text="No inventory items found" FontSize="14"
+                     Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+        </StackPanel>
+      </Border>
+    </Grid>
+
+    <!-- Modals -->
+    <controls:ModalOverlay IsOpen="{Binding IsAdjustOpen}" Title="Adjust Quantity">
+      <StackPanel Spacing="16" MinWidth="340">
+        <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+                Padding="16,12">
+          <StackPanel Spacing="4">
+            <TextBlock Text="Selected Item" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Text="{Binding SelectedItem.Name}" FontSize="14" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceBrush}"/>
+            <TextBlock FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}">
+              <Run Text="Current stock: "/><Run Text="{Binding SelectedItem.Quantity}"/>
+            </TextBlock>
+          </StackPanel>
+        </Border>
+        <StackPanel Spacing="4">
+          <TextBlock Text="Adjustment (+/-)" FontSize="12" FontWeight="SemiBold"
+                     Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding AdjustQuantityText}" Watermark="e.g. +10 or -5"/>
+        </StackPanel>
+        <StackPanel Spacing="4">
+          <TextBlock Text="Reason" FontSize="12" FontWeight="SemiBold"
+                     Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding AdjustReason}" Watermark="Reason for adjustment"/>
+          <TextBlock Text="{Binding FormError}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap"/>
+        </StackPanel>
+        <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+            <Button Command="{Binding CloseAdjustCommand}" Padding="16,10"
+                    CornerRadius="{DynamicResource CornerRadius8}"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}">
+              <TextBlock Text="Cancel"/>
+            </Button>
+            <Button Command="{Binding ConfirmAdjustCommand}" Classes="primary" Padding="16,10"
+                    CornerRadius="{DynamicResource CornerRadius8}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconCheck}" Width="14" Height="14"
+                          Foreground="{StaticResource OnPrimaryBrush}"/>
+                <TextBlock Text="Apply"/>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </controls:ModalOverlay>
+
+    <controls:ModalOverlay IsOpen="{Binding IsStockInOpen}" Title="Receive Stock">
+      <StackPanel Spacing="16" MinWidth="340">
+        <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+                Padding="16,12">
+          <StackPanel Spacing="4">
+            <TextBlock Text="Selected Item" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Text="{Binding SelectedItem.Name}" FontSize="14" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceBrush}"/>
+            <TextBlock FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}">
+              <Run Text="Current stock: "/><Run Text="{Binding SelectedItem.Quantity}"/>
+            </TextBlock>
+          </StackPanel>
+        </Border>
+        <StackPanel Spacing="4">
+          <TextBlock Text="Quantity to receive" FontSize="12" FontWeight="SemiBold"
+                     Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding StockInQuantityText}" Watermark="Enter quantity"/>
+        </StackPanel>
+        <StackPanel Spacing="4">
+          <TextBlock Text="Reference" FontSize="12" FontWeight="SemiBold"
+                     Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding StockInReference}" Watermark="PO number / supplier ref"/>
+        </StackPanel>
+        <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+            <Button Command="{Binding CloseStockInCommand}" Padding="16,10"
+                    CornerRadius="{DynamicResource CornerRadius8}"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}">
+              <TextBlock Text="Cancel"/>
+            </Button>
+            <Button Command="{Binding ConfirmStockInCommand}" Classes="primary" Padding="16,10"
+                    CornerRadius="{DynamicResource CornerRadius8}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14"
+                          Foreground="{StaticResource OnPrimaryBrush}"/>
+                <TextBlock Text="Receive"/>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </Grid>
+      </StackPanel>
+    </controls:ModalOverlay>
+  </Panel>
+</UserControl>

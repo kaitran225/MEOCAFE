@@ -1,0 +1,16 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="POS.Avalonia.Controls.StatusBadge"
+             x:Name="Root">
+  <Border CornerRadius="100"
+          Padding="8,4"
+          ClipToBounds="True"
+          Background="{Binding #Root.BadgeBrush, StringFormat='{}{0}26'}">
+    <TextBlock Text="{Binding #Root.Text}"
+               FontSize="{DynamicResource CaptionFontSize}"
+               FontWeight="{StaticResource SubtitleFontWeight}"
+               Foreground="{Binding #Root.BadgeBrush}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+  </Border>
+</UserControl>

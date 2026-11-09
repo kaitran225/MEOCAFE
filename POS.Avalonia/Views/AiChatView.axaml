@@ -1,0 +1,105 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.AiChatView"
+             x:DataType="vm:AiChatViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*,Auto">
+
+    <!-- Header -->
+    <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1"
+            Padding="24,16">
+      <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing12}">
+        <Border Width="40" Height="40" CornerRadius="20"
+                Background="{StaticResource SurfaceMutedBrush}">
+          <PathIcon Data="{StaticResource IconChat}" Width="20" Height="20"
+                    Foreground="{StaticResource PrimaryBrush}"/>
+        </Border>
+        <StackPanel Spacing="2" VerticalAlignment="Center">
+          <TextBlock Text="Trợ lý HienXanh"
+                     FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
+                     Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBlock Text="Powered by café intelligence"
+                     FontSize="{DynamicResource CaptionFontSize}"
+                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <!-- Chat Messages -->
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                  Background="{StaticResource BackgroundBrush}"
+                  Padding="24,16">
+      <ItemsControl ItemsSource="{Binding Messages}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Panel Margin="0,4">
+              <!-- AI Message (left-aligned) -->
+              <Border IsVisible="{Binding IsAi}"
+                      HorizontalAlignment="Left" MaxWidth="520"
+                      Background="{StaticResource SurfaceMutedBrush}"
+                      CornerRadius="4,16,16,16" Padding="16,12"
+                      Margin="0,0,80,0">
+                <StackPanel Spacing="6">
+                  <TextBlock Text="{Binding Text}"
+                             FontSize="{DynamicResource BodyFontSize}"
+                             Foreground="{StaticResource OnSurfaceBrush}"
+                             TextWrapping="Wrap"/>
+                  <TextBlock Text="{Binding Timestamp, StringFormat='{}{0:HH:mm}'}"
+                             FontSize="11"
+                             Foreground="{StaticResource OnSurfaceMutedBrush}"
+                             HorizontalAlignment="Left"/>
+                </StackPanel>
+              </Border>
+
+              <!-- User Message (right-aligned) -->
+              <Border IsVisible="{Binding IsUser}"
+                      HorizontalAlignment="Right" MaxWidth="520"
+                      Background="{StaticResource PrimaryBrush}"
+                      CornerRadius="16,4,16,16" Padding="16,12"
+                      Margin="80,0,0,0">
+                <StackPanel Spacing="6">
+                  <TextBlock Text="{Binding Text}"
+                             FontSize="{DynamicResource BodyFontSize}"
+                             Foreground="{StaticResource OnPrimaryBrush}"
+                             TextWrapping="Wrap"/>
+                  <TextBlock Text="{Binding Timestamp, StringFormat='{}{0:HH:mm}'}"
+                             FontSize="11"
+                             Foreground="{StaticResource OnPrimaryBrush}" Opacity="0.7"
+                             HorizontalAlignment="Right"/>
+                </StackPanel>
+              </Border>
+            </Panel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+
+    <!-- Input Area -->
+    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}"
+            BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+            Padding="24,16">
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{DynamicResource Spacing8}">
+        <TextBox Grid.Column="0" Text="{Binding InputText}"
+                 Watermark="Type a message..."
+                 FontSize="{DynamicResource BodyFontSize}"
+                 CornerRadius="{DynamicResource CornerRadius12}"
+                 Padding="16,12"
+                 MinHeight="44"
+                 Background="{StaticResource SurfaceMutedBrush}"
+                 BorderBrush="{StaticResource BorderBrush}"
+                 Foreground="{StaticResource OnSurfaceBrush}"/>
+        <Button Grid.Column="1" Command="{Binding SendCommand}"
+                Classes="primary" CornerRadius="{DynamicResource CornerRadius12}"
+                Width="48" Height="48" Padding="0"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+          <PathIcon Data="{StaticResource IconChevronRight}" Width="20" Height="20"
+                    Foreground="{StaticResource OnPrimaryBrush}"/>
+        </Button>
+      </Grid>
+    </Border>
+
+  </Grid>
+</UserControl>

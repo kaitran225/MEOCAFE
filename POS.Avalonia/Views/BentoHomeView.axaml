@@ -1,0 +1,106 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:conv="using:POS.Avalonia.Converters"
+             x:Class="POS.Avalonia.Views.BentoHomeView"
+             x:Name="Root"
+             x:DataType="vm:BentoHomeViewModel"
+             Background="{StaticResource BackgroundBrush}"
+             SizeChanged="OnRootSizeChanged">
+  <UserControl.Resources>
+    <conv:IconKeyToGeometryConverter x:Key="IconKeyToGeometryConverter"/>
+
+    <DataTemplate x:Key="BentoTileTemplate" DataType="vm:BentoTile">
+      <Border CornerRadius="{DynamicResource CornerRadius12}"
+              BorderThickness="1"
+              Padding="18,16"
+              Background="{StaticResource SurfaceBrush}"
+              BorderBrush="{StaticResource BorderBrush}"
+              BoxShadow="0 2 12 0 #40000000"
+              controls:BentoGridPanel.ColumnSpan="{Binding GridColumnSpan}"
+              controls:BentoGridPanel.RowSpan="{Binding GridRowSpan}">
+        <Grid RowDefinitions="Auto,*,Auto" VerticalAlignment="Stretch">
+          <Border Width="44" Height="44" CornerRadius="10"
+                  Background="{StaticResource SurfaceMutedBrush}"
+                  HorizontalAlignment="Left">
+            <PathIcon Data="{Binding IconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
+                      Width="22" Height="22"
+                      Foreground="{StaticResource PrimaryBrush}"
+                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+          </Border>
+          <StackPanel Grid.Row="2" Spacing="3" VerticalAlignment="Bottom">
+            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="15"
+                       Foreground="{StaticResource OnSurfaceBrush}"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Subtitle}" FontSize="12" LineHeight="16"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding Subtitle, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+          </StackPanel>
+        </Grid>        </Border>
+    </DataTemplate>
+  </UserControl.Resources>
+  <UserControl.Styles>
+    <Style Selector="Border.bento-tile-primary">
+      <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+      <Setter Property="BorderThickness" Value="1.5"/>
+    </Style>
+    <Style Selector="Border.bento-icon-primary">
+      <Setter Property="Width" Value="52"/>
+      <Setter Property="Height" Value="52"/>
+    </Style>
+    <Style Selector="TextBlock.bento-title-primary">
+      <Setter Property="FontSize" Value="20"/>
+    </Style>
+    <Style Selector="ItemsControl.bento-section > ContentPresenter">
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
+    <Style Selector="TextBlock.bento-section-label">
+      <Setter Property="FontSize" Value="11"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Foreground" Value="{StaticResource OnSurfaceMutedBrush}"/>
+      <Setter Property="Margin" Value="2,0,0,4"/>
+    </Style>
+  </UserControl.Styles>
+
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="24" Margin="28,24" HorizontalAlignment="Stretch">
+      <StackPanel Spacing="10">
+        <TextBlock Classes="bento-section-label" Text="VẬN HÀNH"/>
+        <ItemsControl Classes="bento-section" ItemsSource="{Binding OperationTiles}"
+                      ItemTemplate="{StaticResource BentoTileTemplate}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <controls:BentoGridPanel Columns="4" Gap="14" RowHeight="118"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </StackPanel>
+
+      <StackPanel Spacing="10">
+        <TextBlock Classes="bento-section-label" Text="QUẢN LÝ"/>
+        <ItemsControl Classes="bento-section" ItemsSource="{Binding ManagementTiles}"
+                      ItemTemplate="{StaticResource BentoTileTemplate}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <controls:BentoGridPanel Columns="4" Gap="14" RowHeight="108"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </StackPanel>
+
+      <StackPanel Spacing="10">
+        <TextBlock Classes="bento-section-label" Text="HỆ THỐNG"/>                <ItemsControl Classes="bento-section" ItemsSource="{Binding SystemTiles}"
+                      ItemTemplate="{StaticResource BentoTileTemplate}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <controls:BentoGridPanel Columns="4" Gap="14" RowHeight="108"/>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+      </StackPanel>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

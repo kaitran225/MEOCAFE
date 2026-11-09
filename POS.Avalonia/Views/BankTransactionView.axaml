@@ -1,0 +1,136 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.BankTransactionView"
+             x:DataType="vm:BankTransactionViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*">
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
+      <controls:PageTitle Title="Bank Transactions">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <Button Command="{Binding LoadCommand}" Classes="primary" Padding="12,8"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
+                        Foreground="{StaticResource OnPrimaryBrush}"/>
+              <TextBlock Text="Refresh"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </controls:PageTitle>
+      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
+    </StackPanel>
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,24">
+      <StackPanel Spacing="{DynamicResource Spacing24}">
+      <!-- KPI row -->
+      <Grid ColumnDefinitions="*,*" IsVisible="{Binding !IsLoading}">
+        <controls:KpiCard Grid.Column="0" Margin="0,0,8,0"
+                          Title="Total Credits"
+                          Value="{Binding TotalCredits, StringFormat='{}{0:N0} ₫'}"
+                          Subtitle="Incoming payments"
+                          AccentBrush="{StaticResource SuccessBrush}"/>
+        <controls:KpiCard Grid.Column="1" Margin="8,0,0,0"
+                          Title="Total Debits"
+                          Value="{Binding TotalDebits, StringFormat='{}{0:N0} ₫'}"
+                          Subtitle="Outgoing payments"
+                          AccentBrush="{StaticResource ErrorBrush}"/>
+      </Grid>
+
+      <!-- Transaction List -->
+      <controls:Card Padding="24" IsVisible="{Binding !IsLoading}">
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+          <StackPanel Spacing="2">
+            <TextBlock Text="Recent Transactions"
+                       FontSize="{DynamicResource SubtitleFontSize}"
+                       FontWeight="{StaticResource SubtitleFontWeight}"
+                       Foreground="{StaticResource OnSurfaceBrush}"/>
+            <TextBlock Text="Bank notification history"
+                       FontSize="{DynamicResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          </StackPanel>
+
+          <Border Height="1" Background="{StaticResource BorderBrush}"/>
+
+          <!-- Column headers -->
+          <Grid ColumnDefinitions="120,*,Auto,100,80" Margin="8,0">
+            <TextBlock Grid.Column="0" Text="Date"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="1" Text="Description"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="2" Text="Amount" Margin="0,0,16,0"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="3" Text="Reference"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="4" Text="Type" HorizontalAlignment="Right"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          </Grid>
+
+          <ItemsControl ItemsSource="{Binding Transactions}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Border Padding="8,12" Margin="0,2"
+                        CornerRadius="{DynamicResource CornerRadius8}"
+                        Background="{StaticResource SurfaceMutedBrush}">
+                  <Grid ColumnDefinitions="120,*,Auto,100,80">
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding Date, StringFormat='{}{0:MMM dd}'}"
+                               FontSize="{DynamicResource BodyFontSize}"
+                               Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding Description}"
+                               FontSize="{DynamicResource BodyFontSize}"
+                               Foreground="{StaticResource OnSurfaceBrush}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"/>
+                    <!-- Credit amount (green) -->
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding Amount, StringFormat='{}{0:N0} ₫'}"
+                               FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
+                               Foreground="{StaticResource SuccessBrush}"
+                               IsVisible="{Binding IsCredit}"
+                               Margin="0,0,16,0"
+                               VerticalAlignment="Center"/>
+                    <!-- Debit amount (red) -->
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding Amount, StringFormat='{}{0:N0} ₫'}"
+                               FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
+                               Foreground="{StaticResource ErrorBrush}"
+                               IsVisible="{Binding !IsCredit}"
+                               Margin="0,0,16,0"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="3"
+                               Text="{Binding Reference}"
+                               FontSize="{DynamicResource CaptionFontSize}"
+                               Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               VerticalAlignment="Center"/>
+                    <Border Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            CornerRadius="100" Padding="10,4">
+                      <Border.Styles>
+                        <Style Selector="Border">
+                          <Setter Property="Background" Value="{StaticResource ErrorBgBrush}"/>
+                        </Style>
+                      </Border.Styles>
+                      <TextBlock Text="{Binding Type}"
+                                 FontSize="{DynamicResource CaptionFontSize}"
+                                 FontWeight="SemiBold"
+                                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </Border>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </controls:Card>
+
+    </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

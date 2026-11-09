@@ -1,0 +1,31 @@
+# Build output
+**/bin/
+**/obj/
+/artifacts/
+**/TestResults/
+/coverage/
+/publish/
+
+# IDE and local tooling
+.vs/
+*.suo
+*.user
+*.csproj.user
+
+# Logs and test coverage
+*.log
+*.coverage
+*.coveragexml
+
+# Compiled files and caches
+*.dll
+*.pdb
+*.cache
+
+# Local database journal files
+*.db-wal
+*.db-shm
+
+# Local configuration
+POS.Avalonia/appsettings.Local.json
+/Debug/

@@ -1,0 +1,745 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:models="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:conv="using:Avalonia.Data.Converters"
+             xmlns:avaloniaModels="using:POS.Avalonia.Models"
+             x:Class="POS.Avalonia.Views.OrderSelectionView"
+             x:Name="Root"
+             x:DataType="vm:OrderSelectionViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid>
+    <Grid RowDefinitions="*" ColumnDefinitions="*,520">
+    <!-- Left: search, category tabs, product grid -->
+    <Grid Grid.Row="0" Grid.Column="0" Margin="24,24,12,24" RowDefinitions="Auto,Auto,*">
+      <!-- Search bar above categories: icon left, filter button right -->
+      <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+              BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}" Padding="0" Margin="0,0,0,16">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+          <PathIcon Grid.Column="0" Data="{StaticResource IconSearch}" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                    Width="20" Height="20" Margin="16,0" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" Watermark="Search menu items, variants, or codes..." Text="{Binding SearchTerm}"
+                   Background="Transparent" Foreground="{StaticResource OnSurfaceBrush}" BorderThickness="0"
+                   Padding="0,12" MinHeight="48" FontSize="14" VerticalAlignment="Center"/>
+          <Button Grid.Column="2" Background="Transparent" BorderThickness="0" Padding="16,12" ToolTip.Tip="Filter">
+            <PathIcon Data="{StaticResource IconFilter}" Width="20" Height="20" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          </Button>
+        </Grid>
+      </Border>
+      <!-- Category tabs: vertical icon+label, min-width 80px, horizontal scroll -->
+      <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,8">
+        <ListBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                 Background="Transparent" BorderThickness="0" Padding="0" MinHeight="0" Classes="CategoryTabs">
+          <ListBox.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Horizontal" Spacing="12"/>
+            </ItemsPanelTemplate>
+          </ListBox.ItemsPanel>
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="models:Category">
+              <Border MinWidth="80" Padding="16,12" CornerRadius="{DynamicResource CornerRadius12}"
+                      Background="{StaticResource SurfaceBrush}" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="4">
+                  <PathIcon Data="{StaticResource IconCoffee}" Foreground="{StaticResource PrimaryBrush}" Width="24" Height="24" HorizontalAlignment="Center"/>
+                  <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </ScrollViewer>
+      <!-- Product grid: 4:3 image, price badge, subtitle; 80px bottom spacer -->
+      <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Spacing="0">
+          <ItemsControl ItemsSource="{Binding FilteredMenuItems}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <UniformGrid Columns="4" HorizontalAlignment="Left"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="models:MenuItem">
+                <Button Width="200" Padding="0" Margin="8" Background="Transparent" BorderThickness="0"
+                        Command="{Binding #Root.DataContext.SelectProductForCustomizeCommand}" CommandParameter="{Binding}">
+                  <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                    <StackPanel>
+                      <!-- 4:3 image placeholder with gradient overlay, price badge bottom-right -->
+                      <Border Height="150" CornerRadius="10,10,0,0" ClipToBounds="True">
+                        <Grid>
+                          <Border Background="{StaticResource SurfaceMutedBrush}">
+                            <TextBlock Text="☕" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="{StaticResource PrimaryBrush}" Opacity="0.6"/>
+                          </Border>
+                          <Border Background="{StaticResource OverlayDimBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40"
+                                  Opacity="0.6"/>
+                          <Border Background="{StaticResource OverlayDimStrongBrush}" CornerRadius="{DynamicResource CornerRadius4}" Padding="8,4"
+                                  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="12,0,12,8">
+                            <TextBlock Text="{Binding SellPrice, StringFormat={}{0:N0} ₫}" FontSize="13" FontWeight="Bold"
+                                       Foreground="{StaticResource PrimaryBrush}"/>
+                          </Border>
+                        </Grid>
+                      </Border>
+                      <Border Padding="12,8">
+                        <StackPanel Spacing="4">
+                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Bold"
+                                   Foreground="{StaticResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="Regular" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                      </Border>
+                    </StackPanel>
+                  </Border>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <Border Height="80" Background="Transparent"/>
+        </StackPanel>
+      </ScrollViewer>
+    </Grid>
+    <!-- Right: bill panel + recipe sidebar overlay -->
+    <Grid Grid.Row="0" Grid.Column="1">
+      <Grid Margin="12,24,24,24" RowDefinitions="Auto,Auto,*">
+        <!-- Bill tabs: full-width equal + add button with left border -->
+        <Border Grid.Row="0" Background="{StaticResource BackgroundBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+          <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+            <ListBox Grid.Column="0" ItemsSource="{Binding Bills}" SelectedIndex="{Binding CurrentBillIndex}"
+                     Background="Transparent" BorderThickness="0" Padding="0" Classes="BillTabs">
+              <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="vm:BillViewModel">
+                  <Border Padding="0" Background="Transparent" MinWidth="60">
+                    <TextBlock Text="{Binding Label}" FontSize="14" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Margin="12,16"/>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Grid.Column="1" Command="{Binding HoldBillCommand}" Width="44" MinHeight="48" ToolTip.Tip="Hold"
+                    Background="Transparent" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,0,0">
+              <PathIcon Data="{StaticResource IconBookmark}" Width="20" Height="20" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </Button>
+            <Button Grid.Column="2" Command="{Binding OpenRecallCommand}" Width="44" MinHeight="48" ToolTip.Tip="Recall"
+                    Background="Transparent" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,0,0">
+              <PathIcon Data="{StaticResource IconHistory}" Width="20" Height="20" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </Button>
+            <Button Grid.Column="3" Command="{Binding NewBillCommand}" Width="48" MinHeight="48" ToolTip.Tip="New bill"
+                    Background="Transparent" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,0,0">
+              <PathIcon Data="{StaticResource IconAdd}" Width="22" Height="22" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </Button>
+          </Grid>
+        </Border>
+        <!-- Order #, Waiter, Service toggle -->
+        <Border Grid.Row="1" Background="{StaticResource SurfaceBrush}" Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Grid.Column="0" Orientation="Vertical" Spacing="2">
+              <TextBlock Text="{Binding CurrentBillOrderDisplay}" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="{Binding WaiterName, StringFormat='Waiter: {0}'}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </StackPanel>
+            <!-- Service type: pill toggle group -->
+            <Border Grid.Column="1" Background="{StaticResource BackgroundBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+                    Padding="4" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+              <StackPanel Orientation="Horizontal" Spacing="4">
+                <Button Content="Dine-in" Command="{Binding SetServiceTypeCommand}" CommandParameter="Dine-in" Padding="16,6" MinHeight="28"
+                        FontSize="12" FontWeight="Bold" x:Name="SvcDineIn"/>
+                <Button Content="Takeaway" Command="{Binding SetServiceTypeCommand}" CommandParameter="Takeaway" Padding="16,6" MinHeight="28"
+                        FontSize="12" FontWeight="Bold" Background="Transparent" Foreground="{StaticResource OnSurfaceMutedBrush}" BorderThickness="0"/>
+                <Button Content="Delivery" Command="{Binding SetServiceTypeCommand}" CommandParameter="Delivery" Padding="16,6" MinHeight="28"
+                        FontSize="12" FontWeight="Bold" Background="Transparent" Foreground="{StaticResource OnSurfaceMutedBrush}" BorderThickness="0"/>
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Border>
+        <!-- Bill body: scrollable lines + pinned totals/payment/charge -->
+        <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" CornerRadius="0,0,12,12"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,1,1">
+          <Grid RowDefinitions="*,Auto">
+            <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0">
+              <StackPanel Spacing="12" Margin="16">
+                <!-- Customer row (compact) -->
+                <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                  <Button Command="{Binding OpenCustomerSearchCommand}" Padding="8,6" MinHeight="36" ToolTip.Tip="Customer"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                    <PathIcon Data="{StaticResource IconPerson}" Width="18" Height="18" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </Button>
+                  <Button Command="{Binding OpenNewCustomerCommand}" Padding="8,6" MinHeight="36" ToolTip.Tip="New customer"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                    <PathIcon Data="{StaticResource IconPerson}" Width="16" Height="16" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </Button>
+                  <TextBlock Text="{Binding CustomerDisplayText}" VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource OnSurfaceBrush}" IsVisible="{Binding HasCustomer}"/>
+                  <Button Command="{Binding ClearCustomerCommand}" IsVisible="{Binding HasCustomer}" Padding="6,4" MinHeight="32" Background="{StaticResource SurfaceMutedBrush}">
+                    <PathIcon Data="{StaticResource IconDelete}" Width="14" Height="14" Foreground="{StaticResource ErrorBrush}"/>
+                  </Button>
+                  <Button Content="Redeem points" Command="{Binding OpenRedeemPointsCommand}" IsVisible="{Binding HasCustomer}" Padding="8,6" FontSize="12" Classes="primary"/>
+                </StackPanel>
+                <!-- Table / Delivery (compact) -->
+                <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                  <TextBlock Text="Table:" VerticalAlignment="Center" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <ItemsControl ItemsSource="{Binding Tables}">
+                    <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" Spacing="6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="models:Table">
+                        <Button Content="{Binding Name}" Command="{Binding #Root.DataContext.SetTableCommand}" CommandParameter="{Binding}"
+                                Padding="8,4" MinHeight="28" FontSize="12" Background="{StaticResource SurfaceMutedBrush}"
+                                Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+                <StackPanel Spacing="4">
+                  <TextBox Text="{Binding DeliveryAddress}" Watermark="Delivery address" Padding="8,6" MinHeight="32" FontSize="12"
+                           Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <TextBox Text="{Binding DeliveryFeeText}" Watermark="Fee" Width="72" Padding="8,6" MinHeight="32" FontSize="12"
+                             Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+                    <Button Content="Apply delivery" Command="{Binding ApplyDeliveryToCurrentBillCommand}" Padding="8,6" MinHeight="32" FontSize="12" Classes="primary"/>
+                  </StackPanel>
+                </StackPanel>
+                <!-- Bill lines: 48x48 thumb, modifier inline, compact stepper; void/more in context menu -->
+                <ItemsControl ItemsSource="{Binding CurrentBill.Lines}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="vm:BillLineViewModel">
+                      <Border Padding="12" Margin="0,0,0,12" Background="{StaticResource SurfaceMutedBrush}"
+                              CornerRadius="{DynamicResource CornerRadius8}">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                          <Border Grid.Column="0" Width="48" Height="48" CornerRadius="{DynamicResource CornerRadius8}"
+                                  Background="{StaticResource SurfaceBrush}" Margin="0,0,12,0">
+                            <TextBlock Text="☕" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}" Opacity="0.8"/>
+                          </Border>
+                          <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                            <Button Command="{Binding #Root.DataContext.CustomizeLineCommand}" CommandParameter="{Binding}"
+                                    Background="Transparent" BorderThickness="0" Padding="0" HorizontalAlignment="Left">
+                              <TextBlock Text="{Binding ProductName}" FontSize="14" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis"/>
+                            </Button>
+                            <TextBlock Text="{Binding UnitPrice, StringFormat={}{0:N0} ₫}" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                            <TextBlock Text="{Binding Note}" FontSize="11" FontStyle="Italic" Foreground="{StaticResource PrimaryBrush}"
+                                       IsVisible="{Binding Note, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+                          </StackPanel>
+                          <Border Grid.Column="2" Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius4}"
+                                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                              <Button Command="{Binding DecrementQtyCommand}" Width="32" Height="32" Padding="0" Background="Transparent" BorderThickness="0">
+                                <PathIcon Data="{StaticResource IconSubtract}" Width="14" Height="14" Foreground="{StaticResource OnSurfaceBrush}"/>
+                              </Button>
+                              <TextBlock Text="{Binding Quantity}" MinWidth="24" TextAlignment="Center" VerticalAlignment="Center" FontSize="13" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                              <Button Command="{Binding IncrementQtyCommand}" Width="32" Height="32" Padding="0" Background="Transparent" BorderThickness="0">
+                                <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14" Foreground="{StaticResource PrimaryBrush}"/>
+                              </Button>
+                            </StackPanel>
+                          </Border>
+                          <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding LineTotal, StringFormat={}{0:N0} ₫}" FontSize="14" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                            <Button Padding="6,4" Background="Transparent" BorderThickness="0" ToolTip.Tip="More">
+                              <PathIcon Data="{StaticResource IconMoreVertical}" Width="18" Height="18" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                              <Button.Flyout>
+                                <MenuFlyout>
+                                  <MenuItem Header="Open recipe" Command="{Binding #Root.DataContext.OpenRecipeForLineCommand}" CommandParameter="{Binding}"/>
+                                  <MenuItem Header="Void line" Command="{Binding #Root.DataContext.RequestVoidLineCommand}" CommandParameter="{Binding}"/>
+                                </MenuFlyout>
+                              </Button.Flyout>
+                            </Button>
+                          </StackPanel>
+                        </Grid>
+                      </Border>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </StackPanel>
+            </ScrollViewer>
+            <!-- Pinned footer: totals, payment grid, CHARGE button -->
+            <Border Grid.Row="1" Background="{StaticResource SurfaceBrush}" Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+              <StackPanel Spacing="16">
+                <StackPanel Spacing="8">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="Subtotal" FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBill.Subtotal, StringFormat={}{0:N0} ₫}" FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </Grid>
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="Tax" FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBill.TaxAmount, StringFormat={}{0:N0} ₫}" FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </Grid>
+                  <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0" Opacity="0.8">
+                    <TextBlock Grid.Column="0" Text="Discount" FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBill.DiscountAmount, StringFormat={}{0:N0} ₫}" FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  </Grid>
+                  <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,8,0,8"/>
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="Total" FontSize="18" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBill.GrandTotal, StringFormat={}{0:N0} ₫}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                  </Grid>
+                </StackPanel>
+                <!-- Payment method quick-select: 4 columns -->
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">
+                  <Button Grid.Column="0" Command="{Binding SetPaymentMethodCommand}" CommandParameter="Card" Padding="8" MinHeight="52"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                      <PathIcon Data="{StaticResource IconCreditCard}" Width="22" Height="22" Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+                      <TextBlock Text="Card" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </StackPanel>
+                  </Button>
+                  <Button Grid.Column="1" Command="{Binding SetPaymentMethodCommand}" CommandParameter="Cash" Padding="8" MinHeight="52"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                      <PathIcon Data="{StaticResource IconCash}" Width="22" Height="22" Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+                      <TextBlock Text="Cash" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </StackPanel>
+                  </Button>
+                  <Button Grid.Column="2" Command="{Binding SetPaymentMethodCommand}" CommandParameter="QR" Padding="8" MinHeight="52"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                      <PathIcon Data="{StaticResource IconQrCode}" Width="22" Height="22" Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+                      <TextBlock Text="QR" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </StackPanel>
+                  </Button>
+                  <Button Grid.Column="3" Command="{Binding SetPaymentMethodCommand}" CommandParameter="Other" Padding="8" MinHeight="52"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                      <PathIcon Data="{StaticResource IconMoreVertical}" Width="22" Height="22" Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+                      <TextBlock Text="Other" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </StackPanel>
+                  </Button>
+                </Grid>
+                <!-- CHARGE button: h-16, CHARGE left, total right -->
+                <Button Command="{Binding PayCommand}" MinHeight="64" Padding="24,0" HorizontalAlignment="Stretch"
+                        CornerRadius="{DynamicResource CornerRadius12}" Classes="primary">
+                  <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Grid.Column="0" Text="CHARGE" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="{Binding CurrentBill.GrandTotal, StringFormat={}{0:N0} ₫}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                  </Grid>
+                </Button>
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
+                  <Button Grid.Column="0" Command="{Binding OpenMergeDialogCommand}" Padding="6,6" MinHeight="32" FontSize="11"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Merge">Merge</Button>
+                  <Button Grid.Column="1" Command="{Binding RequestVoidBillCommand}" Padding="6,6" MinHeight="32" FontSize="11"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Void bill">
+                    <StackPanel Orientation="Horizontal" Spacing="4"><PathIcon Data="{StaticResource IconDelete}" Width="12" Height="12" Foreground="{StaticResource ErrorBrush}"/><TextBlock Text="Void" Foreground="{StaticResource OnSurfaceBrush}"/></StackPanel>
+                  </Button>
+                  <Button Grid.Column="2" Command="{Binding OpenReceiptPreviewCommand}" Padding="6,6" MinHeight="32" FontSize="11"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Receipt">Receipt</Button>
+                  <Button Grid.Column="3" Command="{Binding OpenDrinkTagsPreviewCommand}" Padding="6,6" MinHeight="32" FontSize="11"
+                          Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Tags">Tags</Button>
+                </Grid>
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Border>
+      </Grid>
+      <!-- Recipe sidebar -->                <Border HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="360" ZIndex="10" Margin="0"
+              Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1,0,0,0"
+              IsVisible="{Binding IsRecipeSidebarOpen}" BoxShadow="{StaticResource ShadowDialog}">
+        <StackPanel Margin="16" Spacing="12">
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="{Binding RecipeSidebarTitle}" FontWeight="{StaticResource TitleFontWeight}" FontSize="{DynamicResource SubtitleFontSize}"
+                       Foreground="{StaticResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis"/>
+            <Button Grid.Column="1" Command="{Binding CloseRecipeSidebarCommand}" Padding="8,4" ToolTip.Tip="Close" Background="Transparent" BorderThickness="0">
+              <PathIcon Data="{StaticResource IconDelete}" Width="18" Height="18" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </Button>
+          </Grid>
+          <TextBlock Text="{Binding RecipeSidebarOrderNote, StringFormat='Order note: {0}'}" FontSize="{DynamicResource CaptionFontSize}" FontStyle="Italic"
+                     Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap"
+                     IsVisible="{Binding RecipeSidebarOrderNote, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+          <TextBlock Text="Ingredients" FontWeight="SemiBold" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource SecondaryBrush}"/>
+          <ItemsControl ItemsSource="{Binding RecipeSidebarIngredients}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding}" FontSize="{DynamicResource CaptionFontSize}" Margin="0,2" TextWrapping="Wrap" Foreground="{StaticResource OnSurfaceBrush}"/>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <TextBlock Text="Steps" FontWeight="SemiBold" FontSize="{DynamicResource CaptionFontSize}" Margin="0,8,0,0" Foreground="{StaticResource SecondaryBrush}"/>
+          <ItemsControl ItemsSource="{Binding RecipeSidebarSteps}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding}" FontSize="{DynamicResource CaptionFontSize}" Margin="0,2" TextWrapping="Wrap" Foreground="{StaticResource OnSurfaceBrush}"/>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </StackPanel>
+      </Border>
+    </Grid>
+    </Grid>
+
+    <!-- Dialog: Customize line (guide: image left, options right, larger stepper) -->
+    <Border x:Name="CustomizationOverlay" IsVisible="{Binding IsCustomizationOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">        <Border x:Name="CustomizationDialogPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              Padding="0" CornerRadius="{DynamicResource CornerRadius16}" MinWidth="520" MaxWidth="640"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Focusable="True"
+              BoxShadow="{StaticResource ShadowDialog}">
+        <Border.KeyBindings>
+          <KeyBinding Gesture="Enter" Command="{Binding ConfirmCustomizationCommand}"/>
+          <KeyBinding Gesture="Escape" Command="{Binding CloseCustomizationCommand}"/>
+        </Border.KeyBindings>
+        <Grid RowDefinitions="*,Auto" ColumnDefinitions="Auto,*">
+          <!-- Left: large image, name, description, price, large circular stepper -->
+          <Border Grid.Row="0" Grid.Column="0" Background="{StaticResource SurfaceMutedBrush}" Padding="24" MinWidth="220" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+            <StackPanel Spacing="16" HorizontalAlignment="Center">
+              <Border Width="200" Height="200" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource PrimaryBrush}" Opacity="0.12">
+                <TextBlock Text="☕" FontSize="72" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PrimaryBrush}" Opacity="0.9"/>
+              </Border>
+              <TextBlock Text="{Binding CustomizationLine.ProductName}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" TextWrapping="Wrap" TextAlignment="Center"/>
+              <TextBlock Text="Customize options below." FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}" TextAlignment="Center"/>
+              <TextBlock Text="{Binding CustomizationLine.UnitPrice, StringFormat='{}{0:N0} ₫'}" FontSize="18" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center"/>
+              <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
+                <Button Command="{Binding CustomizationLine.DecrementQtyCommand}" MinWidth="48" MinHeight="48" Width="48" Height="48" Padding="0"
+                        CornerRadius="24" Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                  <PathIcon Data="{StaticResource IconSubtract}" Width="20" Height="20"/>
+                </Button>
+                <TextBlock Text="{Binding CustomizationLine.Quantity}" FontSize="20" FontWeight="SemiBold"
+                           Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center" MinWidth="32" TextAlignment="Center"/>
+                <Button Command="{Binding CustomizationLine.IncrementQtyCommand}" MinWidth="48" MinHeight="48" Width="48" Height="48" Padding="0"
+                        CornerRadius="24" Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                  <PathIcon Data="{StaticResource IconAdd}" Width="20" Height="20"/>
+                </Button>
+              </StackPanel>
+              <Border Background="{StaticResource PrimaryBrush}" Opacity="0.15" CornerRadius="{DynamicResource CornerRadius8}" Padding="12,8">
+                <TextBlock Text="{Binding CustomizationLine.LineTotal, StringFormat='Line total: {0:N0} ₫'}" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center"/>
+              </Border>
+            </StackPanel>
+          </Border>
+          <!-- Right: options grid -->
+          <ScrollViewer Grid.Row="0" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Spacing="16" Margin="24" VerticalAlignment="Top">
+              <TextBlock Text="Ice" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ItemsControl ItemsSource="{Binding IceLevels}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" Spacing="6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationIceCommand}" CommandParameter="{Binding}"
+                            MinHeight="44" Padding="12,10" FontSize="{DynamicResource CaptionFontSize}"
+                            Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Sugar" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ItemsControl ItemsSource="{Binding SugarLevels}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" Spacing="6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationSugarCommand}" CommandParameter="{Binding}"
+                            MinHeight="44" Padding="12,10" FontSize="{DynamicResource CaptionFontSize}"
+                            Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Size" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <ItemsControl ItemsSource="{Binding SizeOptions}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal" Spacing="6"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Button Content="{Binding}" Command="{Binding #Root.DataContext.SetCustomizationSizeCommand}" CommandParameter="{Binding}"
+                            MinHeight="44" Padding="12,10" FontSize="{DynamicResource CaptionFontSize}"
+                            Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+              <TextBlock Text="Note" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBox Text="{Binding CustomizationLine.Note}" Watermark="Special instructions" MinHeight="44"
+                       Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+            </StackPanel>
+          </ScrollViewer>
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="24" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+              <Grid ColumnDefinitions="*,*">
+                <Button Grid.Column="0" Content="Close" Command="{Binding CloseCustomizationCommand}" MinHeight="48" Padding="20,14" Classes="danger" HorizontalAlignment="Left"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                  <Button Content="Add to order" Command="{Binding ConfirmCustomizationCommand}" MinHeight="48" Padding="20,14" Classes="primary" IsVisible="{Binding IsPendingAdd}"/>
+                  <Button Content="Apply" Command="{Binding ConfirmCustomizationCommand}" MinHeight="48" Padding="20,14" Classes="primary" IsVisible="{Binding !IsPendingAdd}"/>
+                </StackPanel>
+              </Grid>
+            </Border>
+        </Grid>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Payment (guide: header with total, split toggle, method inputs, footer) -->
+    <controls:ModalOverlay IsOpen="{Binding IsPaymentOpen}" Title="Thanh toán">
+      <Grid RowDefinitions="Auto,*,Auto">
+        <StackPanel Grid.Row="0" Spacing="4" Margin="0,0,0,16">
+          <Border Background="{StaticResource PrimaryBrush}" Opacity="0.2" CornerRadius="999" Padding="12,6" HorizontalAlignment="Center" Margin="0,0,0,8">
+            <TextBlock Text="{Binding CurrentBill.Label, StringFormat='Order {0}'}" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
+          </Border>
+          <TextBlock Text="Tổng thanh toán" FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+          <TextBlock Text="{Binding CurrentBill.GrandTotal, StringFormat='{}{0:N0} ₫'}" FontSize="36" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="320">
+          <StackPanel Spacing="16">
+        <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius8}" Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Grid.Column="0" Spacing="2">
+              <TextBlock Text="Split Payment" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Allow multiple payment methods" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+            <CheckBox Grid.Column="1" IsChecked="{Binding IsSplitPayment}" VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+          </Grid>
+        </Border>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBox Text="{Binding CouponCode}" Watermark="Coupon code" MinWidth="140"
+                   Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <Button Content="Apply" Command="{Binding ApplyCouponCommand}" Padding="10,8" Background="{StaticResource PrimaryBrush}" Foreground="{StaticResource OnPrimaryBrush}"/>
+        </StackPanel>
+        <StackPanel IsVisible="{Binding IsSplitPayment}" Spacing="8">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <ComboBox ItemsSource="{Binding PaymentMethods}" SelectedItem="{Binding SelectedPaymentMethod}" MinWidth="80"/>
+            <TextBox Text="{Binding PaymentEntryAmount}" Watermark="Amount" MinWidth="100"
+                     Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+            <Button Content="Add" Command="{Binding AddPaymentEntryCommand}" Padding="8,4" Background="{StaticResource PrimaryBrush}" Foreground="{StaticResource OnPrimaryBrush}"/>
+          </StackPanel>
+          <ItemsControl ItemsSource="{Binding PaymentEntries}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="vm:PaymentEntryViewModel">
+                <Border Padding="8,4" Margin="0,2" Background="{StaticResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius4}" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}">
+                  <Grid ColumnDefinitions="*,Auto,Auto">
+                    <TextBlock Grid.Column="0" Text="{Binding Method}" VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='{}{0:N0} ₫'}" VerticalAlignment="Center" Margin="8,0,0,0" Foreground="{StaticResource OnSurfaceBrush}"/>
+                    <Button Grid.Column="2" Content="Remove" Command="{Binding #Root.DataContext.RemovePaymentEntryCommand}" CommandParameter="{Binding}" Padding="4,2"/>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <TextBlock Text="{Binding SplitTotal, StringFormat='Split total: {0:N0} ₫'}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+        </StackPanel>
+        <StackPanel IsVisible="{Binding ShowSingleAmount}">
+          <TextBlock Text="Amount" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBox Text="{Binding PaymentAmount}" Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <TextBlock Text="{Binding ChangeDue, StringFormat='Tiền thừa: {0:N0} ₫'}" FontSize="13"
+                     Foreground="{StaticResource PrimaryBrush}" IsVisible="{Binding ChangeDue}"/>
+        </StackPanel>
+        <TextBox Text="{Binding TipAmountText}" Watermark="Tip (optional)"
+                 Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          </StackPanel>
+        </ScrollViewer>
+        <Border Grid.Row="2" Padding="24,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+          <StackPanel Spacing="12">
+            <TextBlock Text="{Binding PaymentError}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap"
+                       IsVisible="{Binding PaymentError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+            <Button Content="Hoàn tất thanh toán" Command="{Binding CompletePaymentCommand}" MinHeight="48" Padding="16,12" Classes="primary" HorizontalAlignment="Stretch"/>
+            <Button Content="Hủy" Command="{Binding CancelPaymentCommand}" Padding="16,12"
+                    Background="Transparent" Foreground="{StaticResource OnSurfaceMutedBrush}" BorderThickness="0"/>
+          </StackPanel>
+        </Border>
+      </Grid>
+    </controls:ModalOverlay>
+
+    <!-- Overlay: Void line -->
+    <Border IsVisible="{Binding IsVoidLineDialogOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="300" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
+          <TextBlock Text="Void line - Reason" FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding VoidReason}" Watermark="Reason (optional)"
+                   Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Confirm void" Command="{Binding ConfirmVoidLineCommand}" Padding="16,8" Classes="danger"/>
+            <Button Content="Cancel" Command="{Binding CancelVoidLineCommand}" Padding="16,8"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Merge bill -->
+    <Border IsVisible="{Binding IsMergeConfirmOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="300" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="12">
+          <TextBlock Text="Merge bill" FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBlock IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNotNull}}"
+                     Text="Merge selected bill into current? All items will be moved." Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <ListBox IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNull}}"
+                   ItemsSource="{Binding MergeBillCandidates}" MinHeight="100" Background="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="vm:BillViewModel">
+                <Button Content="{Binding Label}" Command="{Binding #Root.DataContext.RequestMergeBillCommand}" CommandParameter="{Binding}" HorizontalAlignment="Stretch"
+                        Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+          <StackPanel Orientation="Horizontal" Spacing="8" IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNotNull}}">
+            <Button Content="Confirm" Command="{Binding ConfirmMergeBillCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CancelMergeBillCommand}"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+          <Button Content="Cancel" Command="{Binding CancelMergeBillCommand}" HorizontalAlignment="Right"
+                  IsVisible="{Binding MergeSourceBill, Converter={x:Static ObjectConverters.IsNull}}"
+                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+        </StackPanel>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Void bill -->
+    <Border IsVisible="{Binding IsVoidBillDialogOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="300" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
+          <TextBlock Text="Void bill - Reason" FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding VoidBillReason}" Watermark="Reason (required)"
+                   Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Confirm void" Command="{Binding ConfirmVoidBillCommand}" Padding="16,8" Classes="danger"/>
+            <Button Content="Cancel" Command="{Binding CancelVoidBillCommand}" Padding="16,8"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Receipt preview (guide: Print Preview header, paper style content) -->
+    <Border IsVisible="{Binding IsReceiptPreviewOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              CornerRadius="{DynamicResource CornerRadius16}" MinWidth="360" MaxWidth="520" MaxHeight="520" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <Grid RowDefinitions="Auto,*,Auto">
+          <Border Grid.Row="0" Padding="24,20" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Grid.Column="0" Spacing="4">
+                <TextBlock Text="Print Preview" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                <TextBlock Text="Verify details before sending to thermal printer." FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              </StackPanel>
+              <Button Grid.Column="1" Command="{Binding CloseReceiptPreviewCommand}" Background="Transparent" BorderThickness="0" Padding="8">
+                <PathIcon Data="{StaticResource IconClose}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              </Button>
+            </Grid>
+          </Border>
+          <ScrollViewer Grid.Row="1" MaxHeight="400" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="24">
+            <Border Background="{StaticResource SurfaceMutedBrush}" Padding="20" CornerRadius="{DynamicResource CornerRadius8}">
+              <TextBlock Text="{Binding ReceiptPreviewText}" FontFamily="Consolas,Courier New" FontSize="12" TextWrapping="NoWrap" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </Border>
+          </ScrollViewer>
+          <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12" Margin="24,16">
+            <Button Content="Print" Command="{Binding PrintReceiptFromPreviewCommand}" Padding="16,10" Classes="primary"/>
+            <Button Content="Close" Command="{Binding CloseReceiptPreviewCommand}" Padding="16,10"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+        </Grid>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Drink tags preview (guide: header + tag grid) -->
+    <Border IsVisible="{Binding IsDrinkTagsPreviewOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              CornerRadius="{DynamicResource CornerRadius16}" MinWidth="360" MaxWidth="600" MaxHeight="540" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <Grid RowDefinitions="Auto,*,Auto">
+          <Border Grid.Row="0" Padding="24,20" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Grid.Column="0" Spacing="4">
+                <TextBlock Text="Drink Tags Preview" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                <TextBlock Text="Verify drink tags before sending to tag printer." FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              </StackPanel>
+              <Button Grid.Column="1" Command="{Binding CloseDrinkTagsPreviewCommand}" Background="Transparent" BorderThickness="0" Padding="8">
+                <PathIcon Data="{StaticResource IconClose}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              </Button>
+            </Grid>
+          </Border>
+          <ScrollViewer Grid.Row="1" MaxHeight="360" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="24">
+            <ItemsControl ItemsSource="{Binding DrinkTagPreviews}">
+              <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="avaloniaModels:DrinkTagPreviewItem">
+                  <Border Width="240" Height="140" Margin="0,0,8,8" Padding="12" Background="{StaticResource SurfaceMutedBrush}"
+                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                    <StackPanel Spacing="4">
+                      <TextBlock Text="{Binding ProductName}" FontWeight="SemiBold" FontSize="{DynamicResource BodyFontSize}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource OnSurfaceBrush}"/>
+                      <TextBlock Text="{Binding Size, StringFormat='Size: {0}'}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                      <TextBlock Text="{Binding Detail}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap" IsVisible="{Binding Detail, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+                      <TextBlock Text="{Binding Note}" FontSize="{DynamicResource CaptionFontSize}" FontStyle="Italic" Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap" IsVisible="{Binding Note, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+          <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12" Margin="24,16">
+            <Button Content="Print" Command="{Binding PrintDrinkTagsCommand}" Padding="16,10" Classes="primary"/>
+            <Button Content="Close" Command="{Binding CloseDrinkTagsPreviewCommand}" Padding="16,10"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+        </Grid>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Recall held -->
+    <Border IsVisible="{Binding IsRecallOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="300" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
+          <TextBlock Text="Recall held bill" FontWeight="{StaticResource TitleFontWeight}" Margin="0,0,0,8" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <ListBox ItemsSource="{Binding HeldBills}" MinHeight="120" Background="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="vm:BillViewModel">
+                <Button Content="{Binding Label}" Command="{Binding $parent[UserControl].DataContext.RecallBillCommand}" CommandParameter="{Binding}" HorizontalAlignment="Stretch"
+                        Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+          <Button Content="Close" Command="{Binding CloseRecallCommand}" HorizontalAlignment="Right" Margin="0,8,0,0"
+                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+        </StackPanel>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Customer search -->
+    <Border IsVisible="{Binding IsCustomerSearchOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="340" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
+          <TextBlock Text="Customer lookup" FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding CustomerSearchTerm}" Watermark="Name or phone"
+                   Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <Button Content="Search" Command="{Binding SearchCustomersCommand}" Classes="primary"/>
+          <ListBox ItemsSource="{Binding CustomerSearchResults}" MinHeight="180" Background="Transparent">
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="models:Customer">
+                <Button Content="{Binding Name}" Command="{Binding #Root.DataContext.SelectCustomerCommand}" CommandParameter="{Binding}" HorizontalAlignment="Stretch"
+                        Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+          <Button Content="Close" Command="{Binding CloseCustomerSearchCommand}"
+                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+        </StackPanel>
+      </Border>
+    </Border>
+
+    <!-- Overlay: New customer -->
+    <Border IsVisible="{Binding IsNewCustomerOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="320" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
+          <TextBlock Text="New customer" FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding NewCustomerName}" Watermark="Name" Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <TextBox Text="{Binding NewCustomerPhone}" Watermark="Phone *" Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <TextBox Text="{Binding NewCustomerEmail}" Watermark="Email" Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <TextBox Text="{Binding NewCustomerAddress}" Watermark="Address" Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Save" Command="{Binding SaveNewCustomerCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CloseNewCustomerCommand}"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+
+    <!-- Overlay: Redeem points -->
+    <Border IsVisible="{Binding IsRedeemPointsOpen}" Background="{StaticResource OverlayDimBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}" Padding="{DynamicResource Margin24}"
+              CornerRadius="{DynamicResource CornerRadius12}" MinWidth="300" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing8}">
+          <TextBlock Text="Redeem points" FontWeight="{StaticResource TitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding PointsToRedeemText}" Watermark="Points to redeem"
+                   Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Button Content="Apply" Command="{Binding ConfirmRedeemPointsCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CloseRedeemPointsCommand}"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+  </Grid>
+</UserControl>

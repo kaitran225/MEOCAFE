@@ -1,0 +1,319 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             xmlns:conv="using:Avalonia.Data.Converters"
+             x:Class="POS.Avalonia.Views.MenuManagementView"
+             x:Name="Root"
+             x:DataType="vm:MenuManagementViewModel"
+             Background="{StaticResource BackgroundBrush}">
+
+  <Panel>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+      <!-- Header -->
+      <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+              BorderThickness="0,0,0,1" Padding="24,20" Margin="0,0,0,16">
+        <Grid ColumnDefinitions="*,Auto">
+          <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+            <Button Command="{Binding ImportProductsCommand}" Padding="10,8"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                    BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconExport}" Width="14" Height="14" RenderTransform="rotate(180deg)"/>
+                <TextBlock Text="Import" VerticalAlignment="Center" FontSize="13"/>
+              </StackPanel>
+            </Button>
+            <Button Command="{Binding ExportProductsCommand}" Padding="10,8"
+                    Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                    BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconExport}" Width="14" Height="14"/>
+                <TextBlock Text="Export" VerticalAlignment="Center" FontSize="13"/>
+              </StackPanel>
+            </Button>
+            <Button Command="{Binding OpenAddProductCommand}" Classes="primary" Padding="12,8">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14"/>
+                <TextBlock Text="Add Item" VerticalAlignment="Center" FontSize="13"/>
+              </StackPanel>
+            </Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <TextBlock Grid.Row="1" Text="{Binding ExportImportMessage}"
+                 IsVisible="{Binding ExportImportMessage, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
+                 Foreground="{StaticResource SuccessBrush}" FontSize="12" Margin="24,0,24,8"/>
+
+      <!-- KPI row -->
+      <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="24" Margin="24,0,24,16">
+        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" MinWidth="140">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource PrimaryBrush}" Opacity="0.2">
+              <PathIcon Data="{StaticResource IconCoffee}" Width="20" Height="20"
+                        Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding TotalProducts}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Products" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" MinWidth="140">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource SecondaryBrush}" Opacity="0.2">
+              <PathIcon Data="{StaticResource IconInventory}" Width="20" Height="20"
+                        Foreground="{StaticResource SecondaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding TotalCategories}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Categories" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+        <Border Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+                Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" MinWidth="140">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource WarningBrush}" Opacity="0.2">
+              <PathIcon Data="{StaticResource IconInfo}" Width="20" Height="20"
+                        Foreground="{StaticResource WarningBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding LowStockCount}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Low Stock" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            </StackPanel>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <ProgressBar Grid.Row="3" IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4" Margin="0,0,0,8"/>
+
+      <!-- Two-column: left sidebar categories + right card grid -->
+      <Grid Grid.Row="4" ColumnDefinitions="200,*" IsVisible="{Binding !IsLoading}" Margin="24,0">
+        <!-- Left sidebar: categories -->
+        <controls:Card Grid.Column="0" Padding="0" Margin="0,0,12,0">
+          <Grid RowDefinitions="Auto,*">
+            <Border Grid.Row="0" Padding="16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+              <TextBlock Text="Categories" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+            </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="8,8">
+              <StackPanel Spacing="4">
+                <Button Padding="12,10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                        Background="Transparent" BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}"
+                        Command="{Binding SelectAllCategoriesCommand}"
+                        Cursor="Hand">
+                  <Button.Styles>
+                    <Style Selector="Button">
+                      <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                    <Style Selector="Button:pointerover">
+                      <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+                    </Style>
+                  </Button.Styles>
+                  <TextBlock Text="All" FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"/>
+                </Button>
+                <ItemsControl ItemsSource="{Binding Categories}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="core:Category">
+                      <Grid ColumnDefinitions="*,Auto,Auto" Margin="0,2">
+                        <Button Grid.Column="0" Padding="12,10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                                Background="Transparent" BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}"
+                                Command="{Binding #Root.DataContext.SelectCategoryCommand}" CommandParameter="{Binding}">
+                          <TextBlock Text="{Binding Name}" FontSize="13" Foreground="{StaticResource OnSurfaceBrush}" TextTrimming="CharacterEllipsis"/>
+                        </Button>
+                        <Button Grid.Column="1" Padding="6" Classes="ghost" Command="{Binding #Root.DataContext.OpenEditCategoryCommand}" CommandParameter="{Binding}" ToolTip.Tip="Sửa">
+                          <PathIcon Data="{StaticResource IconEdit}" Width="14" Height="14"/>
+                        </Button>
+                        <Button Grid.Column="2" Padding="6" Classes="ghost" Command="{Binding #Root.DataContext.RequestDeleteCategoryCommand}" CommandParameter="{Binding}" ToolTip.Tip="Xóa">
+                          <PathIcon Data="{StaticResource IconDelete}" Width="14" Height="14" Foreground="{StaticResource ErrorBrush}"/>
+                        </Button>
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Margin="0,8,0,0" Padding="12,10" HorizontalAlignment="Stretch"
+                        Command="{Binding OpenAddCategoryCommand}"
+                        Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                        BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+                  <StackPanel Orientation="Horizontal" Spacing="6">
+                    <PathIcon Data="{StaticResource IconAdd}" Width="14" Height="14"/>
+                    <TextBlock Text="Add Category" FontSize="13" VerticalAlignment="Center"/>
+                  </StackPanel>
+                </Button>
+              </StackPanel>
+            </ScrollViewer>
+          </Grid>
+        </controls:Card>
+
+        <!-- Right: search + card grid -->
+        <StackPanel Grid.Column="1" Spacing="12">
+          <Grid ColumnDefinitions="*,Auto">
+            <controls:SearchBox Grid.Column="0" Text="{Binding SearchText}" Watermark="Search products..."/>
+            <Button Grid.Column="1" Command="{Binding LoadCommand}" Padding="10,8" Margin="12,0,0,0"
+                    Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+              <StackPanel Orientation="Horizontal" Spacing="6">
+                <PathIcon Data="{StaticResource IconRefresh}" Width="14" Height="14"/>
+                <TextBlock Text="Refresh" VerticalAlignment="Center" FontSize="13"/>
+              </StackPanel>
+            </Button>
+          </Grid>
+
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding FilteredProducts}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel/>
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="core:MenuItem">
+                  <Border Width="200" MinHeight="240" Margin="0,0,16,16"
+                          Background="{StaticResource SurfaceBrush}"
+                          CornerRadius="{DynamicResource CornerRadius12}"
+                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                          BoxShadow="0 2 8 0 #10000000">
+                    <Grid RowDefinitions="Auto,Auto,*">
+                      <!-- Image / placeholder -->
+                      <Border Grid.Row="0" Height="120" CornerRadius="12,12,0,0"
+                              Background="{StaticResource SurfaceMutedBrush}" ClipToBounds="True">
+                        <PathIcon Data="{StaticResource IconCoffee}" Width="48" Height="48"
+                                  Foreground="{StaticResource PrimaryBrush}" Opacity="0.6"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      </Border>
+                      <!-- Name + category -->
+                      <Border Grid.Row="1" Padding="12,10">
+                        <StackPanel Spacing="4">
+                          <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold"
+                                     Foreground="{StaticResource OnSurfaceBrush}"
+                                     TextTrimming="CharacterEllipsis" MaxHeight="40" TextWrapping="Wrap"/>
+                          <TextBlock Text="{Binding Category.Name, FallbackValue='—'}"
+                                     FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                        </StackPanel>
+                      </Border>
+                      <!-- Price, stock, actions -->
+                      <Border Grid.Row="2" Padding="12,8" VerticalAlignment="Bottom"
+                              BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+                        <Grid RowDefinitions="Auto,Auto">
+                          <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                            <TextBlock Text="{Binding SellPrice, StringFormat='{}{0:N0} ₫'}"
+                                       FontSize="14" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"
+                                       VerticalAlignment="Center"/>
+                            <controls:StatusBadge Grid.Column="1" Text="{Binding Quantity, StringFormat='Qty {0}'}"
+                                                  BadgeBrush="{StaticResource SuccessBrush}"/>
+                          </Grid>
+                          <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="6">
+                            <Button Grid.Column="0" Command="{Binding #Root.DataContext.OpenEditProductCommand}" CommandParameter="{Binding}"
+                                    Padding="8,6" Classes="secondary">
+                              <TextBlock Text="Sửa" FontSize="12"/>
+                            </Button>
+                            <Button Grid.Column="1" Command="{Binding #Root.DataContext.RequestDeleteProductCommand}" CommandParameter="{Binding}"
+                                    Padding="8,6" Classes="danger">
+                              <TextBlock Text="Xóa" FontSize="12"/>
+                            </Button>
+                          </Grid>
+                        </Grid>
+                      </Border>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </StackPanel>
+      </Grid>
+    </Grid>
+
+    <!-- Product edit modal -->
+    <controls:ModalOverlay IsOpen="{Binding IsProductEditOpen}" Title="Product Details">
+      <StackPanel Spacing="16" MinWidth="360">
+        <StackPanel Spacing="4">
+          <TextBlock Text="Name" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBox Text="{Binding ProductName}" Watermark="Product name"/>
+        </StackPanel>
+        <Grid ColumnDefinitions="*,*">
+          <StackPanel Grid.Column="0" Spacing="4" Margin="0,0,8,0">
+            <TextBlock Text="Price" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBox Text="{Binding ProductPrice}" Watermark="0"/>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="4" Margin="8,0,0,0">
+            <TextBlock Text="Category" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding ProductFormCategory}"
+                      DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch"/>
+          </StackPanel>
+        </Grid>
+        <Grid ColumnDefinitions="*,*">
+          <StackPanel Grid.Column="0" Spacing="4" Margin="0,0,8,0">
+            <TextBlock Text="Quantity" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBox Text="{Binding ProductQuantity}" Watermark="0"/>
+          </StackPanel>
+          <StackPanel Grid.Column="1" Spacing="4" Margin="8,0,0,0">
+            <TextBlock Text="Reorder Level" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBox Text="{Binding ProductReorderLevel}" Watermark="0"/>
+          </StackPanel>
+        </Grid>
+        <TextBlock Text="{Binding FormError}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap"
+                   IsVisible="{Binding FormError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,4"/>
+        <Grid ColumnDefinitions="*,Auto">
+          <Button Grid.Column="0" Content="Hủy" Command="{Binding CloseProductEditCommand}"
+                  HorizontalAlignment="Left" Padding="16,10"/>
+          <Button Grid.Column="1" Classes="primary" Command="{Binding SaveProductCommand}" Padding="20,10">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconCheck}" Width="14" Height="14"/>
+              <TextBlock Text="Save Product" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+      </StackPanel>
+    </controls:ModalOverlay>
+
+    <!-- Category edit modal -->
+    <controls:ModalOverlay IsOpen="{Binding IsCategoryEditOpen}" Title="Danh mục">
+      <StackPanel Spacing="16" MinWidth="300">
+        <StackPanel Spacing="4">
+          <TextBlock Text="Tên danh mục" FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBox Text="{Binding CategoryName}" Watermark="VD: Cà phê, Trà..."/>
+        </StackPanel>
+        <TextBlock Text="{Binding FormError}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap"/>
+        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,4"/>
+        <Grid ColumnDefinitions="*,Auto">
+          <Button Grid.Column="0" Content="Hủy" Command="{Binding CloseCategoryEditCommand}"
+                  HorizontalAlignment="Left" Padding="16,10"/>
+          <Button Grid.Column="1" Classes="primary" Command="{Binding SaveCategoryCommand}" Padding="20,10">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconCheck}" Width="14" Height="14"/>
+              <TextBlock Text="Save Category" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+      </StackPanel>
+    </controls:ModalOverlay>
+
+    <controls:ModalOverlay IsOpen="{Binding IsDeleteProductConfirmOpen}" Title="Xóa món?">
+      <StackPanel Spacing="12" MinWidth="320">
+        <TextBlock Text="Món sẽ bị xóa khỏi thực đơn." TextWrapping="Wrap" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+        <TextBlock Text="{Binding FormError}" Foreground="{StaticResource ErrorBrush}"/>
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+          <Button Content="Hủy" Command="{Binding CancelDeleteProductCommand}"/>
+          <Button Content="Xóa" Command="{Binding ConfirmDeleteProductCommand}" Classes="danger"/>
+        </StackPanel>
+      </StackPanel>
+    </controls:ModalOverlay>
+
+    <controls:ModalOverlay IsOpen="{Binding IsDeleteCategoryConfirmOpen}" Title="Xóa danh mục?">
+      <StackPanel Spacing="12" MinWidth="320">
+        <TextBlock Text="Chỉ xóa được danh mục không còn món." TextWrapping="Wrap" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+        <TextBlock Text="{Binding FormError}" Foreground="{StaticResource ErrorBrush}"/>
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+          <Button Content="Hủy" Command="{Binding CancelDeleteCategoryCommand}"/>
+          <Button Content="Xóa" Command="{Binding ConfirmDeleteCategoryCommand}" Classes="danger"/>
+        </StackPanel>
+      </StackPanel>
+    </controls:ModalOverlay>
+  </Panel>
+</UserControl>

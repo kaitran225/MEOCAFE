@@ -1,0 +1,1 @@
+ALTER TABLE menu_items ADD COLUMN reorder_level INTEGER NOT NULL DEFAULT 0;

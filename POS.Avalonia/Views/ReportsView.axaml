@@ -1,0 +1,251 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.ReportsView" x:DataType="vm:ReportsViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*">
+    <!-- Header -->
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
+      <controls:PageTitle Title="Reports &amp; Analytics">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <Button Padding="12,8"
+                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconExport}" Width="16" Height="16"
+                        Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Export"/>
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding RunSalesSummaryCommand}" Classes="primary" Padding="12,8"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
+                        Foreground="{StaticResource OnPrimaryBrush}"/>
+              <TextBlock Text="Refresh"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </controls:PageTitle>
+      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
+    </StackPanel>
+
+    <!-- Content -->
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,24">
+      <StackPanel Spacing="{DynamicResource Spacing24}">
+        <!-- Date range filter -->
+        <Border Background="{StaticResource SurfaceBrush}"
+              CornerRadius="{DynamicResource CornerRadius12}" Padding="20,16"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              BoxShadow="0 2 8 0 #12000000">
+        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*" VerticalAlignment="Center">
+          <PathIcon Data="{StaticResource IconCalendar}" Width="18" Height="18"
+                    Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center"
+                    Margin="0,0,12,0"/>
+          <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center" Margin="0,0,12,0">
+            <TextBlock Text="From" FontSize="{DynamicResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <CalendarDatePicker SelectedDate="{Binding DateFrom}"
+                                Width="160" Watermark="Start date"/>
+          </StackPanel>
+          <Border Grid.Column="2" Width="24" Height="1"
+                  Background="{StaticResource BorderBrush}" VerticalAlignment="Center"
+                  Margin="4,12,4,0"/>
+          <StackPanel Grid.Column="3" Spacing="2" VerticalAlignment="Center" Margin="12,0">
+            <TextBlock Text="To" FontSize="{DynamicResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <CalendarDatePicker SelectedDate="{Binding DateTo}"
+                                Width="160" Watermark="End date"/>
+          </StackPanel>
+          <Button Grid.Column="4" Command="{Binding RunSalesSummaryCommand}"
+                  Padding="16,10" Margin="12,12,0,0"
+                  Background="{StaticResource PrimaryBrush}" Foreground="{StaticResource OnPrimaryBrush}"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconBarChart}" Width="16" Height="16"
+                        Foreground="{StaticResource OnPrimaryBrush}"/>
+              <TextBlock Text="Generate Report"/>
+            </StackPanel>
+          </Button>
+        </Grid>
+      </Border>
+
+      <!-- KPI Summary Cards -->
+      <StackPanel IsVisible="{Binding HasSummary}" Spacing="{DynamicResource Spacing24}">
+        <Grid ColumnDefinitions="*,*,*">
+          <controls:KpiCard Grid.Column="0" Margin="0,0,8,0"
+                            Title="Total Revenue"
+                            Value="{Binding Summary.TotalRevenue, StringFormat='{}{0:N0} ₫'}"
+                            Subtitle="For selected period"
+                            AccentBrush="{StaticResource PrimaryBrush}"/>
+          <controls:KpiCard Grid.Column="1" Margin="8,0"
+                            Title="Order Count"
+                            Value="{Binding Summary.OrderCount}"
+                            Subtitle="Total orders"
+                            AccentBrush="{StaticResource SecondaryBrush}"/>
+          <controls:KpiCard Grid.Column="2" Margin="8,0,0,0"
+                            Title="Avg Ticket"
+                            Value="{Binding Summary.AverageTicket, StringFormat='{}{0:N0} ₫'}"
+                            Subtitle="Per transaction"
+                            AccentBrush="#FFFBBF24"/>
+        </Grid>
+
+        <!-- Charts Section -->
+        <Border Background="{StaticResource SurfaceBrush}"
+                CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                BoxShadow="0 2 12 0 #0F000000">
+          <StackPanel Spacing="{DynamicResource Spacing16}">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Daily Sales Overview"
+                           FontSize="{DynamicResource SubtitleFontSize}"
+                           FontWeight="{StaticResource SubtitleFontWeight}"
+                           Foreground="{StaticResource OnSurfaceBrush}"/>
+                <TextBlock Text="Revenue distribution across the selected period"
+                           FontSize="{DynamicResource CaptionFontSize}"
+                           Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              </StackPanel>
+              <Border Grid.Column="1" Background="{StaticResource SurfaceMutedBrush}"
+                      CornerRadius="100" Padding="10,6">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                  <PathIcon Data="{StaticResource IconBarChart}" Width="14" Height="14"
+                            Foreground="{StaticResource PrimaryBrush}"/>
+                  <TextBlock Text="Bar Chart" FontSize="{DynamicResource CaptionFontSize}"
+                             FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
+                </StackPanel>
+              </Border>
+            </Grid>
+
+            <Border Height="1" Background="{StaticResource BorderBrush}"/>
+
+            <!-- Bar Chart Placeholder -->
+            <Grid Height="200" ColumnDefinitions="*,*,*,*,*,*,*" VerticalAlignment="Bottom"
+                  Margin="0,16,0,0">
+              <Border Grid.Column="0" Background="{StaticResource PrimaryBrush}" Opacity="0.8"
+                      CornerRadius="6,6,0,0" Height="120" VerticalAlignment="Bottom" Margin="6,0"/>
+              <Border Grid.Column="1" Background="{StaticResource PrimaryBrush}" Opacity="0.9"
+                      CornerRadius="6,6,0,0" Height="160" VerticalAlignment="Bottom" Margin="6,0"/>
+              <Border Grid.Column="2" Background="{StaticResource PrimaryBrush}"
+                      CornerRadius="6,6,0,0" Height="200" VerticalAlignment="Bottom" Margin="6,0"/>
+              <Border Grid.Column="3" Background="{StaticResource PrimaryBrush}" Opacity="0.7"
+                      CornerRadius="6,6,0,0" Height="140" VerticalAlignment="Bottom" Margin="6,0"/>
+              <Border Grid.Column="4" Background="{StaticResource PrimaryBrush}" Opacity="0.85"
+                      CornerRadius="6,6,0,0" Height="170" VerticalAlignment="Bottom" Margin="6,0"/>
+              <Border Grid.Column="5" Background="{StaticResource PrimaryBrush}" Opacity="0.6"
+                      CornerRadius="6,6,0,0" Height="100" VerticalAlignment="Bottom" Margin="6,0"/>
+              <Border Grid.Column="6" Background="{StaticResource PrimaryBrush}" Opacity="0.75"
+                      CornerRadius="6,6,0,0" Height="130" VerticalAlignment="Bottom" Margin="6,0"/>
+            </Grid>
+            <Grid ColumnDefinitions="*,*,*,*,*,*,*">
+              <TextBlock Grid.Column="0" Text="Mon" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="1" Text="Tue" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="2" Text="Wed" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="3" Text="Thu" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="4" Text="Fri" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="5" Text="Sat" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+              <TextBlock Grid.Column="6" Text="Sun" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+            </Grid>
+          </StackPanel>
+        </Border>
+
+        <!-- Revenue Breakdown -->
+        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+          <Border Grid.Column="0" Margin="0,0,8,0" Background="{StaticResource SurfaceBrush}"
+                  CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                  BoxShadow="0 2 12 0 #0F000000">
+            <StackPanel Spacing="{DynamicResource Spacing16}">
+              <TextBlock Text="Revenue Summary"
+                         FontSize="{DynamicResource SubtitleFontSize}"
+                         FontWeight="{StaticResource SubtitleFontWeight}"
+                         Foreground="{StaticResource OnSurfaceBrush}"/>
+              <Border Height="1" Background="{StaticResource BorderBrush}"/>
+              <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                <TextBlock Text="Total Revenue" FontSize="{DynamicResource BodyFontSize}"
+                           Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Summary.TotalRevenue, StringFormat='{}{0:N0} ₫'}"
+                           FontSize="{DynamicResource BodyFontSize}" FontWeight="Bold"
+                           Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center"/>
+              </Grid>
+              <Border Height="1" Background="{StaticResource BorderBrush}" Opacity="0.5"/>
+              <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                <TextBlock Text="Total Orders" FontSize="{DynamicResource BodyFontSize}"
+                           Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Summary.OrderCount}"
+                           FontSize="{DynamicResource BodyFontSize}" FontWeight="Bold"
+                           Foreground="{StaticResource SecondaryBrush}" VerticalAlignment="Center"/>
+              </Grid>
+              <Border Height="1" Background="{StaticResource BorderBrush}" Opacity="0.5"/>
+              <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                <TextBlock Text="Average Ticket" FontSize="{DynamicResource BodyFontSize}"
+                           Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Summary.AverageTicket, StringFormat='{}{0:N0} ₫'}"
+                           FontSize="{DynamicResource BodyFontSize}" FontWeight="Bold"
+                           Foreground="#FFFBBF24" VerticalAlignment="Center"/>
+              </Grid>
+            </StackPanel>
+          </Border>
+
+          <Border Grid.Column="1" Margin="8,0,0,0" Background="{StaticResource SurfaceBrush}"
+                  CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                  BoxShadow="0 2 12 0 #0F000000">
+            <StackPanel Spacing="{DynamicResource Spacing16}">
+              <TextBlock Text="Quick Insights"
+                         FontSize="{DynamicResource SubtitleFontSize}"
+                         FontWeight="{StaticResource SubtitleFontWeight}"
+                         Foreground="{StaticResource OnSurfaceBrush}"/>
+              <Border Height="1" Background="{StaticResource BorderBrush}"/>
+              <Border Background="{StaticResource SurfaceMutedBrush}"
+                      CornerRadius="{DynamicResource CornerRadius8}" Padding="16,12">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="Performance" FontSize="{DynamicResource CaptionFontSize}"
+                             FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
+                  <TextBlock Text="Revenue data loaded for the selected date range."
+                             FontSize="{DynamicResource CaptionFontSize}"
+                             Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap"/>
+                </StackPanel>
+              </Border>
+              <Border Background="{StaticResource SurfaceMutedBrush}"
+                      CornerRadius="{DynamicResource CornerRadius8}" Padding="16,12">
+                <StackPanel Spacing="4">
+                  <TextBlock Text="Tip" FontSize="{DynamicResource CaptionFontSize}"
+                             FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  <TextBlock Text="Adjust the date range above and click Generate Report to view different periods."
+                             FontSize="{DynamicResource CaptionFontSize}"
+                             Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap"/>
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </Border>
+        </Grid>
+      </StackPanel>
+
+        <!-- Empty state -->
+        <Border Padding="48,40" Background="{StaticResource SurfaceBrush}"
+              CornerRadius="{DynamicResource CornerRadius12}"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              BoxShadow="0 2 12 0 #0F000000"
+              HorizontalAlignment="Stretch"
+              IsVisible="{Binding !HasSummary}">
+        <StackPanel HorizontalAlignment="Center" Spacing="12">
+          <PathIcon Data="{StaticResource IconReport}" Width="48" Height="48"
+                    Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.4"
+                    HorizontalAlignment="Center"/>
+          <TextBlock Text="No report generated yet"
+                     FontSize="{DynamicResource SubtitleFontSize}"
+                     FontWeight="{StaticResource SubtitleFontWeight}"
+                     Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+          <TextBlock Text="Select a date range above and click Generate Report to view sales analytics."
+                     FontSize="{DynamicResource BodyFontSize}"
+                     Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"
+                     TextWrapping="Wrap" MaxWidth="400" TextAlignment="Center"/>
+        </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

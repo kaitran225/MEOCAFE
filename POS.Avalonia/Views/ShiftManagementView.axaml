@@ -1,0 +1,184 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.ShiftManagementView"
+             x:Name="Root"
+             x:DataType="vm:ShiftManagementViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*">
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
+      <controls:PageTitle Title="Shift Management">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <TextBox Text="{Binding SelectedDateText}" Watermark="Date (yyyy-MM-dd)" MinWidth="160"
+                   CornerRadius="{DynamicResource CornerRadius8}"/>
+          <Button Command="{Binding LoadCommand}" Padding="12,8"
+                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
+                        Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Refresh"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </controls:PageTitle>
+      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
+    </StackPanel>
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,24">
+      <StackPanel Spacing="{DynamicResource Spacing24}">
+      <!-- KPI cards -->
+      <Grid ColumnDefinitions="*,*,*" Margin="0">
+        <controls:KpiCard Grid.Column="0" Margin="0,0,12,0"
+                          Title="TOTAL SESSIONS"
+                          Value="{Binding Sessions.Count}"
+                          Subtitle="{Binding SelectedDateText}"
+                          AccentBrush="{StaticResource PrimaryBrush}"/>
+        <controls:KpiCard Grid.Column="1" Margin="6,0"
+                          Title="SESSION STATUS"
+                          Value="{Binding SessionCountText}"
+                          Subtitle="For selected date"
+                          AccentBrush="{StaticResource SecondaryBrush}"/>
+        <controls:KpiCard Grid.Column="2" Margin="12,0,0,0"
+                          Title="DATE"
+                          Value="{Binding SelectedDateText}"
+                          Subtitle="Currently viewing"
+                          AccentBrush="{StaticResource SuccessBrush}"/>
+      </Grid>
+
+      <!-- Data Table Card -->
+      <controls:Card Padding="24">
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Text="Shift Sessions"
+                       FontSize="{DynamicResource SubtitleFontSize}"
+                       FontWeight="{StaticResource SubtitleFontWeight}"
+                       Foreground="{StaticResource OnSurfaceBrush}"/>
+            <TextBlock Grid.Column="1"
+                       FontSize="{DynamicResource CaptionFontSize}"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center">
+              <Run Text="{Binding Sessions.Count, Mode=OneWay}"/><Run Text=" session(s)"/>
+            </TextBlock>
+          </Grid>
+
+          <!-- Table Header -->
+          <Grid ColumnDefinitions="44,2*,*,*,*,*,80" Margin="12,0">
+            <TextBlock Grid.Column="0" Text="" MinWidth="44"/>
+            <TextBlock Grid.Column="1" Text="Employee"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="2" Text="Start Time"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="3" Text="End Time"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="4" Text="Opening Cash"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="5" Text="Closing Cash"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="6" Text="Status" HorizontalAlignment="Center"
+                       FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          </Grid>
+          <Border Height="1" Background="{StaticResource BorderBrush}"/>
+
+          <!-- Session Rows -->
+          <ListBox ItemsSource="{Binding Sessions}"
+                   Background="Transparent" BorderThickness="0" Padding="0" MinHeight="280"
+                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.Styles>
+              <Style Selector="ListBoxItem">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0,1"/>
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
+              </Style>
+              <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+              </Style>
+            </ListBox.Styles>
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="core:ShiftSession">
+                <Border Padding="12,10">
+                  <Grid ColumnDefinitions="44,2*,*,*,*,*,80">
+
+                    <!-- Avatar -->
+                    <Border Grid.Column="0" Width="36" Height="36" CornerRadius="18"
+                            Background="{StaticResource SurfaceMutedBrush}" Margin="0,0,8,0">
+                      <PathIcon Data="{StaticResource IconPerson}" Width="18" Height="18"
+                                Foreground="{StaticResource PrimaryBrush}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Employee name -->
+                    <TextBlock Grid.Column="1" Text="{Binding Username}" VerticalAlignment="Center"
+                               FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
+                               Foreground="{StaticResource OnSurfaceBrush}"/>
+
+                    <!-- Start Time -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                      <PathIcon Data="{StaticResource IconShift}" Width="12" Height="12"
+                                Foreground="{StaticResource SuccessBrush}"/>
+                      <TextBlock Text="{Binding StartAt, StringFormat='{}{0:HH:mm}'}"
+                                 FontSize="{DynamicResource BodyFontSize}"
+                                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </StackPanel>
+
+                    <!-- End Time -->
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                      <PathIcon Data="{StaticResource IconShift}" Width="12" Height="12"
+                                Foreground="{StaticResource ErrorBrush}"/>
+                      <TextBlock Text="{Binding EndAt, StringFormat='{}{0:HH:mm}', TargetNullValue='—'}"
+                                 FontSize="{DynamicResource BodyFontSize}"
+                                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                    </StackPanel>
+
+                    <!-- Opening Cash -->
+                    <TextBlock Grid.Column="4" Text="{Binding OpeningCash, StringFormat='{}{0:N0} ₫'}"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource CaptionFontSize}"
+                               Foreground="{StaticResource SecondaryBrush}" FontWeight="SemiBold"/>
+
+                    <!-- Closing Cash -->
+                    <TextBlock Grid.Column="5" Text="{Binding ClosingCash, StringFormat='{}{0:N0} ₫', TargetNullValue='—'}"
+                               VerticalAlignment="Center"
+                               FontSize="{DynamicResource CaptionFontSize}"
+                               Foreground="{StaticResource SecondaryBrush}" FontWeight="SemiBold"/>
+
+                    <!-- Status Badge -->
+                    <Panel Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center">
+                      <controls:StatusBadge Text="Active" BadgeBrush="{StaticResource SuccessBrush}"
+                                            IsVisible="{Binding !EndAt.HasValue}"/>
+                      <controls:StatusBadge Text="Closed" BadgeBrush="{StaticResource OnSurfaceMutedBrush}"
+                                            IsVisible="{Binding EndAt.HasValue}"/>
+                    </Panel>
+
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+
+          <!-- Empty State -->
+          <Border Padding="32,24" Background="{StaticResource BackgroundBrush}"
+                  CornerRadius="{DynamicResource CornerRadius8}" HorizontalAlignment="Stretch"
+                  IsVisible="{Binding !Sessions.Count}">
+            <StackPanel HorizontalAlignment="Center" Spacing="8">
+              <PathIcon Data="{StaticResource IconShift}" Width="32" Height="32"
+                        Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.5"/>
+              <TextBlock Text="No sessions for this date" FontSize="{DynamicResource BodyFontSize}"
+                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </controls:Card>
+
+    </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

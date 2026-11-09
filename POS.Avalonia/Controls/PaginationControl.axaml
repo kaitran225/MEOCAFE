@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="POS.Avalonia.Controls.PaginationControl"
+             x:Name="Root">
+  <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
+    <Button Command="{Binding #Root.PrevCommand}" Padding="12,8"
+            Background="{StaticResource DarkSurfaceAltBrush}" Foreground="{StaticResource DarkTextPrimaryBrush}"
+            CornerRadius="{DynamicResource CornerRadius8}">
+      <TextBlock Text="Previous"/>
+    </Button>
+    <TextBlock Text="{Binding #Root.Summary}" VerticalAlignment="Center"
+               FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource DarkTextMutedBrush}"/>
+    <Button Command="{Binding #Root.NextCommand}" Padding="12,8"
+            Background="{StaticResource DarkSurfaceAltBrush}" Foreground="{StaticResource DarkTextPrimaryBrush}"
+            CornerRadius="{DynamicResource CornerRadius8}">
+      <TextBlock Text="Next"/>
+    </Button>
+  </StackPanel>
+</UserControl>

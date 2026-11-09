@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Controls.BarChart"
+             x:Name="Root">
+  <ItemsControl ItemsSource="{Binding #Root.Items}">
+    <ItemsControl.ItemsPanel>
+      <ItemsPanelTemplate>
+        <StackPanel Orientation="Horizontal"
+                    Spacing="{DynamicResource Spacing8}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"/>
+      </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate>
+      <DataTemplate x:DataType="controls:BarChartItem">
+        <StackPanel Spacing="{DynamicResource Spacing4}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Width="40">
+          <TextBlock Text="{Binding Value, StringFormat='{}{0:N0}'}"
+                     FontSize="{DynamicResource CaptionFontSize}"
+                     FontWeight="{StaticResource SubtitleFontWeight}"
+                     Foreground="{StaticResource OnSurfaceBrush}"
+                     HorizontalAlignment="Center"/>
+          <Border Background="{StaticResource PrimaryBrush}"
+                  CornerRadius="4,4,0,0"
+                  Width="32"
+                  Height="{Binding BarHeight}"
+                  MinHeight="4"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Bottom"/>
+          <TextBlock Text="{Binding Label}"
+                     FontSize="{DynamicResource CaptionFontSize}"
+                     FontWeight="{StaticResource CaptionFontWeight}"
+                     Foreground="{StaticResource OnSurfaceMutedBrush}"
+                     HorizontalAlignment="Center"
+                     TextTrimming="CharacterEllipsis"
+                     MaxWidth="40"/>
+        </StackPanel>
+      </DataTemplate>
+    </ItemsControl.ItemTemplate>
+  </ItemsControl>
+</UserControl>

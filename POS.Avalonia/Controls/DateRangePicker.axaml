@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="POS.Avalonia.Controls.DateRangePicker"
+             x:Name="Root">
+  <StackPanel Orientation="Horizontal"
+              Spacing="{DynamicResource Spacing8}"
+              VerticalAlignment="Center">
+    <StackPanel Spacing="{DynamicResource Spacing4}">
+      <TextBlock Text="From"
+                 FontSize="{DynamicResource CaptionFontSize}"
+                 FontWeight="{StaticResource CaptionFontWeight}"
+                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+      <CalendarDatePicker SelectedDate="{Binding #Root.StartDate, Mode=TwoWay}"
+                          Watermark="Start date"
+                          MinWidth="140"/>
+    </StackPanel>
+    <TextBlock Text="–"
+               FontSize="{DynamicResource SubtitleFontSize}"
+               Foreground="{StaticResource OnSurfaceMutedBrush}"
+               VerticalAlignment="Bottom"
+               Margin="0,0,0,8"/>
+    <StackPanel Spacing="{DynamicResource Spacing4}">
+      <TextBlock Text="To"
+                 FontSize="{DynamicResource CaptionFontSize}"
+                 FontWeight="{StaticResource CaptionFontWeight}"
+                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+      <CalendarDatePicker SelectedDate="{Binding #Root.EndDate, Mode=TwoWay}"
+                          Watermark="End date"
+                          MinWidth="140"/>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

@@ -1,0 +1,93 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- HienXanh: professional black UI + matcha accent -->
+
+  <SolidColorBrush x:Key="PrimaryBrush" Color="#6B8E6B"/>
+  <SolidColorBrush x:Key="PrimaryLightBrush" Color="#3D5C40"/>
+  <SolidColorBrush x:Key="SecondaryBrush" Color="#8B6B4A"/>
+  <SolidColorBrush x:Key="SecondaryLightBrush" Color="#3A322C"/>
+
+  <SolidColorBrush x:Key="ErrorBrush" Color="#EF5350"/>
+  <SolidColorBrush x:Key="ErrorBgBrush" Color="#33EF5350"/>
+  <SolidColorBrush x:Key="SuccessBrush" Color="#5A7D5A"/>
+  <SolidColorBrush x:Key="SuccessBgBrush" Color="#3322C55E"/>
+
+  <SolidColorBrush x:Key="AvailableBrush" Color="#22C55E"/>
+  <SolidColorBrush x:Key="OccupiedBrush" Color="#F59E0B"/>
+  <SolidColorBrush x:Key="WarningBrush" Color="#F59E0B"/>
+  <SolidColorBrush x:Key="InfoBrush" Color="#3B82F6"/>
+  <SolidColorBrush x:Key="AccentAmberBrush" Color="#FBBF24"/>
+
+  <!-- Main surfaces (dark default) -->
+  <SolidColorBrush x:Key="BackgroundBrush" Color="#0F0F0F"/>
+  <SolidColorBrush x:Key="SurfaceBrush" Color="#1A1A1A"/>
+  <SolidColorBrush x:Key="SurfaceMutedBrush" Color="#252525"/>
+  <SolidColorBrush x:Key="BorderBrush" Color="#333333"/>
+
+  <SolidColorBrush x:Key="BlackBrush" Color="#0A0A0A"/>
+  <SolidColorBrush x:Key="BlackSurfaceBrush" Color="#141414"/>
+  <SolidColorBrush x:Key="SidebarBrush" Color="#141414"/>
+  <SolidColorBrush x:Key="OnSurfaceBrush" Color="#F1F5F9"/>
+  <SolidColorBrush x:Key="OnSurfaceMutedBrush" Color="#94A3B8"/>
+
+  <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarIconBgBrush" Color="#22FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarUserBgBrush" Color="#18FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarButtonBgBrush" Color="#30FFFFFF"/>
+  <SolidColorBrush x:Key="AppBarButtonBorderBrush" Color="#28FFFFFF"/>
+
+  <SolidColorBrush x:Key="NavSelectedBrush" Color="#6B8E6B"/>
+  <SolidColorBrush x:Key="NavSelectedFgBrush" Color="#FFFFFF"/>
+  <SolidColorBrush x:Key="SidebarBorderBrush" Color="#333333"/>
+  <SolidColorBrush x:Key="SidebarHoverBrush" Color="#2A2A2A"/>
+  <SolidColorBrush x:Key="SidebarItemBrush" Color="#336B8E6B"/>
+
+  <!-- Legacy dark tokens (aliases) -->
+  <SolidColorBrush x:Key="DarkBackgroundBrush" Color="#0F0F0F"/>
+  <SolidColorBrush x:Key="DarkSurfaceBrush" Color="#1A1A1A"/>
+  <SolidColorBrush x:Key="DarkSurfaceAltBrush" Color="#252525"/>
+  <SolidColorBrush x:Key="DarkBorderBrush" Color="#333333"/>
+  <SolidColorBrush x:Key="DarkBorderHoverBrush" Color="#444444"/>
+  <SolidColorBrush x:Key="DarkTextPrimaryBrush" Color="#F1F5F9"/>
+  <SolidColorBrush x:Key="DarkTextMutedBrush" Color="#94A3B8"/>
+  <SolidColorBrush x:Key="DarkTextSecondaryBrush" Color="#A5C893"/>
+
+  <SolidColorBrush x:Key="OverlayDimBrush" Color="#CC000000"/>
+  <SolidColorBrush x:Key="OverlayDimStrongBrush" Color="#E6000000"/>
+
+  <!-- Stock indicators -->
+  <SolidColorBrush x:Key="StockLowBrush" Color="#FBBF24"/>
+
+  <!-- Status bar accents for table/order cards -->
+  <SolidColorBrush x:Key="StatusBarAvailableBrush" Color="#22C55E"/>
+  <SolidColorBrush x:Key="StatusBarOccupiedBrush" Color="#F59E0B"/>
+  <SolidColorBrush x:Key="StatusBarReservedBrush" Color="{StaticResource ErrorBrush}"/>
+
+  <!-- Badge tints -->
+  <SolidColorBrush x:Key="BadgeNewBrush" Color="{StaticResource PrimaryLightBrush}"/>
+  <SolidColorBrush x:Key="BadgePendingBrush" Color="{StaticResource SecondaryLightBrush}"/>
+  <SolidColorBrush x:Key="BadgeAlertBrush" Color="{StaticResource ErrorBgBrush}"/>
+  <SolidColorBrush x:Key="BadgeBrush100" Color="#64FFFFFF"/>
+  <SolidColorBrush x:Key="BadgeBrush200" Color="#40FFFFFF"/>
+  <SolidColorBrush x:Key="BadgeBrush300" Color="{StaticResource ErrorBrush}"/>
+  <SolidColorBrush x:Key="BadgeBrush400" Color="{StaticResource SuccessBrush}"/>
+
+  <!-- KPI card accent opacities -->
+  <SolidColorBrush x:Key="KpiWarningBrush" Color="#FFFBBF24"/>
+  <SolidColorBrush x:Key="KpiWarningBgBrush" Color="#FFFBBF24" Opacity="0.3"/>
+  <SolidColorBrush x:Key="KpiErrorBrush" Color="{StaticResource ErrorBrush}"/>
+  <SolidColorBrush x:Key="KpiErrorBgBrush" Color="{StaticResource ErrorBrush}" Opacity="0.2"/>
+
+  <!-- Icon tint for kpi/accents -->
+  <SolidColorBrush x:Key="KpiIconPrimaryBrush" Color="{StaticResource PrimaryBrush}"/>
+  <SolidColorBrush x:Key="KpiIconErrorBrush" Color="{StaticResource ErrorBrush}"/>
+  <SolidColorBrush x:Key="KpiIconWarningBrush" Color="#FFFBBF24"/>
+
+  <x:String x:Key="ShadowAppBar">0 2 12 0 #60000000</x:String>
+  <x:String x:Key="ShadowContent">0 4 20 0 #50000000</x:String>
+  <x:String x:Key="ShadowCard">0 2 12 0 #40000000</x:String>
+  <x:String x:Key="ShadowDialog">0 4 24 0 #70000000</x:String>
+  <x:String x:Key="ShadowLogin">0 4 20 0 #50000000</x:String>
+  <x:String x:Key="ShadowCardLight">0 2 8 0 #35000000</x:String>
+  <x:String x:Key="ShadowCardSoft">0 2 8 0 #10000000</x:String>
+</ResourceDictionary>

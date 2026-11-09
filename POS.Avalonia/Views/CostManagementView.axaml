@@ -1,0 +1,145 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.CostManagementView"
+             x:DataType="vm:CostManagementViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*">
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
+      <controls:PageTitle Title="Cost Management">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <Button Padding="12,8"
+                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
+                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconExport}" Width="16" Height="16"
+                        Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="Export"/>
+            </StackPanel>
+          </Button>
+          <Button Command="{Binding LoadCommand}" Classes="primary" Padding="12,8"
+                  CornerRadius="{DynamicResource CornerRadius8}">
+            <StackPanel Orientation="Horizontal" Spacing="6">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
+                        Foreground="{StaticResource OnPrimaryBrush}"/>
+              <TextBlock Text="Refresh"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </controls:PageTitle>
+      <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
+    </StackPanel>
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="24,16,24,24">
+      <StackPanel Spacing="{DynamicResource Spacing24}">
+      <!-- KPI row -->
+      <Grid ColumnDefinitions="*,*,*,*" IsVisible="{Binding NotLoading}">
+        <controls:KpiCard Grid.Column="0" Margin="0,0,6,0"
+                          Title="Total Cost"
+                          Value="{Binding TotalCost, StringFormat='{}{0:N0} ₫'}"
+                          Subtitle="All tracked items"
+                          AccentBrush="{StaticResource ErrorBrush}"/>
+        <controls:KpiCard Grid.Column="1" Margin="6,0"
+                          Title="Total Revenue"
+                          Value="{Binding TotalRevenue, StringFormat='{}{0:N0} ₫'}"
+                          Subtitle="Generated revenue"
+                          AccentBrush="{StaticResource PrimaryBrush}"/>
+        <controls:KpiCard Grid.Column="2" Margin="6,0"
+                          Title="Profit Margin"
+                          Value="{Binding ProfitMargin, StringFormat='{}{0:F1}%'}"
+                          Subtitle="Overall margin"
+                          AccentBrush="{StaticResource SuccessBrush}"/>
+        <controls:KpiCard Grid.Column="3" Margin="6,0,0,0"
+                          Title="Items Tracked"
+                          Value="{Binding ItemsTracked}"
+                          Subtitle="Cost line items"
+                          AccentBrush="{StaticResource SecondaryBrush}"/>
+      </Grid>
+
+      <!-- Data Table -->
+      <controls:Card Padding="16" IsVisible="{Binding HasItems}">
+        <Grid RowDefinitions="Auto,*">
+          <!-- Column Headers -->
+          <Border Grid.Row="0" Padding="12,10" Margin="0,0,0,4">
+            <Grid ColumnDefinitions="*,120,120,120,100">
+              <TextBlock Grid.Column="0" Text="Item Name" FontSize="{DynamicResource CaptionFontSize}"
+                         FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Grid.Column="1" Text="Category" FontSize="{DynamicResource CaptionFontSize}"
+                         FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Grid.Column="2" Text="Unit Cost" FontSize="{DynamicResource CaptionFontSize}"
+                         FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                         HorizontalAlignment="Right"/>
+              <TextBlock Grid.Column="3" Text="Revenue" FontSize="{DynamicResource CaptionFontSize}"
+                         FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                         HorizontalAlignment="Right"/>
+              <TextBlock Grid.Column="4" Text="Margin" FontSize="{DynamicResource CaptionFontSize}"
+                         FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                         HorizontalAlignment="Right"/>
+            </Grid>
+          </Border>
+
+          <Border Grid.Row="0" Height="1" Background="{StaticResource BorderBrush}" VerticalAlignment="Bottom"/>
+
+          <!-- Rows -->
+          <ListBox Grid.Row="1" ItemsSource="{Binding CostItems}" MinHeight="320"
+                   Background="{StaticResource SurfaceBrush}" BorderThickness="0">
+            <ListBox.ItemTemplate>
+              <DataTemplate DataType="vm:CostItem">
+                <Border Padding="12,10" Margin="0,1" CornerRadius="8">
+                  <Grid ColumnDefinitions="*,120,120,120,100">
+                    <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
+                      <TextBlock Text="{Binding Name}" FontSize="{DynamicResource BodyFontSize}"
+                                 Foreground="{StaticResource OnSurfaceBrush}" FontWeight="Medium"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Background="{StaticResource SurfaceMutedBrush}"
+                            CornerRadius="{DynamicResource CornerRadius4}" Padding="8,4">
+                      <TextBlock Text="{Binding Category}" FontSize="{DynamicResource CaptionFontSize}"
+                                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                    </Border>
+                    <TextBlock Grid.Column="2" Text="{Binding Cost, StringFormat='{}{0:N0} ₫'}"
+                               FontSize="{DynamicResource BodyFontSize}"
+                               Foreground="{StaticResource ErrorBrush}" FontWeight="Medium"
+                               VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <TextBlock Grid.Column="3" Text="{Binding Revenue, StringFormat='{}{0:N0} ₫'}"
+                               FontSize="{DynamicResource BodyFontSize}"
+                               Foreground="{StaticResource PrimaryBrush}" FontWeight="Medium"
+                               VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <Border Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right"
+                            Background="#1A22C55E"
+                            CornerRadius="{DynamicResource CornerRadius4}" Padding="8,4">
+                      <TextBlock Text="{Binding Margin, StringFormat='{}{0:F1}%'}"
+                                 FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                                 Foreground="{StaticResource SuccessBrush}"/>
+                    </Border>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </Grid>
+      </controls:Card>
+
+      <!-- Empty State -->
+      <controls:Card Padding="48,40" HorizontalAlignment="Stretch"
+              IsVisible="{Binding !HasItems}">
+        <StackPanel HorizontalAlignment="Center" Spacing="12">
+          <PathIcon Data="{StaticResource IconCost}" Width="48" Height="48"
+                    Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.4"
+                    HorizontalAlignment="Center"/>
+          <TextBlock Text="No cost data available"
+                     FontSize="{DynamicResource SubtitleFontSize}"
+                     FontWeight="{StaticResource SubtitleFontWeight}"
+                     Foreground="{StaticResource OnSurfaceBrush}" HorizontalAlignment="Center"/>
+          <TextBlock Text="Cost tracking items will appear here once data is loaded."
+                     FontSize="{DynamicResource BodyFontSize}"
+                     Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"
+                     TextWrapping="Wrap" MaxWidth="400" TextAlignment="Center"/>
+        </StackPanel>
+      </controls:Card>
+
+    </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

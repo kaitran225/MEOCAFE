@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter</value></resheader>
+  <data name="App_Title" xml:space="preserve"><value>HienXanh POS</value></data>
+  <data name="App_Subtitle" xml:space="preserve"><value>HỆ THỐNG BÁN HÀNG</value></data>
+  <data name="Status_Online" xml:space="preserve"><value>Đang hoạt động</value></data>
+  <data name="Dashboard" xml:space="preserve"><value>Bảng điều khiển</value></data>
+  <data name="MenuManagement" xml:space="preserve"><value>Quản lý thực đơn</value></data>
+  <data name="OrderSelection" xml:space="preserve"><value>Bán hàng</value></data>
+  <data name="TableMap" xml:space="preserve"><value>Sơ đồ bàn</value></data>
+  <data name="Inventory" xml:space="preserve"><value>Kho hàng</value></data>
+  <data name="MusicPlayer" xml:space="preserve"><value>Phát nhạc</value></data>
+  <data name="DiscountManagement" xml:space="preserve"><value>Giảm giá</value></data>
+  <data name="RecipeBook" xml:space="preserve"><value>Công thức</value></data>
+  <data name="ShiftManagement" xml:space="preserve"><value>Quản lý ca</value></data>
+  <data name="ShiftRegister" xml:space="preserve"><value>Đăng ký ca</value></data>
+  <data name="BankTransaction" xml:space="preserve"><value>Giao dịch ngân hàng</value></data>
+  <data name="CostManagement" xml:space="preserve"><value>Quảng lý chi phí</value></data>
+  <data name="WasteLog" xml:space="preserve"><value>Nhật ký hao hụt</value></data>
+  <data name="Settings" xml:space="preserve"><value>Cài đặt</value></data>
+  <data name="Reports" xml:space="preserve"><value>Báo cáo</value></data>
+  <data name="DailySales" xml:space="preserve"><value>Doanh số ngày</value></data>
+  <data name="OrderHistory" xml:space="preserve"><value>Lịch sử đơn</value></data>
+  <data name="ProblemReports" xml:space="preserve"><value>Báo cáo sự cố</value></data>
+  <data name="AuditLog" xml:space="preserve"><value>Nhật ký kiểm toán</value></data>
+  <data name="StyleGuide" xml:space="preserve"><value>Style guide</value></data>
+  <data name="AiChat" xml:space="preserve"><value>Trợ lý AI</value></data>
+  <data name="Debug" xml:space="preserve"><value>Debug</value></data>
+</root>

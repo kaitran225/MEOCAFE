@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="POS.Avalonia.Controls.KpiCard"
+             x:Name="Root">
+  <Border Background="{StaticResource SurfaceBrush}"
+          BorderBrush="{StaticResource BorderBrush}"
+          BorderThickness="1"
+          CornerRadius="{DynamicResource CornerRadius12}"
+          Padding="{DynamicResource Margin24}">
+    <Grid ColumnDefinitions="Auto,4,*">
+      <Border Grid.Column="0" IsVisible="{Binding #Root.Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+              Width="40" Height="40" CornerRadius="20" Margin="0,0,12,0"
+              Background="{Binding #Root.AccentBrush}" Opacity="0.25"
+              VerticalAlignment="Top">
+        <PathIcon Data="{Binding #Root.Icon}" Width="20" Height="20"
+                  Foreground="{Binding #Root.AccentBrush}"
+                  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      </Border>
+      <Border Grid.Column="1"
+              Background="{Binding #Root.AccentBrush}"
+              CornerRadius="2"
+              Width="4"
+              VerticalAlignment="Stretch"
+              Margin="0,0,16,0"/>
+      <StackPanel Grid.Column="2" Spacing="{DynamicResource Spacing4}">
+        <TextBlock Text="{Binding #Root.Title}"
+                   FontSize="{DynamicResource CaptionFontSize}"
+                   FontWeight="{StaticResource CaptionFontWeight}"
+                   Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <TextBlock Text="{Binding #Root.Value}"
+                     FontSize="28"
+                     FontWeight="Bold"
+                     Foreground="{Binding #Root.AccentBrush}"/>
+          <Border IsVisible="{Binding #Root.TrendText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                  Background="{StaticResource SurfaceMutedBrush}"
+                  CornerRadius="100" Padding="8,4" VerticalAlignment="Center">
+            <TextBlock Text="{Binding #Root.TrendText}"
+                       FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold"
+                       Foreground="{Binding #Root.AccentBrush}"/>
+          </Border>
+        </StackPanel>
+        <TextBlock Text="{Binding #Root.Subtitle}"
+                   FontSize="{DynamicResource CaptionFontSize}"
+                   FontWeight="{StaticResource CaptionFontWeight}"
+                   Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

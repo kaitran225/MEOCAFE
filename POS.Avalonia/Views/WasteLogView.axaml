@@ -1,0 +1,93 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:POS.Avalonia.ViewModels"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:controls="using:POS.Avalonia.Controls"
+             x:Class="POS.Avalonia.Views.WasteLogView"
+             x:Name="Root"
+             x:DataType="vm:WasteLogViewModel"
+             Background="{StaticResource BackgroundBrush}">
+  <Grid RowDefinitions="Auto,*">
+    <!-- Header -->
+    <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
+      <controls:PageTitle Title="Ingredient Waste Log">
+        <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
+          <Button Content="Refresh" Command="{Binding LoadCommand}"/>
+          <Button Content="Log Waste" Command="{Binding OpenFormCommand}" Classes="primary"/>
+        </StackPanel>
+      </controls:PageTitle>
+    </StackPanel>
+
+    <!-- Table -->
+    <controls:Card Grid.Row="1" Padding="16" Margin="24,16,24,24">
+      <Grid RowDefinitions="Auto,*">
+        <!-- Column headers -->
+        <Border Grid.Row="0" Padding="12,10" Margin="0,0,0,4">
+          <Grid ColumnDefinitions="140,*,80,80,*,120">
+            <TextBlock Grid.Column="0" Text="Date" FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="1" Text="Item" FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="2" Text="Qty" FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="3" Text="Unit" FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="4" Text="Reason" FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+            <TextBlock Grid.Column="5" Text="Logged By" FontSize="{DynamicResource CaptionFontSize}"
+                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          </Grid>
+        </Border>
+
+        <!-- Rows -->
+        <ListBox Grid.Row="1" ItemsSource="{Binding WasteLogs}" MinHeight="320"
+                 Background="{StaticResource SurfaceBrush}" BorderThickness="0">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="core:IngredientWaste">
+              <Border Padding="12,10" Margin="0,2" CornerRadius="8">
+                <Grid ColumnDefinitions="140,*,80,80,*,120">
+                  <TextBlock Grid.Column="0" Text="{Binding LoggedAt, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}"
+                             VerticalAlignment="Center" FontSize="{DynamicResource CaptionFontSize}"
+                             Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBlock Grid.Column="1" Text="{Binding ItemName}" VerticalAlignment="Center"
+                             FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                  <TextBlock Grid.Column="2" Text="{Binding Quantity}" VerticalAlignment="Center"
+                             FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource ErrorBrush}"/>
+                  <TextBlock Grid.Column="3" Text="{Binding Unit}" VerticalAlignment="Center"
+                             FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBlock Grid.Column="4" Text="{Binding Reason}" VerticalAlignment="Center"
+                             FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBlock Grid.Column="5" Text="{Binding LoggedBy}" VerticalAlignment="Center"
+                             FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource SecondaryBrush}"/>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
+    </controls:Card>
+
+    <!-- Form modal overlay -->
+    <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsFormOpen}"
+            Background="{StaticResource OverlayDimBrush}" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+              Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="380"
+              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+        <StackPanel Spacing="{DynamicResource Spacing16}">
+          <TextBlock Text="Log Waste" FontSize="{DynamicResource SubtitleFontSize}"
+                     FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBox Text="{Binding ItemName}" Watermark="Item name"/>
+          <TextBox Text="{Binding Quantity}" Watermark="Quantity"/>
+          <TextBox Text="{Binding Unit}" Watermark="Unit (e.g. g, ml, pcs)"/>
+          <TextBox Text="{Binding Reason}" Watermark="Reason (e.g. Expired, Spilled)"/>
+          <TextBox Text="{Binding Notes}" Watermark="Notes (optional)" AcceptsReturn="True"
+                   MinHeight="60" TextWrapping="Wrap"/>
+          <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}" Margin="0,8,0,0">
+            <Button Content="Save" Command="{Binding SaveCommand}" Classes="primary"/>
+            <Button Content="Cancel" Command="{Binding CloseFormCommand}"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Border>
+  </Grid>
+</UserControl>
