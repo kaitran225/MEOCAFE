@@ -2,48 +2,42 @@
              xmlns:vm="using:POS.Avalonia.ViewModels"
              xmlns:core="using:POS.Core.Models"
              x:Class="POS.Avalonia.Views.ShiftRegisterView" x:DataType="vm:ShiftRegisterViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <StackPanel Spacing="16" Margin="24">
     <TextBlock Text="Shift register" FontWeight="Bold" FontSize="20"
-               Foreground="{StaticResource OnSurfaceBrush}"/>
-    <Button Content="Refresh" Command="{Binding LoadCurrentCommand}" HorizontalAlignment="Left"
-            Background="{StaticResource SurfaceMutedBrush}"
-            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-            Foreground="{StaticResource OnSurfaceBrush}"/>
+               Foreground="{DynamicResource OnSurfaceBrush}"/>
+    <Button Content="Refresh" Command="{Binding LoadCurrentCommand}" HorizontalAlignment="Left" Classes="secondary"/>
     <StackPanel IsVisible="{Binding HasCurrentShift}">
       <TextBlock Text="Current shift" FontWeight="SemiBold"
-                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                 Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
       <TextBlock Text="{Binding CurrentShift.StartAt, StringFormat='Started: {0:g}'}"
-                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                 Foreground="{DynamicResource OnSurfaceBrush}"/>
       <TextBlock Text="{Binding CurrentShift.OpeningCash, StringFormat='Opening cash: {0:N0}'}"
-                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                 Foreground="{DynamicResource OnSurfaceBrush}"/>
       <TextBox Text="{Binding ClosingCashText}" Watermark="Closing cash" Margin="0,8,0,0"
-               Background="{StaticResource SurfaceMutedBrush}"
-               Foreground="{StaticResource OnSurfaceBrush}"
-               BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-      <Button Content="Clock out" Command="{Binding ClockOutCommand}" HorizontalAlignment="Left" Margin="0,8,0,0"
-              Background="{StaticResource ErrorBrush}"
-              Foreground="{StaticResource OnPrimaryBrush}"/>
+               Background="{DynamicResource SurfaceMutedBrush}"
+               Foreground="{DynamicResource OnSurfaceBrush}"
+               BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+      <Button Content="Clock out" Command="{Binding ClockOutCommand}" HorizontalAlignment="Left" Margin="0,8,0,0" Classes="danger"/>
     </StackPanel>
     <StackPanel IsVisible="{Binding NoCurrentShift}">
       <TextBox Text="{Binding OpeningCashText}" Watermark="Opening cash"
-               Background="{StaticResource SurfaceMutedBrush}"
-               Foreground="{StaticResource OnSurfaceBrush}"
-               BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-      <Button Content="Clock in" Command="{Binding ClockInCommand}" HorizontalAlignment="Left"
-              Classes="primary"/>
+               Background="{DynamicResource SurfaceMutedBrush}"
+               Foreground="{DynamicResource OnSurfaceBrush}"
+               BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+      <Button Content="Clock in" Command="{Binding ClockInCommand}" HorizontalAlignment="Left" Classes="primary"/>
     </StackPanel>
     <TextBlock Text="Today's sessions" FontWeight="SemiBold" Margin="0,16,0,0"
-               Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+               Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
     <ListBox ItemsSource="{Binding SessionsToday}" MinHeight="150"
              Background="Transparent">
       <ListBox.ItemTemplate>
         <DataTemplate x:DataType="core:ShiftSession">
           <StackPanel Margin="4">
             <TextBlock Text="{Binding Username}"
-                       Foreground="{StaticResource OnSurfaceBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceBrush}"/>
             <TextBlock Text="{Binding StartAt, StringFormat='{}{0:g}'}" FontSize="12"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           </StackPanel>
         </DataTemplate>
       </ListBox.ItemTemplate>

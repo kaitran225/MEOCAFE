@@ -16,6 +16,9 @@ public class BentoGridPanel : Panel
     public static readonly StyledProperty<double> RowHeightProperty =
         AvaloniaProperty.Register<BentoGridPanel, double>(nameof(RowHeight), 116);
 
+    public static readonly StyledProperty<bool> SquareCellsProperty =
+        AvaloniaProperty.Register<BentoGridPanel, bool>(nameof(SquareCells));
+
     public static readonly AttachedProperty<int> ColumnSpanProperty =
         AvaloniaProperty.RegisterAttached<BentoGridPanel, Control, int>("ColumnSpan", 1);
 
@@ -40,6 +43,18 @@ public class BentoGridPanel : Panel
         set => SetValue(RowHeightProperty, value);
     }
 
+    /// <summary>When true every cell is square: the row height follows the computed column width.</summary>
+    public bool SquareCells
+    {
+        get => GetValue(SquareCellsProperty);
+        set => SetValue(SquareCellsProperty, value);
+    }
+
+    static BentoGridPanel()
+    {
+        AffectsMeasure<BentoGridPanel>(ColumnsProperty, GapProperty, RowHeightProperty, SquareCellsProperty);
+    }
+
     public static int GetColumnSpan(Control element) => element.GetValue(ColumnSpanProperty);
     public static void SetColumnSpan(Control element, int value) => element.SetValue(ColumnSpanProperty, value);
     public static int GetRowSpan(Control element) => element.GetValue(RowSpanProperty);
@@ -49,11 +64,11 @@ public class BentoGridPanel : Panel
     {
         var cols = Math.Max(1, Columns);
         var gap = Gap;
-        var rowH = RowHeight;
         var width = double.IsInfinity(availableSize.Width)
             ? cols * 168 + gap * (cols - 1)
             : availableSize.Width;
         var cellW = Math.Max(0, (width - gap * (cols - 1)) / cols);
+        var rowH = SquareCells ? cellW : RowHeight;
 
         foreach (var child in Children)
         {
@@ -73,8 +88,8 @@ public class BentoGridPanel : Panel
     {
         var cols = Math.Max(1, Columns);
         var gap = Gap;
-        var rowH = RowHeight;
         var cellW = Math.Max(0, (finalSize.Width - gap * (cols - 1)) / cols);
+        var rowH = SquareCells ? cellW : RowHeight;
         var rows = LayoutRows(cols);
         var occ = new bool[rows, cols];
 

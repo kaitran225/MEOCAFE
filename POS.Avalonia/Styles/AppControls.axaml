@@ -1,50 +1,33 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- Button base -->
-  <Style Selector="Button">
-    <Setter Property="MinHeight" Value="36"/>
-    <Setter Property="Padding" Value="{DynamicResource Margin8}"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius12}"/>
-    <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}"/>
-  </Style>
-  <Style Selector="Button.primary">
-    <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
-  </Style>
-  <Style Selector="Button.danger">
-    <Setter Property="Background" Value="{StaticResource ErrorBrush}"/>
-    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
-  </Style>
-  <Style Selector="Button.ghost">
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderThickness" Value="0"/>
-  </Style>
-  <Style Selector="Button.secondary">
-    <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
-    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-    <Setter Property="BorderThickness" Value="1"/>
-  </Style>
+  <!-- Buttons are defined once in Styles/Buttons.axaml -->
+
   <!-- TextBox -->
   <Style Selector="TextBox">
     <Setter Property="MinHeight" Value="36"/>
     <Setter Property="Padding" Value="12,10"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius12}"/>
-    <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
-    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+  </Style>
+  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+  </Style>
+  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+    <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
   </Style>
   <!-- ComboBox -->
   <Style Selector="ComboBox">
     <Setter Property="MinHeight" Value="36"/>
-    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius12}"/>
-    <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
-    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
   </Style>
   <Style Selector="ComboBox /template/ Border#PART_BorderElement">
-    <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
   </Style>
   <!-- ListBox -->
   <Style Selector="ListBox">
@@ -59,24 +42,24 @@
     <Setter Property="MinHeight" Value="40"/>
   </Style>
   <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-    <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource PrimaryLightBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
     <Setter Property="BorderThickness" Value="1"/>
   </Style>
   <Style Selector="ListBoxItem:selected TextBlock">
-    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
   </Style>
   <!-- Sidebar nav: matcha full bg when selected, white text -->
   <Style Selector="ListBox.NavList ListBoxItem:selected /template/ ContentPresenter">
-    <Setter Property="Background" Value="{StaticResource NavSelectedBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource NavSelectedBrush}"/>
   </Style>
   <Style Selector="ListBox.NavList ListBoxItem:selected TextBlock">
-    <Setter Property="Foreground" Value="{StaticResource NavSelectedFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource NavSelectedFgBrush}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
   </Style>
   <Style Selector="ListBox.NavList ListBoxItem:selected PathIcon">
-    <Setter Property="Foreground" Value="{StaticResource NavSelectedFgBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource NavSelectedFgBrush}"/>
   </Style>
   <!-- Category tabs: active = matcha bg + white text (matching guide) -->
   <Style Selector="ListBox.CategoryTabs ListBoxItem">
@@ -84,25 +67,26 @@
     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius12}"/>
   </Style>
   <Style Selector="ListBox.CategoryTabs ListBoxItem:selected /template/ ContentPresenter">
-    <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
   </Style>
   <Style Selector="ListBox.CategoryTabs ListBoxItem:selected TextBlock">
-    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
     <Setter Property="FontWeight" Value="SemiBold"/>
   </Style>
   <Style Selector="ListBox.CategoryTabs ListBoxItem:selected PathIcon">
-    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
   </Style>
   <!-- Bill tabs -->
   <Style Selector="ListBox.BillTabs ListBoxItem">
     <Setter Property="Padding" Value="0"/>
   </Style>
   <Style Selector="ListBox.BillTabs ListBoxItem:selected /template/ ContentPresenter">
-    <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
-    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
     <Setter Property="BorderThickness" Value="0,0,0,3"/>
   </Style>
   <Style Selector="ListBox.BillTabs ListBoxItem:selected TextBlock">
-    <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
   </Style>
+
 </Styles>

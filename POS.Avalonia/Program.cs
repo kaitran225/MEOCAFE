@@ -65,6 +65,7 @@ sealed class Program
                 services.AddSingleton<IAnalyticsRepository, AnalyticsRepository>();
                 services.AddSingleton<Services.IReceiptService, Services.ReceiptService>();
                 services.AddSingleton<Services.IPrintService, Services.ReceiptPrintService>();
+                services.AddSingleton<Services.IKitchenDisplayService, Services.KitchenDisplayService>();
 
                 services.AddSingleton<Services.IAuditLogger, Services.AuditLogger>();
                 services.AddSingleton<Services.CurrentUserService>();
@@ -98,6 +99,7 @@ sealed class Program
                 services.AddTransient<ViewModels.BankTransactionViewModel>();
                 services.AddTransient<ViewModels.MusicPlayerViewModel>();
                 services.AddTransient<ViewModels.AiChatViewModel>();
+                services.AddTransient<ViewModels.DebugViewModel>();
             })
             .Build();
 

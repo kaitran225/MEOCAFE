@@ -9,7 +9,7 @@
              x:Class="POS.Avalonia.Views.RecipeBookView"
              x:Name="Root"
              x:DataType="vm:RecipeBookViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
 
   <UserControl.Resources>
     <appconv:BoolToBrushConverter x:Key="IngredientHighlightConverter"
@@ -25,26 +25,22 @@
 
       <!-- LEFT: 420px recipe list with category filter + search + image thumbnails -->
       <Border Grid.Column="0"
-              Background="{StaticResource SurfaceBrush}"
-              BorderBrush="{StaticResource BorderBrush}"
+              Background="{DynamicResource SurfaceBrush}"
+              BorderBrush="{DynamicResource BorderBrush}"
               BorderThickness="1"
               CornerRadius="{DynamicResource CornerRadius12}"
               Padding="0">
         <Grid RowDefinitions="Auto,Auto,Auto,*">
-          <Border Grid.Row="0" Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+          <Border Grid.Row="0" Padding="20,16" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
             <Grid ColumnDefinitions="*,Auto,Auto">
-              <TextBlock Text="Recipes" FontSize="20" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
-              <Button Grid.Column="1" Command="{Binding NewRecipeCommand}" Padding="8,6" Margin="0,0,8,0"
-                      Classes="primary" CornerRadius="{DynamicResource CornerRadius8}"
-                      ToolTip.Tip="Add a new recipe">
+              <TextBlock Text="Recipes" FontSize="20" FontWeight="Bold" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+              <Button Grid.Column="1" Command="{Binding NewRecipeCommand}" Padding="8,6" Margin="0,0,8,0" ToolTip.Tip="Add a new recipe" Classes="primary">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                   <PathIcon Data="{StaticResource IconPlus}" Width="14" Height="14"/>
                   <TextBlock Text="New" VerticalAlignment="Center" FontSize="12"/>
                 </StackPanel>
               </Button>
-              <Button Grid.Column="2" Command="{Binding LoadCommand}" Padding="8,6"
-                      Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                      BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}">
+              <Button Grid.Column="2" Command="{Binding LoadCommand}" Padding="8,6" BorderThickness="0" Classes="secondary">
                 <StackPanel Orientation="Horizontal" Spacing="6">
                   <PathIcon Data="{StaticResource IconRefresh}" Width="14" Height="14"/>
                   <TextBlock Text="Refresh" VerticalAlignment="Center" FontSize="12"/>
@@ -53,54 +49,51 @@
             </Grid>
           </Border>
           <!-- Category filter -->
-          <Border Grid.Row="1" Padding="16,8,16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+          <Border Grid.Row="1" Padding="16,8,16,12" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
             <StackPanel Spacing="8">
-              <TextBlock Text="Category" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="Category" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
-                        PlaceholderText="All" Background="{StaticResource SurfaceMutedBrush}"
-                        Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"/>
+                        PlaceholderText="All" Background="{DynamicResource SurfaceMutedBrush}"
+                        Foreground="{DynamicResource OnSurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}"/>
             </StackPanel>
           </Border>
           <!-- Search -->
-          <Border Grid.Row="2" Padding="16,8,16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+          <Border Grid.Row="2" Padding="16,8,16,12" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
             <TextBox Text="{Binding SearchText}" Watermark="Search recipes..."
-                     Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                     BorderBrush="{StaticResource BorderBrush}"/>
+                     Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+                     BorderBrush="{DynamicResource BorderBrush}"/>
           </Border>
           <!-- Recipe list with thumbnails -->
           <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Padding="8,8">
             <ItemsControl ItemsSource="{Binding FilteredRecipes}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="avaloniaModels:RecipeListItem">
-                  <Button Padding="0" Margin="0,0,0,4" Background="Transparent" BorderThickness="0"
-                          HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                          Command="{Binding #Root.DataContext.OpenRecipeCommand}"
-                          CommandParameter="{Binding}" Cursor="Hand">
+                  <Button Padding="0" Margin="0,0,0,4" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Command="{Binding #Root.DataContext.OpenRecipeCommand}" CommandParameter="{Binding}" Cursor="Hand" Classes="ghost">
                     <Border Padding="12,10" CornerRadius="{DynamicResource CornerRadius8}"
                             Background="Transparent"
-                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}"
                             BorderThickness="0">
                       <Border.Styles>
                         <Style Selector="Border:pointerover">
-                          <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+                          <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
                         </Style>
                       </Border.Styles>
                       <Grid ColumnDefinitions="Auto,*">
                         <!-- Image thumbnail 56x56 -->
                         <Border Width="56" Height="56" CornerRadius="{DynamicResource CornerRadius8}"
-                                Background="{StaticResource SurfaceMutedBrush}"
+                                Background="{DynamicResource SurfaceMutedBrush}"
                                 Margin="0,0,12,0"
                                 ClipToBounds="True">
                           <PathIcon Data="{StaticResource IconCoffee}" Width="24" Height="24"
-                                    Foreground="{StaticResource PrimaryBrush}"
+                                    Foreground="{DynamicResource PrimaryBrush}"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
                           <TextBlock Text="{Binding MenuItemName}"
                                      FontSize="14" FontWeight="SemiBold"
-                                     Foreground="{StaticResource OnSurfaceBrush}"
+                                     Foreground="{DynamicResource OnSurfaceBrush}"
                                      TextTrimming="CharacterEllipsis"/>
-                          <TextBlock FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}">
+                          <TextBlock FontSize="11" Foreground="{DynamicResource OnSurfaceMutedBrush}">
                             <TextBlock.Text>
                               <MultiBinding StringFormat="{}{0} ingredients · {1} steps">
                                 <Binding Path="Recipe.Ingredients.Count"/>
@@ -110,7 +103,7 @@
                           </TextBlock>
                         </StackPanel>
                         <PathIcon Grid.Column="1" Data="{StaticResource IconChevronRight}"
-                                 Width="12" Height="12" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                                 Width="12" Height="12" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                                  VerticalAlignment="Center" HorizontalAlignment="Right"/>
                       </Grid>
                     </Border>
@@ -129,10 +122,10 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
           <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="12">
             <PathIcon Data="{StaticResource IconRecipe}" Width="48" Height="48"
-                      Foreground="{StaticResource OnSurfaceMutedBrush}"
+                      Foreground="{DynamicResource OnSurfaceMutedBrush}"
                       HorizontalAlignment="Center" Opacity="0.4"/>
             <TextBlock Text="Select a recipe to view details"
-                       FontSize="14" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                       FontSize="14" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                        HorizontalAlignment="Center"/>
           </StackPanel>
         </controls:Card>
@@ -143,38 +136,36 @@
             <StackPanel Spacing="0" x:DataType="avaloniaModels:RecipeListItem" DataContext="{Binding SelectedRecipeItem}">
 
               <!-- Recipe header with larger icon -->
-              <Border Padding="24,24,24,20" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+              <Border Padding="24,24,24,20" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                   <Border Grid.Column="0" Width="64" Height="64" CornerRadius="32"
-                          Background="{StaticResource SurfaceMutedBrush}" Margin="0,0,20,0">
+                          Background="{DynamicResource SurfaceMutedBrush}" Margin="0,0,20,0">
                     <PathIcon Data="{StaticResource IconCoffee}" Width="28" Height="28"
-                              Foreground="{StaticResource PrimaryBrush}"
+                              Foreground="{DynamicResource PrimaryBrush}"
                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
                   </Border>
                   <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="8">
                     <TextBlock Text="{Binding MenuItemName}"
                                FontSize="22" FontWeight="Bold"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                      <Border Background="{StaticResource SurfaceMutedBrush}"
+                      <Border Background="{DynamicResource SurfaceMutedBrush}"
                               CornerRadius="100" Padding="10,4">
                         <TextBlock Text="{Binding Recipe.Ingredients.Count, StringFormat='{}{0} ingredients'}"
-                                   FontSize="12" Foreground="{StaticResource PrimaryBrush}" FontWeight="SemiBold"/>
+                                   FontSize="12" Foreground="{DynamicResource PrimaryBrush}" FontWeight="SemiBold"/>
                       </Border>
-                      <Border Background="{StaticResource SecondaryLightBrush}"
+                      <Border Background="{DynamicResource SecondaryLightBrush}"
                               CornerRadius="100" Padding="10,4">
                         <TextBlock Text="{Binding Recipe.Steps.Count, StringFormat='{}{0} steps'}"
-                                   FontSize="12" Foreground="{StaticResource SecondaryBrush}" FontWeight="SemiBold"/>
+                                   FontSize="12" Foreground="{DynamicResource SecondaryBrush}" FontWeight="SemiBold"/>
                       </Border>
                     </StackPanel>
                   </StackPanel>
                   <StackPanel Grid.Column="2" Spacing="6" VerticalAlignment="Top">
-                    <Button Padding="10,6" Classes="secondary"
-                            Command="{Binding #Root.DataContext.EditRecipeCommand}" CommandParameter="{Binding}">
+                    <Button Padding="10,6" Command="{Binding #Root.DataContext.EditRecipeCommand}" CommandParameter="{Binding}" Classes="secondary">
                       <TextBlock Text="Sửa" FontSize="12"/>
                     </Button>
-                    <Button Padding="10,6" Classes="danger"
-                            Command="{Binding #Root.DataContext.DeleteRecipeCommand}" CommandParameter="{Binding}">
+                    <Button Padding="10,6" Command="{Binding #Root.DataContext.DeleteRecipeCommand}" CommandParameter="{Binding}" Classes="danger">
                       <TextBlock Text="Xóa" FontSize="12"/>
                     </Button>
                   </StackPanel>
@@ -184,13 +175,13 @@
               <!-- Variant note -->
               <Border Padding="24,16,24,0"
                       IsVisible="{Binding Recipe.VariantNote, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
-                <Border Background="{StaticResource SurfaceMutedBrush}"
+                <Border Background="{DynamicResource SurfaceMutedBrush}"
                         CornerRadius="{DynamicResource CornerRadius8}" Padding="14,10">
                   <StackPanel Orientation="Horizontal" Spacing="8">
                     <PathIcon Data="{StaticResource IconInfo}" Width="14" Height="14"
-                              Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
+                              Foreground="{DynamicResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
                     <TextBlock Text="{Binding Recipe.VariantNote}"
-                               FontSize="12" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               FontSize="12" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                                TextWrapping="Wrap" VerticalAlignment="Center"/>
                   </StackPanel>
                 </Border>
@@ -202,9 +193,9 @@
                 <StackPanel Grid.Column="0" Spacing="12">
                   <StackPanel Orientation="Horizontal" Spacing="8">
                     <PathIcon Data="{StaticResource IconInventory}" Width="16" Height="16"
-                              Foreground="{StaticResource PrimaryBrush}"/>
+                              Foreground="{DynamicResource PrimaryBrush}"/>
                     <TextBlock Text="Ingredients" FontSize="14" FontWeight="SemiBold"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                   </StackPanel>
                   <ItemsControl ItemsSource="{Binding #Root.DataContext.SelectedIngredients}">
                     <ItemsControl.ItemTemplate>
@@ -212,10 +203,10 @@
                         <Border Padding="8,6" CornerRadius="{DynamicResource CornerRadius8}"
                                 Background="{Binding IsHighlighted, Converter={StaticResource IngredientHighlightConverter}}">
                           <Grid ColumnDefinitions="Auto,*">
-                            <Ellipse Grid.Column="0" Width="6" Height="6" Fill="{StaticResource PrimaryBrush}"
+                            <Ellipse Grid.Column="0" Width="6" Height="6" Fill="{DynamicResource PrimaryBrush}"
                                      VerticalAlignment="Center" Margin="4,0,12,0"/>
                             <TextBlock Grid.Column="1" Text="{Binding Text}"
-                                       FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"
+                                       FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}"
                                        TextWrapping="Wrap" VerticalAlignment="Center"/>
                           </Grid>
                         </Border>
@@ -228,9 +219,9 @@
                 <StackPanel Grid.Column="1" Spacing="0" Margin="32,0,0,0">
                   <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,12">
                     <PathIcon Data="{StaticResource IconRecipe}" Width="16" Height="16"
-                              Foreground="{StaticResource SecondaryBrush}"/>
+                              Foreground="{DynamicResource SecondaryBrush}"/>
                     <TextBlock Text="Steps" FontSize="14" FontWeight="SemiBold"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                   </StackPanel>
                   <ItemsControl ItemsSource="{Binding StepsWithNumber}">
                     <ItemsControl.ItemTemplate>
@@ -240,29 +231,29 @@
                             <!-- Timeline: number circle + vertical line -->
                             <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Top" Margin="0,8,0,0">
                               <Border Width="28" Height="28" CornerRadius="14"
-                                      Background="{StaticResource SecondaryLightBrush}"
+                                      Background="{DynamicResource SecondaryLightBrush}"
                                       Margin="0,0,16,0">
                                 <TextBlock Text="{Binding Number}"
                                            FontSize="11" FontWeight="SemiBold"
-                                           Foreground="{StaticResource SecondaryBrush}"
+                                           Foreground="{DynamicResource SecondaryBrush}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                               </Border>
                               <Border Width="2" MinHeight="8" HorizontalAlignment="Center" Margin="13,4,13,0"
-                                      Background="{StaticResource BorderBrush}"/>
+                                      Background="{DynamicResource BorderBrush}"/>
                             </StackPanel>
                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,6,0,0" Spacing="4">
                               <controls:RichTextBlock Html="{Binding Text}"
                                                       TextWrapping="Wrap" FontSize="13"
-                                                      Foreground="{StaticResource OnSurfaceBrush}"
+                                                      Foreground="{DynamicResource OnSurfaceBrush}"
                                                       MentionClickedCommand="{Binding #Root.DataContext.HighlightIngredientCommand}"/>
-                              <Border Background="{StaticResource DangerLightBrush}"
+                              <Border Background="{DynamicResource DangerLightBrush}"
                                       CornerRadius="{DynamicResource CornerRadius8}" Padding="10,6"
                                       IsVisible="{Binding Warning, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}">
                                 <StackPanel Orientation="Horizontal" Spacing="6">
                                   <PathIcon Data="{StaticResource IconWarning}" Width="13" Height="13"
-                                            Foreground="{StaticResource DangerBrush}" VerticalAlignment="Top" Margin="0,1,0,0"/>
+                                            Foreground="{DynamicResource DangerBrush}" VerticalAlignment="Top" Margin="0,1,0,0"/>
                                   <TextBlock Text="{Binding Warning}" FontSize="12"
-                                             Foreground="{StaticResource DangerBrush}"
+                                             Foreground="{DynamicResource DangerBrush}"
                                              TextWrapping="Wrap"/>
                                 </StackPanel>
                               </Border>
@@ -281,20 +272,18 @@
     </Grid>
 
     <!-- Recipe editor modal -->
-    <Border IsVisible="{Binding Editor.IsOpen}" Background="#80000000">
+    <Border IsVisible="{Binding Editor.IsOpen}" Background="{DynamicResource OverlayDimBrush}">
       <Border MaxWidth="920" MaxHeight="760" Margin="24"
-              Background="{StaticResource SurfaceBrush}"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              Background="{DynamicResource SurfaceBrush}"
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
               CornerRadius="{DynamicResource CornerRadius12}" Padding="0"
               HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid RowDefinitions="Auto,*,Auto" DataContext="{Binding Editor}">
-          <Border Grid.Row="0" Padding="20,16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+          <Border Grid.Row="0" Padding="20,16" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1">
             <Grid ColumnDefinitions="*,Auto">
               <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold"
-                         Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
-              <Button Grid.Column="1" Command="{Binding CloseCommand}" Padding="8,6"
-                      Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                      BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Close">
+                         Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+              <Button Grid.Column="1" Command="{Binding CloseCommand}" Padding="8,6" BorderThickness="0" ToolTip.Tip="Close" Classes="secondary">
                 <PathIcon Data="{StaticResource IconClose}" Width="14" Height="14"/>
               </Button>
             </Grid>
@@ -304,11 +293,11 @@
             <StackPanel Spacing="16" Margin="20,16">
               <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                 <StackPanel Spacing="6">
-                  <TextBlock Text="Menu item" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBlock Text="Menu item" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                   <ComboBox ItemsSource="{Binding MenuItems}" SelectedItem="{Binding SelectedMenuItem}"
                             PlaceholderText="Choose drink…" MinWidth="220"
-                            Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                            BorderBrush="{StaticResource BorderBrush}">
+                            Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+                            BorderBrush="{DynamicResource BorderBrush}">
                     <ComboBox.ItemTemplate>
                       <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>
@@ -317,19 +306,17 @@
                   </ComboBox>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Spacing="6">
-                  <TextBlock Text="Variant note (optional)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBlock Text="Variant note (optional)" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                   <TextBox Text="{Binding VariantNote}" Watermark="e.g. size M, less ice"
-                           Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                           BorderBrush="{StaticResource BorderBrush}"/>
+                           Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+                           BorderBrush="{DynamicResource BorderBrush}"/>
                 </StackPanel>
               </Grid>
 
               <StackPanel Spacing="8">
                 <Grid ColumnDefinitions="*,Auto">
-                  <TextBlock Text="Ingredients" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
-                  <Button Grid.Column="1" Command="{Binding AddIngredientCommand}" Padding="8,4"
-                          Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                  <TextBlock Text="Ingredients" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                  <Button Grid.Column="1" Command="{Binding AddIngredientCommand}" Padding="8,4" Classes="secondary">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                       <PathIcon Data="{StaticResource IconPlus}" Width="12" Height="12"/>
                       <TextBlock Text="Add" FontSize="12" VerticalAlignment="Center"/>
@@ -341,17 +328,11 @@
                     <DataTemplate>
                       <Grid ColumnDefinitions="*,Auto,Auto,Auto" Margin="0,0,0,6" ColumnSpacing="6">
                         <TextBox Text="{Binding Text, Mode=TwoWay}" Watermark="Ingredient (e.g. 30ml espresso)"
-                                 Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                                 BorderBrush="{StaticResource BorderBrush}"/>
-                        <Button Grid.Column="1" Command="{Binding #Root.DataContext.Editor.MoveIngredientUpCommand}" CommandParameter="{Binding}"
-                                Padding="6,4" Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                                CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move up">↑</Button>
-                        <Button Grid.Column="2" Command="{Binding #Root.DataContext.Editor.MoveIngredientDownCommand}" CommandParameter="{Binding}"
-                                Padding="6,4" Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                                CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move down">↓</Button>
-                        <Button Grid.Column="3" Command="{Binding #Root.DataContext.Editor.RemoveIngredientCommand}" CommandParameter="{Binding}"
-                                Padding="6,4" Background="{StaticResource DangerLightBrush}" Foreground="{StaticResource DangerBrush}"
-                                BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Remove">
+                                 Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+                                 BorderBrush="{DynamicResource BorderBrush}"/>
+                        <Button Grid.Column="1" Command="{Binding #Root.DataContext.Editor.MoveIngredientUpCommand}" CommandParameter="{Binding}" Padding="6,4" ToolTip.Tip="Move up" Classes="secondary">↑</Button>
+                        <Button Grid.Column="2" Command="{Binding #Root.DataContext.Editor.MoveIngredientDownCommand}" CommandParameter="{Binding}" Padding="6,4" ToolTip.Tip="Move down" Classes="secondary">↓</Button>
+                        <Button Grid.Column="3" Command="{Binding #Root.DataContext.Editor.RemoveIngredientCommand}" CommandParameter="{Binding}" Padding="6,4" Background="{DynamicResource DangerLightBrush}" Foreground="{DynamicResource DangerBrush}" BorderThickness="0" ToolTip.Tip="Remove">
                           <PathIcon Data="{StaticResource IconDelete}" Width="12" Height="12"/>
                         </Button>
                       </Grid>
@@ -363,12 +344,10 @@
               <StackPanel Spacing="8">
                 <Grid ColumnDefinitions="*,Auto">
                   <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                    <TextBlock Text="Steps (rich text)" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                    <TextBlock Text="— link ingredients with [[name]]" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text="Steps (rich text)" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                    <TextBlock Text="— link ingredients with [[name]]" FontSize="11" Foreground="{DynamicResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
                   </StackPanel>
-                  <Button Grid.Column="1" Command="{Binding AddStepCommand}" Padding="8,4"
-                          Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                          BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+                  <Button Grid.Column="1" Command="{Binding AddStepCommand}" Padding="8,4" Classes="secondary">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                       <PathIcon Data="{StaticResource IconPlus}" Width="12" Height="12"/>
                       <TextBlock Text="Add step" FontSize="12" VerticalAlignment="Center"/>
@@ -379,24 +358,18 @@
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
                       <Border Margin="0,0,0,10" Padding="12" CornerRadius="{DynamicResource CornerRadius8}"
-                              Background="{StaticResource SurfaceMutedBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                              Background="{DynamicResource SurfaceMutedBrush}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
                         <StackPanel Spacing="8">
                           <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="6">
-                            <Border Width="24" Height="24" CornerRadius="12" Background="{StaticResource SecondaryLightBrush}" VerticalAlignment="Center">
-                              <PathIcon Data="{StaticResource IconRecipe}" Width="12" Height="12" Foreground="{StaticResource SecondaryBrush}"
+                            <Border Width="24" Height="24" CornerRadius="12" Background="{DynamicResource SecondaryLightBrush}" VerticalAlignment="Center">
+                              <PathIcon Data="{StaticResource IconRecipe}" Width="12" Height="12" Foreground="{DynamicResource SecondaryBrush}"
                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                             <TextBlock Grid.Column="1" Text="Step" FontSize="12" FontWeight="SemiBold"
-                                       Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
-                            <Button Grid.Column="2" Command="{Binding #Root.DataContext.Editor.MoveStepUpCommand}" CommandParameter="{Binding}"
-                                    Padding="6,4" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                                    CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move up">↑</Button>
-                            <Button Grid.Column="3" Command="{Binding #Root.DataContext.Editor.MoveStepDownCommand}" CommandParameter="{Binding}"
-                                    Padding="6,4" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                                    CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Move down">↓</Button>
-                            <Button Grid.Column="4" Command="{Binding #Root.DataContext.Editor.RemoveStepCommand}" CommandParameter="{Binding}"
-                                    Padding="6,4" Background="{StaticResource DangerLightBrush}" Foreground="{StaticResource DangerBrush}"
-                                    BorderThickness="0" CornerRadius="{DynamicResource CornerRadius8}" ToolTip.Tip="Remove">
+                                       Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                            <Button Grid.Column="2" Command="{Binding #Root.DataContext.Editor.MoveStepUpCommand}" CommandParameter="{Binding}" Padding="6,4" ToolTip.Tip="Move up" Classes="secondary">↑</Button>
+                            <Button Grid.Column="3" Command="{Binding #Root.DataContext.Editor.MoveStepDownCommand}" CommandParameter="{Binding}" Padding="6,4" ToolTip.Tip="Move down" Classes="secondary">↓</Button>
+                            <Button Grid.Column="4" Command="{Binding #Root.DataContext.Editor.RemoveStepCommand}" CommandParameter="{Binding}" Padding="6,4" Background="{DynamicResource DangerLightBrush}" Foreground="{DynamicResource DangerBrush}" BorderThickness="0" ToolTip.Tip="Remove">
                               <PathIcon Data="{StaticResource IconDelete}" Width="12" Height="12"/>
                             </Button>
                           </Grid>
@@ -410,19 +383,16 @@
               </StackPanel>
 
               <Border IsVisible="{Binding Error, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
-                      Background="{StaticResource DangerLightBrush}" CornerRadius="{DynamicResource CornerRadius8}" Padding="12,8">
-                <TextBlock Text="{Binding Error}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap" FontSize="12"/>
+                      Background="{DynamicResource DangerLightBrush}" CornerRadius="{DynamicResource CornerRadius8}" Padding="12,8">
+                <TextBlock Text="{Binding Error}" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" FontSize="12"/>
               </Border>
             </StackPanel>
           </ScrollViewer>
 
-          <Border Grid.Row="2" Padding="20,14" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+          <Border Grid.Row="2" Padding="20,14" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-              <Button Content="Cancel" Command="{Binding CloseCommand}" Padding="14,8"
-                      Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}"/>
-              <Button Content="Save recipe" Command="{Binding SaveCommand}" Padding="14,8"
-                      Classes="primary" CornerRadius="{DynamicResource CornerRadius8}"/>
+              <Button Content="Cancel" Command="{Binding CloseCommand}" Padding="14,8" Classes="secondary"/>
+              <Button Content="Save recipe" Command="{Binding SaveCommand}" Padding="14,8" Classes="primary"/>
             </StackPanel>
           </Border>
         </Grid>

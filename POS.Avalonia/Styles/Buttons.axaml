@@ -1,0 +1,168 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    The one button language for the app. A view should never paint a button:
+    choose a variant (primary / secondary / ghost / danger / link) and, when
+    needed, a size (sm / lg / icon). Colour, radius, padding, hover, pressed,
+    disabled and focus all come from here and from Styles/Theme.axaml.
+  -->
+
+  <!-- Base: neutral by default, so an unstyled button is still a quiet one. -->
+  <Style Selector="Button">
+    <Setter Property="MinHeight" Value="40"/>
+    <Setter Property="Padding" Value="16,10"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
+    <Setter Property="FontSize" Value="{DynamicResource BodyFontSize}"/>
+    <Setter Property="FontWeight" Value="Medium"/>
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <!-- Horizontal content alignment is left to the content: text buttons centre
+         themselves, while composite buttons (label + amount) stretch. -->
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="Cursor" Value="Hand"/>
+  </Style>
+
+  <!-- Variants -->
+  <Style Selector="Button.primary">
+    <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+  </Style>
+
+  <Style Selector="Button.secondary">
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+
+  <Style Selector="Button.ghost">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+    <Setter Property="BorderThickness" Value="0"/>
+  </Style>
+
+  <Style Selector="Button.danger">
+    <Setter Property="Background" Value="{DynamicResource ErrorBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
+  </Style>
+
+  <Style Selector="Button.link">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
+    <Setter Property="BorderThickness" Value="0"/>
+  </Style>
+
+  <!-- Muted text on any variant (secondary/ghost toolbars, quiet icon buttons). -->
+  <Style Selector="Button.muted">
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceMutedBrush}"/>
+  </Style>
+
+  <!-- Selectable tile: payment method, service type, segmented choices.
+       Add the `selected` class from a binding; it is a state, not a variant. -->
+  <Style Selector="Button.choice">
+    <Setter Property="MinHeight" Value="72"/>
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius12}"/>
+    <Setter Property="Padding" Value="12,10"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+  </Style>
+  <Style Selector="Button.choice:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+  </Style>
+  <Style Selector="Button.choice.selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryLightBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+    <Setter Property="BorderThickness" Value="2"/>
+  </Style>
+  <Style Selector="Button.choice.selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryLightBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+  </Style>
+
+  <!-- Sizes (declared after variants so they win on the properties they own) -->
+  <Style Selector="Button.sm">
+    <Setter Property="MinHeight" Value="32"/>
+    <Setter Property="MinWidth" Value="32"/>
+    <Setter Property="Padding" Value="10,4"/>
+    <Setter Property="FontSize" Value="{DynamicResource CaptionFontSize}"/>
+  </Style>
+
+  <Style Selector="Button.lg">
+    <Setter Property="MinHeight" Value="48"/>
+    <Setter Property="Padding" Value="20,12"/>
+    <Setter Property="FontSize" Value="{DynamicResource SubtitleFontSize}"/>
+  </Style>
+
+  <!-- Square icon button: one glyph, same visual weight as a control. -->
+  <Style Selector="Button.icon">
+    <Setter Property="Width" Value="40"/>
+    <Setter Property="Height" Value="40"/>
+    <Setter Property="Padding" Value="0"/>
+    <Setter Property="MinHeight" Value="0"/>
+  </Style>
+
+  <Style Selector="Button.icon.sm">
+    <Setter Property="Width" Value="32"/>
+    <Setter Property="Height" Value="32"/>
+  </Style>
+
+  <!-- States: Fluent's template paints the presenter, so target it. -->
+  <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryHoverBrush}"/>
+  </Style>
+  <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource PrimaryPressedBrush}"/>
+  </Style>
+
+  <Style Selector="Button.secondary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderStrongBrush}"/>
+  </Style>
+  <Style Selector="Button.secondary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+  </Style>
+
+  <Style Selector="Button.ghost:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+  </Style>
+  <Style Selector="Button.ghost:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+  </Style>
+
+  <Style Selector="Button.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource DangerBrush}"/>
+    <Setter Property="Opacity" Value="0.9"/>
+  </Style>
+  <Style Selector="Button.danger:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Opacity" Value="0.8"/>
+  </Style>
+
+  <Style Selector="Button.link:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Foreground" Value="{DynamicResource PrimaryHoverBrush}"/>
+  </Style>
+
+  <!-- Disabled reads as inert, not transparent: neutral fill, muted ink, still legible. -->
+  <Style Selector="Button:disabled">
+    <Setter Property="Opacity" Value="1"/>
+    <Setter Property="Foreground" Value="{DynamicResource OnSurfaceMutedBrush}"/>
+    <Setter Property="Cursor" Value="Arrow"/>
+  </Style>
+  <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+    <Setter Property="BorderThickness" Value="1"/>
+  </Style>
+
+  <Style Selector="Button:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="BorderBrush" Value="{DynamicResource FocusBrush}"/>
+    <Setter Property="BorderThickness" Value="2"/>
+  </Style>
+</Styles>

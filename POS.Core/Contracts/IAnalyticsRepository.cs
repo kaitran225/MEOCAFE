@@ -14,4 +14,7 @@ public interface IAnalyticsRepository
     Task<IReadOnlyList<KeyValuePair<string, float>>> GetTopSellingByMonthAsync(CancellationToken cancellationToken = default);
     Task<IReadOnlyList<KeyValuePair<string, float>>> GetTopSellingByYearAsync(CancellationToken cancellationToken = default);
     Task<SalesSummaryDto> GetSalesSummaryAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default);
+
+    /// <summary>Revenue per hour (24 entries, index = hour 0-23) for the given day.</summary>
+    Task<IReadOnlyList<float>> GetSalesByHourAsync(DateTime date, CancellationToken cancellationToken = default);
 }

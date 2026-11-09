@@ -4,14 +4,14 @@
              x:Name="Root">
   <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
     <Button Command="{Binding #Root.PrevCommand}" Padding="12,8"
-            Background="{StaticResource DarkSurfaceAltBrush}" Foreground="{StaticResource DarkTextPrimaryBrush}"
+            Background="{DynamicResource DarkSurfaceAltBrush}" Foreground="{DynamicResource DarkTextPrimaryBrush}"
             CornerRadius="{DynamicResource CornerRadius8}">
       <TextBlock Text="Previous"/>
     </Button>
     <TextBlock Text="{Binding #Root.Summary}" VerticalAlignment="Center"
-               FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource DarkTextMutedBrush}"/>
+               FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource DarkTextMutedBrush}"/>
     <Button Command="{Binding #Root.NextCommand}" Padding="12,8"
-            Background="{StaticResource DarkSurfaceAltBrush}" Foreground="{StaticResource DarkTextPrimaryBrush}"
+            Background="{DynamicResource DarkSurfaceAltBrush}" Foreground="{DynamicResource DarkTextPrimaryBrush}"
             CornerRadius="{DynamicResource CornerRadius8}">
       <TextBlock Text="Next"/>
     </Button>

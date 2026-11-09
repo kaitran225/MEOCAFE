@@ -9,21 +9,21 @@
       <TextBlock Text="From"
                  FontSize="{DynamicResource CaptionFontSize}"
                  FontWeight="{StaticResource CaptionFontWeight}"
-                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                 Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
       <CalendarDatePicker SelectedDate="{Binding #Root.StartDate, Mode=TwoWay}"
                           Watermark="Start date"
                           MinWidth="140"/>
     </StackPanel>
     <TextBlock Text="–"
                FontSize="{DynamicResource SubtitleFontSize}"
-               Foreground="{StaticResource OnSurfaceMutedBrush}"
+               Foreground="{DynamicResource OnSurfaceMutedBrush}"
                VerticalAlignment="Bottom"
                Margin="0,0,0,8"/>
     <StackPanel Spacing="{DynamicResource Spacing4}">
       <TextBlock Text="To"
                  FontSize="{DynamicResource CaptionFontSize}"
                  FontWeight="{StaticResource CaptionFontWeight}"
-                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                 Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
       <CalendarDatePicker SelectedDate="{Binding #Root.EndDate, Mode=TwoWay}"
                           Watermark="End date"
                           MinWidth="140"/>

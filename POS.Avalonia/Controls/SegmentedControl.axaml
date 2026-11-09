@@ -18,11 +18,11 @@
         <Setter Property="Margin" Value="0"/>
       </Style>
       <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
       </Style>
       <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-        <Setter Property="Background" Value="{StaticResource DarkSurfaceAltBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource DarkSurfaceAltBrush}"/>
       </Style>
     </ListBox.Styles>
     <ListBox.ItemTemplate>

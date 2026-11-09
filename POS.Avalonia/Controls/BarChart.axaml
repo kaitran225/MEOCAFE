@@ -21,9 +21,9 @@
           <TextBlock Text="{Binding Value, StringFormat='{}{0:N0}'}"
                      FontSize="{DynamicResource CaptionFontSize}"
                      FontWeight="{StaticResource SubtitleFontWeight}"
-                     Foreground="{StaticResource OnSurfaceBrush}"
+                     Foreground="{DynamicResource OnSurfaceBrush}"
                      HorizontalAlignment="Center"/>
-          <Border Background="{StaticResource PrimaryBrush}"
+          <Border Background="{DynamicResource PrimaryBrush}"
                   CornerRadius="4,4,0,0"
                   Width="32"
                   Height="{Binding BarHeight}"
@@ -33,7 +33,7 @@
           <TextBlock Text="{Binding Label}"
                      FontSize="{DynamicResource CaptionFontSize}"
                      FontWeight="{StaticResource CaptionFontWeight}"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"
                      HorizontalAlignment="Center"
                      TextTrimming="CharacterEllipsis"
                      MaxWidth="40"/>

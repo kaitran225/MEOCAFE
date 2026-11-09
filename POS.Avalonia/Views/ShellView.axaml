@@ -7,24 +7,24 @@
   <UserControl.Resources>
     <conv:IconKeyToGeometryConverter x:Key="IconKeyToGeometryConverter"/>
   </UserControl.Resources>
-  <Grid ColumnDefinitions="260,*" Background="{StaticResource BackgroundBrush}">
+  <Grid ColumnDefinitions="260,*" Background="{DynamicResource BackgroundBrush}">
     <!-- Sidebar -->
-    <Border Grid.Column="0" Background="{StaticResource SidebarBrush}"
-            BorderBrush="{StaticResource SidebarBorderBrush}" BorderThickness="0,0,1,0">
+    <Border Grid.Column="0" Background="{DynamicResource SidebarBrush}"
+            BorderBrush="{DynamicResource SidebarBorderBrush}" BorderThickness="0,0,1,0">
       <Grid RowDefinitions="Auto,*,Auto">
         <!-- Logo: gap-8 (32px) below to nav -->
         <Border Grid.Row="0" Padding="24,24,24,24">
           <StackPanel Orientation="Horizontal" Spacing="12">
-            <Border Background="#336B8E6B" CornerRadius="{DynamicResource CornerRadius8}"
+            <Border Background="{DynamicResource SidebarItemBrush}" CornerRadius="{DynamicResource CornerRadius8}"
                     Padding="8" Width="40" Height="40">
-              <PathIcon Data="{StaticResource IconCoffee}" Foreground="{StaticResource PrimaryBrush}"
+              <PathIcon Data="{StaticResource IconCoffee}" Foreground="{DynamicResource PrimaryBrush}"
                         Width="20" Height="20"/>
             </Border>
             <StackPanel VerticalAlignment="Center" Spacing="2">
               <TextBlock Text="{Binding AppTitle}" FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
-                         Foreground="{StaticResource OnPrimaryBrush}" LetterSpacing="1"/>
+                         Foreground="{DynamicResource OnPrimaryBrush}" LetterSpacing="1"/>
               <TextBlock Text="{Binding AppSubtitle}" FontSize="10" FontWeight="SemiBold"
-                         Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.6" LetterSpacing="2"/>
+                         Foreground="{DynamicResource OnSurfaceMutedBrush}" Opacity="0.6" LetterSpacing="2"/>
             </StackPanel>
           </StackPanel>
         </Border>
@@ -37,30 +37,30 @@
               <Border Padding="16,12" Margin="0,4">
                 <StackPanel Orientation="Horizontal" Spacing="12">
                   <PathIcon Data="{Binding IconKey, Converter={StaticResource IconKeyToGeometryConverter}}"
-                            Foreground="{StaticResource OnPrimaryBrush}" Width="18" Height="18"
+                            Foreground="{DynamicResource OnPrimaryBrush}" Width="18" Height="18"
                             VerticalAlignment="Center" Opacity="0.85"/>
                   <TextBlock Text="{Binding Label}" FontSize="{DynamicResource BodyFontSize}"
-                             Foreground="{StaticResource OnPrimaryBrush}" VerticalAlignment="Center"/>
+                             Foreground="{DynamicResource OnPrimaryBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
               </Border>
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
         <!-- User footer: p-6 (24px), avatar 40px with primary border ring -->
-        <Border Grid.Row="2" BorderBrush="{StaticResource SidebarBorderBrush}" BorderThickness="0,1,0,0"
-                Padding="24,24">            <Border Background="{StaticResource SidebarHoverBrush}" CornerRadius="{DynamicResource CornerRadius12}" Padding="12">
+        <Border Grid.Row="2" BorderBrush="{DynamicResource SidebarBorderBrush}" BorderThickness="0,1,0,0"
+                Padding="24,24">            <Border Background="{DynamicResource SidebarHoverBrush}" CornerRadius="{DynamicResource CornerRadius12}" Padding="12">
             <Grid ColumnDefinitions="Auto,*">
               <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20"
-                      Background="{StaticResource SidebarItemBrush}" VerticalAlignment="Center"
-                      BorderBrush="{StaticResource SidebarItemBrush}" BorderThickness="2">
-                <PathIcon Data="{StaticResource IconPerson}" Foreground="{StaticResource OnPrimaryBrush}"
+                      Background="{DynamicResource SidebarItemBrush}" VerticalAlignment="Center"
+                      BorderBrush="{DynamicResource SidebarItemBrush}" BorderThickness="2">
+                <PathIcon Data="{StaticResource IconPerson}" Foreground="{DynamicResource OnPrimaryBrush}"
                           Width="20" Height="20"/>
               </Border>
               <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Spacing="1">
                 <TextBlock Text="{Binding CurrentUserName}" FontSize="{DynamicResource BodyFontSize}"
-                           FontWeight="SemiBold" Foreground="{StaticResource OnPrimaryBrush}"
+                           FontWeight="SemiBold" Foreground="{DynamicResource OnPrimaryBrush}"
                            TextTrimming="CharacterEllipsis"/>
-                <TextBlock Text="{Binding StatusOnline}" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.6"/>
+                <TextBlock Text="{Binding StatusOnline}" FontSize="11" Foreground="{DynamicResource OnSurfaceMutedBrush}" Opacity="0.6"/>
               </StackPanel>
             </Grid>
           </Border>
@@ -70,27 +70,27 @@
     <!-- Content area: pinned header + scrollable content -->
     <Grid Grid.Column="1" RowDefinitions="Auto,*">
       <!-- Pinned top header bar -->
-      <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+      <Border Grid.Row="0" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}"
               BorderThickness="0,0,0,1" Padding="32,24">
         <Grid ColumnDefinitions="*,Auto">
           <StackPanel Grid.Column="0" VerticalAlignment="Center">
             <TextBlock Text="{Binding PageTitle}" FontSize="24" FontWeight="Bold"
-                       Foreground="{StaticResource OnSurfaceBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceBrush}"/>
           </StackPanel>
           <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
-            <Border Background="{StaticResource BackgroundBrush}" CornerRadius="{DynamicResource CornerRadius8}"
-                    Padding="16,8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+                    Padding="16,8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
               <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                <PathIcon Data="{StaticResource IconCalendar}" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                <PathIcon Data="{StaticResource IconCalendar}" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                           Width="18" Height="18"/>
-                <TextBlock Text="{Binding TodayDate}" FontSize="14" Foreground="{StaticResource OnSurfaceBrush}"/>
+                <TextBlock Text="{Binding TodayDate}" FontSize="14" Foreground="{DynamicResource OnSurfaceBrush}"/>
               </StackPanel>
             </Border>
-            <Button Background="Transparent" BorderThickness="0" Padding="8" VerticalAlignment="Center">
+            <Button Padding="8" VerticalAlignment="Center" Classes="ghost">
               <Grid>
-                <PathIcon Data="{StaticResource IconNotification}" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                <PathIcon Data="{StaticResource IconNotification}" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                           Width="22" Height="22"/>
-                <Border Width="8" Height="8" CornerRadius="4" Background="{StaticResource ErrorBrush}" HorizontalAlignment="Right"
+                <Border Width="8" Height="8" CornerRadius="4" Background="{DynamicResource ErrorBrush}" HorizontalAlignment="Right"
                         VerticalAlignment="Top" Margin="0,-2,-2,0"/>
               </Grid>
             </Button>

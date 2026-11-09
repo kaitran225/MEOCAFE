@@ -6,27 +6,23 @@
              x:Class="POS.Avalonia.Views.DiscountManagementView"
              x:Name="Root"
              x:DataType="vm:DiscountManagementViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <Grid RowDefinitions="Auto,*">
     <!-- Header -->
     <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
       <controls:PageTitle Title="Discount Management">
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
-          <Button Command="{Binding LoadCommand}" Padding="12,8"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding LoadCommand}" Padding="12,8" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
-                        Foreground="{StaticResource OnSurfaceBrush}"/>
+                        Foreground="{DynamicResource OnSurfaceBrush}"/>
               <TextBlock Text="Refresh"/>
             </StackPanel>
           </Button>
-          <Button Command="{Binding OpenAddCommand}" Classes="primary" Padding="12,8"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding OpenAddCommand}" Padding="12,8" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconAdd}" Width="16" Height="16"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Add Discount"/>
             </StackPanel>
           </Button>
@@ -43,10 +39,10 @@
           <TextBlock Text="Discounts"
                      FontSize="{DynamicResource SubtitleFontSize}"
                      FontWeight="{StaticResource SubtitleFontWeight}"
-                     Foreground="{StaticResource OnSurfaceBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceBrush}"/>
           <TextBlock Grid.Column="1"
                      FontSize="{DynamicResource CaptionFontSize}"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center">
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}" VerticalAlignment="Center">
             <Run Text="{Binding Discounts.Count, Mode=OneWay}"/><Run Text=" discounts"/>
           </TextBlock>
         </Grid>
@@ -55,27 +51,27 @@
         <Grid ColumnDefinitions="2*,2*,80,120,120,80,100" Margin="12,0">
           <TextBlock Grid.Column="0" Text="Code"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBlock Grid.Column="1" Text="Description"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBlock Grid.Column="2" Text="Value" HorizontalAlignment="Center"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBlock Grid.Column="3" Text="Valid From"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBlock Grid.Column="4" Text="Valid To"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBlock Grid.Column="5" Text="Status" HorizontalAlignment="Center"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBlock Grid.Column="6" Text="Actions" HorizontalAlignment="Right"
                      FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
         </Grid>
-        <Border Height="1" Background="{StaticResource BorderBrush}"/>
+        <Border Height="1" Background="{DynamicResource BorderBrush}"/>
 
         <!-- Discount Rows -->
         <ListBox ItemsSource="{Binding Discounts}" SelectedItem="{Binding SelectedDiscount}"
@@ -88,7 +84,7 @@
               <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
             </Style>
             <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-              <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+              <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
             </Style>
           </ListBox.Styles>
           <ListBox.ItemTemplate>
@@ -100,64 +96,60 @@
                   <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Name}"
                                FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                   </StackPanel>
 
                   <!-- Description -->
                   <TextBlock Grid.Column="1" Text="{Binding Description, TargetNullValue='—'}"
                              VerticalAlignment="Center"
                              FontSize="{DynamicResource CaptionFontSize}"
-                             Foreground="{StaticResource OnSurfaceMutedBrush}"
+                             Foreground="{DynamicResource OnSurfaceMutedBrush}"
                              TextTrimming="CharacterEllipsis"/>
 
                   <!-- Value (percentage) -->
                   <Border Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                          Background="{StaticResource SurfaceMutedBrush}" CornerRadius="100" Padding="10,4">
+                          Background="{DynamicResource SurfaceMutedBrush}" CornerRadius="100" Padding="10,4">
                     <TextBlock Text="{Binding Percentage, StringFormat='{}{0}%'}"
                                FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                               Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center"/>
+                               Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center"/>
                   </Border>
 
                   <!-- Valid From -->
                   <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
                     <PathIcon Data="{StaticResource IconCalendar}" Width="12" Height="12"
-                              Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                              Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                     <TextBlock Text="{Binding StartDate, StringFormat='{}{0:yyyy-MM-dd}'}"
                                FontSize="{DynamicResource CaptionFontSize}"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                   </StackPanel>
 
                   <!-- Valid To -->
                   <StackPanel Grid.Column="4" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
                     <PathIcon Data="{StaticResource IconCalendar}" Width="12" Height="12"
-                              Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                              Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                     <TextBlock Text="{Binding EndDate, StringFormat='{}{0:yyyy-MM-dd}'}"
                                FontSize="{DynamicResource CaptionFontSize}"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                   </StackPanel>
 
                   <!-- Status Badge -->
                   <Panel Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <controls:StatusBadge Text="Active" BadgeBrush="{StaticResource SuccessBrush}"
+                    <controls:StatusBadge Text="Active" BadgeBrush="{DynamicResource SuccessBrush}"
                                           IsVisible="{Binding IsActive}"/>
-                    <controls:StatusBadge Text="Inactive" BadgeBrush="{StaticResource ErrorBrush}"
+                    <controls:StatusBadge Text="Inactive" BadgeBrush="{DynamicResource ErrorBrush}"
                                           IsVisible="{Binding !IsActive}"/>
                   </Panel>
 
                   <!-- Actions -->
                   <StackPanel Grid.Column="6" Orientation="Horizontal" Spacing="4"
                               HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <Button Command="{Binding #Root.DataContext.OpenEditCommand}" CommandParameter="{Binding}"
-                            Padding="8" Background="Transparent" BorderThickness="0"
-                            CornerRadius="{DynamicResource CornerRadius8}">
+                    <Button Command="{Binding #Root.DataContext.OpenEditCommand}" CommandParameter="{Binding}" Padding="8" Classes="ghost">
                       <PathIcon Data="{StaticResource IconEdit}" Width="16" Height="16"
-                                Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                                Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                     </Button>
-                    <Button Command="{Binding #Root.DataContext.RequestDeleteCommand}" CommandParameter="{Binding}"
-                            Padding="8" Background="Transparent" BorderThickness="0"
-                            CornerRadius="{DynamicResource CornerRadius8}">
+                    <Button Command="{Binding #Root.DataContext.RequestDeleteCommand}" CommandParameter="{Binding}" Padding="8" Classes="ghost">
                       <PathIcon Data="{StaticResource IconDelete}" Width="16" Height="16"
-                                Foreground="{StaticResource ErrorBrush}"/>
+                                Foreground="{DynamicResource ErrorBrush}"/>
                     </Button>
                   </StackPanel>
 
@@ -168,16 +160,10 @@
         </ListBox>
 
         <!-- Empty State -->
-        <Border Padding="32,24" Background="{StaticResource BackgroundBrush}"
-                CornerRadius="{DynamicResource CornerRadius8}" HorizontalAlignment="Stretch"
-                IsVisible="{Binding !Discounts.Count}">
-          <StackPanel HorizontalAlignment="Center" Spacing="8">
-            <PathIcon Data="{StaticResource IconDiscount}" Width="32" Height="32"
-                      Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.5"/>
-            <TextBlock Text="No discounts found" FontSize="{DynamicResource BodyFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
-          </StackPanel>
-        </Border>
+        <controls:EmptyState Icon="{StaticResource IconDiscount}"
+                                 Title="No discounts found"
+                                 Hint="Tạo khuyến mãi đầu tiên cho cửa hàng."
+                                 IsVisible="{Binding !Discounts.Count}"/>
       </StackPanel>
     </controls:Card>
 
@@ -190,29 +176,29 @@
           <!-- Row 0: Name / Percentage -->
           <StackPanel Grid.Row="0" Grid.Column="0" Spacing="4" Margin="0,0,8,12">
             <TextBlock Text="Name" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
             <TextBox Text="{Binding FormName}" Watermark="Discount name"/>
           </StackPanel>
           <StackPanel Grid.Row="0" Grid.Column="1" Spacing="4" Margin="8,0,0,12">
             <TextBlock Text="Percentage (%)" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
             <TextBox Text="{Binding FormPercentage}" Watermark="e.g. 10"/>
           </StackPanel>
           <!-- Row 1: Description (full width) -->
           <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="4" Margin="0,0,0,12">
             <TextBlock Text="Description" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
             <TextBox Text="{Binding FormDescription}" Watermark="Optional description"/>
           </StackPanel>
           <!-- Row 2: Start Date / End Date -->
           <StackPanel Grid.Row="2" Grid.Column="0" Spacing="4" Margin="0,0,8,12">
             <TextBlock Text="Valid From" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
             <TextBox Text="{Binding FormStartDate}" Watermark="yyyy-MM-dd"/>
           </StackPanel>
           <StackPanel Grid.Row="2" Grid.Column="1" Spacing="4" Margin="8,0,0,12">
             <TextBlock Text="Valid To" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}" FontWeight="SemiBold"/>
             <TextBox Text="{Binding FormEndDate}" Watermark="yyyy-MM-dd"/>
           </StackPanel>
           <!-- Row 3: Disabled toggle -->
@@ -220,30 +206,26 @@
             <CheckBox IsChecked="{Binding FormIsDisabled}">
               <TextBlock Text="Disabled (inactive regardless of dates)"
                          FontSize="{DynamicResource BodyFontSize}"
-                         Foreground="{StaticResource OnSurfaceBrush}"/>
+                         Foreground="{DynamicResource OnSurfaceBrush}"/>
             </CheckBox>
           </StackPanel>
         </Grid>
 
-        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,4"/>
+        <Border Height="1" Background="{DynamicResource BorderBrush}" Margin="0,4"/>
 
-        <TextBlock Text="{Binding FormError}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap"/>
+        <TextBlock Text="{Binding FormError}" Foreground="{DynamicResource ErrorBrush}" TextWrapping="Wrap"/>
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}" HorizontalAlignment="Right">
-          <Button Command="{Binding CloseEditCommand}" Padding="16,8"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding CloseEditCommand}" Padding="16,8" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconClose}" Width="14" Height="14"
-                        Foreground="{StaticResource OnSurfaceBrush}"/>
+                        Foreground="{DynamicResource OnSurfaceBrush}"/>
               <TextBlock Text="Cancel"/>
             </StackPanel>
           </Button>
-          <Button Command="{Binding SaveCommand}" Classes="primary" Padding="16,8"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding SaveCommand}" Padding="16,8" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconSave}" Width="14" Height="14"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Save"/>
             </StackPanel>
           </Button>
@@ -257,36 +239,31 @@
                            Title="Confirm Delete">
       <StackPanel Spacing="{DynamicResource Spacing16}" MinWidth="320">
         <StackPanel Orientation="Horizontal" Spacing="12">
-          <Border Width="40" Height="40" CornerRadius="20" Background="{StaticResource ErrorBgBrush}">
+          <Border Width="40" Height="40" CornerRadius="20" Background="{DynamicResource ErrorBgBrush}">
             <PathIcon Data="{StaticResource IconWarning}" Width="20" Height="20"
-                      Foreground="{StaticResource ErrorBrush}"
+                      Foreground="{DynamicResource ErrorBrush}"
                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
           </Border>
           <StackPanel Spacing="4" VerticalAlignment="Center">
             <TextBlock Text="Are you sure?" FontSize="{DynamicResource BodyFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <TextBlock FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}">
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}">
               <Run Text="This will permanently delete "/><Run Text="{Binding DeleteTarget.Name}" FontWeight="SemiBold"/>
             </TextBlock>
           </StackPanel>
         </StackPanel>
 
-        <Border Height="1" Background="{StaticResource BorderBrush}"/>
+        <Border Height="1" Background="{DynamicResource BorderBrush}"/>
 
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}" HorizontalAlignment="Right">
-          <Button Command="{Binding CancelDeleteCommand}" Padding="16,8"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding CancelDeleteCommand}" Padding="16,8" Classes="secondary">
             <TextBlock Text="Cancel"/>
           </Button>
-          <Button Command="{Binding ConfirmDeleteCommand}" Padding="16,8"
-                  Background="{StaticResource ErrorBrush}" Foreground="{StaticResource OnPrimaryBrush}"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding ConfirmDeleteCommand}" Padding="16,8" Classes="danger">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconDelete}" Width="14" Height="14"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Delete"/>
             </StackPanel>
           </Button>

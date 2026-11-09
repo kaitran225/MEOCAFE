@@ -6,27 +6,23 @@
              x:Class="POS.Avalonia.Views.ProblemReportsView"
              x:Name="Root"
              x:DataType="vm:ProblemReportsViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <Grid RowDefinitions="Auto,*">
     <!-- Header -->
     <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
       <controls:PageTitle Title="Problem Reports">
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
-          <Button Command="{Binding LoadCommand}" Padding="12,8"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding LoadCommand}" Padding="12,8" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
-                        Foreground="{StaticResource OnSurfaceBrush}"/>
+                        Foreground="{DynamicResource OnSurfaceBrush}"/>
               <TextBlock Text="Refresh"/>
             </StackPanel>
           </Button>
-          <Button Command="{Binding OpenFormCommand}" Classes="primary" Padding="12,8"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding OpenFormCommand}" Padding="12,8" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconAdd}" Width="16" Height="16"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Report Issue"/>
             </StackPanel>
           </Button>
@@ -41,22 +37,22 @@
                           Title="Total Reports"
                           Value="{Binding TotalCount}"
                           Subtitle="All time"
-                          AccentBrush="{StaticResource SecondaryBrush}"/>
+                          AccentBrush="{DynamicResource SecondaryBrush}"/>
         <controls:KpiCard Grid.Column="1" Margin="6,0"
                           Title="Open"
                           Value="{Binding OpenCount}"
                           Subtitle="Needs attention"
-                          AccentBrush="{StaticResource ErrorBrush}"/>
+                          AccentBrush="{DynamicResource ErrorBrush}"/>
         <controls:KpiCard Grid.Column="2" Margin="6,0"
                           Title="Resolved"
                           Value="{Binding ResolvedCount}"
                           Subtitle="Completed"
-                          AccentBrush="{StaticResource SuccessBrush}"/>
+                          AccentBrush="{DynamicResource SuccessBrush}"/>
         <controls:KpiCard Grid.Column="3" Margin="6,0,0,0"
                           Title="High Priority"
                           Value="{Binding HighPriorityCount}"
                           Subtitle="Urgent issues"
-                          AccentBrush="{StaticResource ErrorBrush}"/>
+                          AccentBrush="{DynamicResource ErrorBrush}"/>
       </Grid>
 
       <!-- Filter Bar -->
@@ -64,22 +60,10 @@
         <controls:SearchBox Grid.Column="0" Text="{Binding SearchText}" Watermark="Search reports..."/>
         <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="{DynamicResource Spacing4}"
                     HorizontalAlignment="Right" VerticalAlignment="Center">
-          <Button Content="All" Command="{Binding SetFilterPriorityCommand}" CommandParameter="All"
-                  Padding="12,6" CornerRadius="{DynamicResource CornerRadius8}" FontSize="{DynamicResource CaptionFontSize}"
-                  Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=All}"
-                  Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-          <Button Content="High" Command="{Binding SetFilterPriorityCommand}" CommandParameter="High"
-                  Padding="12,6" CornerRadius="{DynamicResource CornerRadius8}" FontSize="{DynamicResource CaptionFontSize}"
-                  Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=High}"
-                  Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-          <Button Content="Medium" Command="{Binding SetFilterPriorityCommand}" CommandParameter="Medium"
-                  Padding="12,6" CornerRadius="{DynamicResource CornerRadius8}" FontSize="{DynamicResource CaptionFontSize}"
-                  Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Medium}"
-                  Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-          <Button Content="Low" Command="{Binding SetFilterPriorityCommand}" CommandParameter="Low"
-                  Padding="12,6" CornerRadius="{DynamicResource CornerRadius8}" FontSize="{DynamicResource CaptionFontSize}"
-                  Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Low}"
-                  Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+          <Button Content="All" Command="{Binding SetFilterPriorityCommand}" CommandParameter="All" Padding="12,6" FontSize="{DynamicResource CaptionFontSize}" Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=All}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+          <Button Content="High" Command="{Binding SetFilterPriorityCommand}" CommandParameter="High" Padding="12,6" FontSize="{DynamicResource CaptionFontSize}" Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=High}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+          <Button Content="Medium" Command="{Binding SetFilterPriorityCommand}" CommandParameter="Medium" Padding="12,6" FontSize="{DynamicResource CaptionFontSize}" Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Medium}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+          <Button Content="Low" Command="{Binding SetFilterPriorityCommand}" CommandParameter="Low" Padding="12,6" FontSize="{DynamicResource CaptionFontSize}" Background="{Binding FilterPriority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Low}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
         </StackPanel>
       </Grid>
     </StackPanel>
@@ -91,28 +75,28 @@
         <Border Grid.Row="0" Padding="12,10" Margin="0,0,0,4">
           <Grid ColumnDefinitions="*,110,90,90,110,130,100">
             <TextBlock Grid.Column="0" Text="Title" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="1" Text="Category" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="2" Text="Priority" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="3" Text="Status" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="4" Text="Reported By" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="5" Text="Date" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="6" Text="Actions" FontSize="{DynamicResource CaptionFontSize}"
-                       FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"
+                       FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                        HorizontalAlignment="Right"/>
           </Grid>
         </Border>
 
-        <Border Grid.Row="0" Height="1" Background="{StaticResource BorderBrush}" VerticalAlignment="Bottom"/>
+        <Border Grid.Row="0" Height="1" Background="{DynamicResource BorderBrush}" VerticalAlignment="Bottom"/>
 
         <!-- Rows -->
         <ListBox Grid.Row="1" ItemsSource="{Binding FilteredReports}" MinHeight="320"
-                 Background="{StaticResource SurfaceBrush}" BorderThickness="0">
+                 Background="{DynamicResource SurfaceBrush}" BorderThickness="0">
           <ListBox.ItemTemplate>
             <DataTemplate DataType="core:ProblemReport">
               <Border Padding="12,10" Margin="0,1" CornerRadius="8">
@@ -120,54 +104,47 @@
                   <!-- Title -->
                   <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Title}" FontSize="{DynamicResource BodyFontSize}"
-                               Foreground="{StaticResource OnSurfaceBrush}" FontWeight="Medium"
+                               Foreground="{DynamicResource OnSurfaceBrush}" FontWeight="Medium"
                                TextTrimming="CharacterEllipsis"/>
                   </StackPanel>
 
                   <!-- Category -->
                   <Border Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
-                          Background="{StaticResource SurfaceMutedBrush}"
+                          Background="{DynamicResource SurfaceMutedBrush}"
                           CornerRadius="{DynamicResource CornerRadius4}" Padding="8,4">
                     <TextBlock Text="{Binding Category}" FontSize="{DynamicResource CaptionFontSize}"
-                               Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                   </Border>
 
                   <!-- Priority -->
                   <Panel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <controls:StatusBadge Text="{Binding Priority}"
                                           IsVisible="{Binding Priority, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                          BadgeBrush="{StaticResource ErrorBrush}"/>
+                                          BadgeBrush="{DynamicResource ErrorBrush}"/>
                   </Panel>
 
                   <!-- Status -->
                   <Panel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <controls:StatusBadge Text="{Binding Status}"
                                           IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                                          BadgeBrush="{StaticResource SuccessBrush}"/>
+                                          BadgeBrush="{DynamicResource SuccessBrush}"/>
                   </Panel>
 
                   <!-- Reported By -->
                   <TextBlock Grid.Column="4" Text="{Binding ReportedBy}" VerticalAlignment="Center"
-                             FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource SecondaryBrush}"
+                             FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource SecondaryBrush}"
                              TextTrimming="CharacterEllipsis"/>
 
                   <!-- Date -->
                   <TextBlock Grid.Column="5" Text="{Binding ReportedAt, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}"
                              VerticalAlignment="Center" FontSize="{DynamicResource CaptionFontSize}"
-                             Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                             Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
 
                   <!-- Actions -->
-                  <Button Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Center"
-                          Command="{Binding #Root.((vm:ProblemReportsViewModel)DataContext).ResolveCommand}"
-                          CommandParameter="{Binding}"
-                          IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-                          Padding="8,4" CornerRadius="{DynamicResource CornerRadius4}"
-                          FontSize="{DynamicResource CaptionFontSize}"
-                          Background="{StaticResource SurfaceMutedBrush}"
-                          Foreground="{StaticResource SuccessBrush}">
+                  <Button Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Center" Command="{Binding #Root.((vm:ProblemReportsViewModel)DataContext).ResolveCommand}" CommandParameter="{Binding}" IsVisible="{Binding Status, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" Padding="8,4" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource SuccessBrush}" Classes="secondary">
                     <StackPanel Orientation="Horizontal" Spacing="4">
                       <PathIcon Data="{StaticResource IconCheck}" Width="12" Height="12"
-                                Foreground="{StaticResource SuccessBrush}"/>
+                                Foreground="{DynamicResource SuccessBrush}"/>
                       <TextBlock Text="Resolve"/>
                     </StackPanel>
                   </Button>
@@ -181,14 +158,14 @@
 
     <!-- Form Modal Overlay -->
     <Border Grid.Row="0" Grid.RowSpan="2" IsVisible="{Binding IsFormOpen}"
-            Background="{StaticResource OverlayDimBrush}" ZIndex="100">
-      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource SurfaceBrush}"
+            Background="{DynamicResource OverlayDimBrush}" ZIndex="100">
+      <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="{DynamicResource SurfaceBrush}"
               Padding="24" CornerRadius="{DynamicResource CornerRadius12}" MinWidth="420"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
               BoxShadow="0 4 24 0 #22000000">
         <StackPanel Spacing="{DynamicResource Spacing16}">
           <TextBlock Text="Report Issue" FontSize="{DynamicResource SubtitleFontSize}"
-                     FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                     FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
 
           <TextBox Text="{Binding Title}" Watermark="Title"/>
 
@@ -198,7 +175,7 @@
           <!-- Category -->
           <StackPanel Spacing="{DynamicResource Spacing4}">
             <TextBlock Text="Category" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <ComboBox SelectedItem="{Binding Category}" HorizontalAlignment="Stretch" MinWidth="200">
               <ComboBoxItem Content="Equipment"/>
               <ComboBoxItem Content="Inventory"/>
@@ -212,20 +189,11 @@
           <!-- Priority -->
           <StackPanel Spacing="{DynamicResource Spacing4}">
             <TextBlock Text="Priority" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
-              <Button Content="Low" Command="{Binding SetPriorityCommand}" CommandParameter="Low"
-                      Padding="16,8" CornerRadius="{DynamicResource CornerRadius8}"
-                      Background="{Binding Priority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Low}"
-                      Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <Button Content="Medium" Command="{Binding SetPriorityCommand}" CommandParameter="Medium"
-                      Padding="16,8" CornerRadius="{DynamicResource CornerRadius8}"
-                      Background="{Binding Priority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Medium}"
-                      Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <Button Content="High" Command="{Binding SetPriorityCommand}" CommandParameter="High"
-                      Padding="16,8" CornerRadius="{DynamicResource CornerRadius8}"
-                      Background="{Binding Priority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=High}"
-                      Foreground="{StaticResource OnSurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
+              <Button Content="Low" Command="{Binding SetPriorityCommand}" CommandParameter="Low" Padding="16,8" Background="{Binding Priority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Low}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <Button Content="Medium" Command="{Binding SetPriorityCommand}" CommandParameter="Medium" Padding="16,8" Background="{Binding Priority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=Medium}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <Button Content="High" Command="{Binding SetPriorityCommand}" CommandParameter="High" Padding="16,8" Background="{Binding Priority, Converter={StaticResource EqualityToBrushConverter}, ConverterParameter=High}" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
             </StackPanel>
           </StackPanel>
 

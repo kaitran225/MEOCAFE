@@ -8,6 +8,6 @@
         Width="1280" Height="800"
         MinWidth="640" MinHeight="480"
         CanResize="True"
-        Background="{StaticResource BackgroundBrush}">
-  <ContentControl Content="{Binding CurrentContent}" Background="{StaticResource BackgroundBrush}"/>
+        Background="{DynamicResource BackgroundBrush}">
+  <ContentControl Content="{Binding CurrentContent}" Background="{DynamicResource BackgroundBrush}"/>
 </Window>

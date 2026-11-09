@@ -3,8 +3,8 @@
              x:Class="POS.Avalonia.Controls.Numpad"
              x:Name="Root">
   <StackPanel Spacing="{DynamicResource Spacing8}">
-    <Border Background="{StaticResource SurfaceMutedBrush}"
-            BorderBrush="{StaticResource BorderBrush}"
+    <Border Background="{DynamicResource SurfaceMutedBrush}"
+            BorderBrush="{DynamicResource BorderBrush}"
             BorderThickness="1"
             CornerRadius="{DynamicResource CornerRadius8}"
             Padding="{DynamicResource Margin16}"
@@ -12,7 +12,7 @@
       <TextBlock Text="{Binding #Root.DisplayValue}"
                  FontSize="{DynamicResource LargeTitleFontSize}"
                  FontWeight="{StaticResource TitleFontWeight}"
-                 Foreground="{StaticResource OnSurfaceBrush}"
+                 Foreground="{DynamicResource OnSurfaceBrush}"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"/>
     </Border>
@@ -20,9 +20,9 @@
                  Rows="4">
       <UniformGrid.Styles>
         <Style Selector="Button.numpad">
-          <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
-          <Setter Property="Foreground" Value="{StaticResource OnSurfaceBrush}"/>
-          <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+          <Setter Property="Background" Value="{DynamicResource SurfaceBrush}"/>
+          <Setter Property="Foreground" Value="{DynamicResource OnSurfaceBrush}"/>
+          <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
           <Setter Property="BorderThickness" Value="1"/>
           <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
           <Setter Property="Height" Value="48"/>
@@ -47,14 +47,14 @@
       <Button Classes="numpad" Command="{Binding #Root.BackspaceCommand}">
         <PathIcon Data="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z"
                  Width="16" Height="16"
-                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                 Foreground="{DynamicResource OnSurfaceBrush}"/>
       </Button>
     </UniformGrid>
     <Button Command="{Binding #Root.ClearCommand}"
             Content="Clear"
-            Background="{StaticResource ErrorBgBrush}"
-            Foreground="{StaticResource ErrorBrush}"
-            BorderBrush="{StaticResource BorderBrush}"
+            Background="{DynamicResource ErrorBgBrush}"
+            Foreground="{DynamicResource ErrorBrush}"
+            BorderBrush="{DynamicResource BorderBrush}"
             BorderThickness="1"
             CornerRadius="{DynamicResource CornerRadius8}"
             Height="40"

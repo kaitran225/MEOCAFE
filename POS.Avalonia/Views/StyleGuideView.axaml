@@ -4,7 +4,7 @@
              xmlns:controls="using:POS.Avalonia.Controls"
              x:Class="POS.Avalonia.Views.StyleGuideView"
              x:DataType="vm:StyleGuideViewModel"
-             Background="{StaticResource BackgroundBrush}"
+             Background="{DynamicResource BackgroundBrush}"
              Padding="28">
   <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
     <StackPanel Spacing="{DynamicResource Spacing32}" Margin="24,0,24,32">
@@ -15,33 +15,33 @@
       <!-- ════════════════════════════════════════════════ -->
       <StackPanel Spacing="16">
         <TextBlock Text="COLORS" FontSize="{DynamicResource TitleFontSize}" FontWeight="{StaticResource TitleFontWeight}"
-                   Foreground="{StaticResource OnSurfaceBrush}"/>
+                   Foreground="{DynamicResource OnSurfaceBrush}"/>
 
         <!-- Brand Colors -->
         <StackPanel Spacing="8">
           <TextBlock Text="Brand Colors" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource PrimaryBrush}"/>
-              <TextBlock Text="Primary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="Matcha #6B8E6B" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource PrimaryBrush}"/>
+              <TextBlock Text="Primary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="Matcha #6B8E6B" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource PrimaryLightBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <TextBlock Text="Primary Light" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#D4E5D2" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource PrimaryLightBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <TextBlock Text="Primary Light" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#D4E5D2" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SecondaryBrush}"/>
-              <TextBlock Text="Secondary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="Brown #6B4423" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SecondaryBrush}"/>
+              <TextBlock Text="Secondary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="Brown #6B4423" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SecondaryLightBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <TextBlock Text="Secondary Lt" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#E8DED4" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SecondaryLightBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <TextBlock Text="Secondary Lt" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#E8DED4" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -51,27 +51,27 @@
           <TextBlock Text="Surface Colors" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource BackgroundBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <TextBlock Text="Background" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#FAFAF9" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource BackgroundBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <TextBlock Text="Background" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#FAFAF9" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SurfaceBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <TextBlock Text="Surface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#FFFFFF" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SurfaceBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <TextBlock Text="Surface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#FFFFFF" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SurfaceMutedBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"/>
-              <TextBlock Text="Muted" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#F5F5F4" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SurfaceMutedBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"/>
+              <TextBlock Text="Muted" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#F5F5F4" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource BorderBrush}"/>
-              <TextBlock Text="Border" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="Border" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource BorderBrush}"/>
+              <TextBlock Text="Border" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="Border" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -81,19 +81,19 @@
           <TextBlock Text="Semantic Colors" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SuccessBrush}"/>
-              <TextBlock Text="Success" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="Success" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SuccessBrush}"/>
+              <TextBlock Text="Success" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="Success" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource ErrorBrush}"/>
-              <TextBlock Text="Error" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#C53030" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource ErrorBrush}"/>
+              <TextBlock Text="Error" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#C53030" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource ErrorBgBrush}"
-                      BorderBrush="{StaticResource ErrorBrush}" BorderThickness="1"/>
-              <TextBlock Text="Error Bg" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>            <TextBlock Text="ErrorBg" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource ErrorBgBrush}"
+                      BorderBrush="{DynamicResource ErrorBrush}" BorderThickness="1"/>
+              <TextBlock Text="Error Bg" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>            <TextBlock Text="ErrorBg" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -103,43 +103,43 @@
           <TextBlock Text="Dark Colors" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource BlackBrush}"/>
-              <TextBlock Text="Black" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#1A1A1A" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource BlackBrush}"/>
+              <TextBlock Text="Black" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#1A1A1A" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource BlackSurfaceBrush}"/>
-              <TextBlock Text="Black Surface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>            <TextBlock Text="BlackSurface" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource BlackSurfaceBrush}"/>
+              <TextBlock Text="Black Surface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>            <TextBlock Text="BlackSurface" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SidebarBrush}"/>
-              <TextBlock Text="Sidebar" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#252525" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SidebarBrush}"/>
+              <TextBlock Text="Sidebar" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#252525" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource OverlayDimBrush}"/>
-              <TextBlock Text="Overlay" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="OverlayDim" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource OverlayDimBrush}"/>
+              <TextBlock Text="Overlay" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="OverlayDim" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkBackgroundBrush}"/>
-              <TextBlock Text="Dark Bg" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#162111" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkBackgroundBrush}"/>
+              <TextBlock Text="Dark Bg" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#162111" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkSurfaceBrush}"/>
-              <TextBlock Text="Dark Surface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#1e2b18" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkSurfaceBrush}"/>
+              <TextBlock Text="Dark Surface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#1e2b18" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkSurfaceAltBrush}"/>
-              <TextBlock Text="Dark Alt" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#22321a" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkSurfaceAltBrush}"/>
+              <TextBlock Text="Dark Alt" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#22321a" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkBorderBrush}"/>
-              <TextBlock Text="Dark Border" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
-              <TextBlock Text="#304724" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkBorderBrush}"/>
+              <TextBlock Text="Dark Border" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+              <TextBlock Text="#304724" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -149,55 +149,55 @@
           <TextBlock Text="Text Colors" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SurfaceMutedBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SurfaceMutedBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource OnSurfaceBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="OnSurface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="OnSurface" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SurfaceMutedBrush}"
-                      BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource OnSurfaceMutedBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SurfaceMutedBrush}"
+                      BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource OnSurfaceMutedBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="OnSurfaceMuted" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="OnSurfaceMuted" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource PrimaryBrush}">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource OnPrimaryBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource PrimaryBrush}">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource OnPrimaryBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="OnPrimary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="OnPrimary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource SidebarBrush}">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource NavSelectedFgBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource SidebarBrush}">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource NavSelectedFgBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="NavSelectedFg" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="NavSelectedFg" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkBackgroundBrush}">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource DarkTextPrimaryBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkBackgroundBrush}">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource DarkTextPrimaryBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="DarkTextPrimary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="DarkTextPrimary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkBackgroundBrush}">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource DarkTextMutedBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkBackgroundBrush}">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource DarkTextMutedBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="DarkTextMuted" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="DarkTextMuted" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="100">
-              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource DarkBackgroundBrush}">
-                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{StaticResource DarkTextSecondaryBrush}"
+              <Border Width="72" Height="72" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource DarkBackgroundBrush}">
+                <TextBlock Text="Aa" FontSize="28" FontWeight="Bold" Foreground="{DynamicResource DarkTextSecondaryBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
               </Border>
-              <TextBlock Text="DarkTextSecondary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+              <TextBlock Text="DarkTextSecondary" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -208,54 +208,54 @@
       <!-- ════════════════════════════════════════════════ -->
       <StackPanel Spacing="16">
         <TextBlock Text="TYPOGRAPHY" FontSize="{DynamicResource TitleFontSize}" FontWeight="{StaticResource TitleFontWeight}"
-                   Foreground="{StaticResource OnSurfaceBrush}"/>
+                   Foreground="{DynamicResource OnSurfaceBrush}"/>
         <controls:Card>
           <StackPanel Spacing="20">
             <Grid ColumnDefinitions="180,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="20" ColumnSpacing="24">
               <!-- Caption -->
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="Caption" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
-                <TextBlock Text="12px / Regular" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="Caption" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                <TextBlock Text="12px / Regular" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
               <TextBlock Grid.Column="1" Text="The quick brown fox jumps over the lazy dog"
                          FontSize="{DynamicResource CaptionFontSize}" FontWeight="{StaticResource CaptionFontWeight}"
-                         VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+                         VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
 
               <!-- Body -->
               <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                <TextBlock Text="Body" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
-                <TextBlock Text="14px / Regular" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="Body" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                <TextBlock Text="14px / Regular" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
               <TextBlock Grid.Row="1" Grid.Column="1" Text="The quick brown fox jumps over the lazy dog"
                          FontSize="{DynamicResource BodyFontSize}" FontWeight="{StaticResource BodyFontWeight}"
-                         VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+                         VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
 
               <!-- Subtitle -->
               <StackPanel Grid.Row="2" VerticalAlignment="Center">
-                <TextBlock Text="Subtitle" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
-                <TextBlock Text="16px / SemiBold" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="Subtitle" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                <TextBlock Text="16px / SemiBold" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
               <TextBlock Grid.Row="2" Grid.Column="1" Text="The quick brown fox jumps over the lazy dog"
                          FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"
-                         VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+                         VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
 
               <!-- Title -->
               <StackPanel Grid.Row="3" VerticalAlignment="Center">
-                <TextBlock Text="Title" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
-                <TextBlock Text="20px / Bold" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="Title" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                <TextBlock Text="20px / Bold" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
               <TextBlock Grid.Row="3" Grid.Column="1" Text="The quick brown fox jumps"
                          FontSize="{DynamicResource TitleFontSize}" FontWeight="{StaticResource TitleFontWeight}"
-                         VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+                         VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
 
               <!-- LargeTitle -->
               <StackPanel Grid.Row="4" VerticalAlignment="Center">
-                <TextBlock Text="Large Title" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
-                <TextBlock Text="24px / Bold" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="Large Title" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
+                <TextBlock Text="24px / Bold" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
               <TextBlock Grid.Row="4" Grid.Column="1" Text="The quick brown fox"
                          FontSize="{DynamicResource LargeTitleFontSize}" FontWeight="{StaticResource LargeTitleFontWeight}"
-                         VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+                         VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Grid>
           </StackPanel>
         </controls:Card>
@@ -266,47 +266,47 @@
       <!-- ════════════════════════════════════════════════ -->
       <StackPanel Spacing="16">
         <TextBlock Text="SPACING" FontSize="{DynamicResource TitleFontSize}" FontWeight="{StaticResource TitleFontWeight}"
-                   Foreground="{StaticResource OnSurfaceBrush}"/>
+                   Foreground="{DynamicResource OnSurfaceBrush}"/>
         <controls:Card>
           <StackPanel Spacing="16">
             <!-- 4px -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-              <Border Width="4" Height="32" Background="{StaticResource PrimaryBrush}" CornerRadius="2"/>
+              <Border Width="4" Height="32" Background="{DynamicResource PrimaryBrush}" CornerRadius="2"/>
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="4px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <TextBlock Text="Spacing4 / Margin4" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="4px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                <TextBlock Text="Spacing4 / Margin4" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
             </StackPanel>
             <!-- 8px -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-              <Border Width="8" Height="32" Background="{StaticResource PrimaryBrush}" CornerRadius="2"/>
+              <Border Width="8" Height="32" Background="{DynamicResource PrimaryBrush}" CornerRadius="2"/>
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="8px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <TextBlock Text="Spacing8 / Margin8" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="8px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                <TextBlock Text="Spacing8 / Margin8" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
             </StackPanel>
             <!-- 16px -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-              <Border Width="16" Height="32" Background="{StaticResource PrimaryBrush}" CornerRadius="2"/>
+              <Border Width="16" Height="32" Background="{DynamicResource PrimaryBrush}" CornerRadius="2"/>
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="16px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <TextBlock Text="Spacing16 / Margin16" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="16px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                <TextBlock Text="Spacing16 / Margin16" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
             </StackPanel>
             <!-- 24px -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-              <Border Width="24" Height="32" Background="{StaticResource PrimaryBrush}" CornerRadius="2"/>
+              <Border Width="24" Height="32" Background="{DynamicResource PrimaryBrush}" CornerRadius="2"/>
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="24px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <TextBlock Text="Spacing24 / Margin24" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="24px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                <TextBlock Text="Spacing24 / Margin24" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
             </StackPanel>
             <!-- 32px -->
             <StackPanel Orientation="Horizontal" Spacing="16">
-              <Border Width="32" Height="32" Background="{StaticResource PrimaryBrush}" CornerRadius="2"/>
+              <Border Width="32" Height="32" Background="{DynamicResource PrimaryBrush}" CornerRadius="2"/>
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="32px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <TextBlock Text="Spacing32 / Margin32" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                <TextBlock Text="32px" FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceBrush}"/>
+                <TextBlock Text="Spacing32 / Margin32" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
             </StackPanel>
           </StackPanel>
@@ -316,24 +316,24 @@
         <TextBlock Text="Corner Radius" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}" Margin="0,8,0,0"/>
         <StackPanel Orientation="Horizontal" Spacing="24">
           <StackPanel Spacing="6" HorizontalAlignment="Center">
-            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius4}" Background="{StaticResource PrimaryLightBrush}"
-                    BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="2"/>
-            <TextBlock Text="4px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius4}" Background="{DynamicResource PrimaryLightBrush}"
+                    BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2"/>
+            <TextBlock Text="4px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
           </StackPanel>
           <StackPanel Spacing="6" HorizontalAlignment="Center">
-            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource PrimaryLightBrush}"
-                    BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="2"/>
-            <TextBlock Text="8px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource PrimaryLightBrush}"
+                    BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2"/>
+            <TextBlock Text="8px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
           </StackPanel>
           <StackPanel Spacing="6" HorizontalAlignment="Center">
-            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius12}" Background="{StaticResource PrimaryLightBrush}"
-                    BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="2"/>
-            <TextBlock Text="12px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius12}" Background="{DynamicResource PrimaryLightBrush}"
+                    BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2"/>
+            <TextBlock Text="12px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
           </StackPanel>
           <StackPanel Spacing="6" HorizontalAlignment="Center">
-            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius16}" Background="{StaticResource PrimaryLightBrush}"
-                    BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="2"/>
-            <TextBlock Text="16px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="64" Height="64" CornerRadius="{DynamicResource CornerRadius16}" Background="{DynamicResource PrimaryLightBrush}"
+                    BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2"/>
+            <TextBlock Text="16px" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
           </StackPanel>
         </StackPanel>
       </StackPanel>
@@ -343,7 +343,7 @@
       <!-- ════════════════════════════════════════════════ -->
       <StackPanel Spacing="16">
         <TextBlock Text="COMPONENTS" FontSize="{DynamicResource TitleFontSize}" FontWeight="{StaticResource TitleFontWeight}"
-                   Foreground="{StaticResource OnSurfaceBrush}"/>
+                   Foreground="{DynamicResource OnSurfaceBrush}"/>
 
         <!-- Buttons -->
         <StackPanel Spacing="8">
@@ -351,25 +351,25 @@
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="6">
               <Button Content="Primary Action" Classes="primary"/>
-              <TextBlock Text=".primary" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text=".primary" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="6">
               <Button Content="Default"/>
-              <TextBlock Text="Default" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="Default" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="6">
               <Button Content="Danger" Classes="danger"/>
-              <TextBlock Text=".danger" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text=".danger" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="6">
               <Button Content="Disabled" IsEnabled="False"/>
-              <TextBlock Text="Disabled" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="Disabled" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="6">
               <Button Padding="10,8" MinWidth="40" MinHeight="40" ToolTip.Tip="Icon button">
                 <PathIcon Data="{StaticResource IconEdit}" Width="20" Height="20"/>
               </Button>
-              <TextBlock Text="Icon-only" FontSize="10" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="Icon-only" FontSize="10" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -380,15 +380,15 @@
           <WrapPanel Orientation="Horizontal">
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="200">
               <TextBox Watermark="Enter text..."/>
-              <TextBlock Text="Normal" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="Normal" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="200">
-              <TextBox Text="Invalid input" BorderBrush="{StaticResource ErrorBrush}" BorderThickness="2"/>
-              <TextBlock Text="Error state" FontSize="10" Foreground="{StaticResource ErrorBrush}"/>
+              <TextBox Text="Invalid input" BorderBrush="{DynamicResource ErrorBrush}" BorderThickness="2"/>
+              <TextBlock Text="Error state" FontSize="10" Foreground="{DynamicResource ErrorBrush}"/>
             </StackPanel>
             <StackPanel Margin="0,0,16,12" Spacing="4" Width="200">
               <TextBox Watermark="Disabled" IsEnabled="False"/>
-              <TextBlock Text="Disabled" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="Disabled" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             </StackPanel>
           </WrapPanel>
         </StackPanel>
@@ -398,17 +398,17 @@
           <TextBlock Text="Toggle Controls" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <Grid ColumnDefinitions="200,200,200" RowDefinitions="Auto" ColumnSpacing="16">
             <StackPanel Spacing="6">
-              <TextBlock Text="CHECKBOX" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="CHECKBOX" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               <CheckBox Content="Checked" IsChecked="True"/>
               <CheckBox Content="Unchecked" IsChecked="False"/>
             </StackPanel>
             <StackPanel Grid.Column="1" Spacing="6">
-              <TextBlock Text="RADIO" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="RADIO" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               <RadioButton Content="Option A" IsChecked="True" GroupName="SgRadio"/>
               <RadioButton Content="Option B" GroupName="SgRadio"/>
             </StackPanel>
             <StackPanel Grid.Column="2" Spacing="6">
-              <TextBlock Text="SWITCH" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+              <TextBlock Text="SWITCH" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               <ToggleSwitch IsChecked="True" OnContent="On" OffContent="Off"/>
             </StackPanel>
           </Grid>
@@ -418,13 +418,13 @@
         <StackPanel Spacing="8">
           <TextBlock Text="Card" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <TextBlock Text="Use Card for any content panel or box (tables, forms, lists). Use KpiCard for metric/summary blocks."
-                     FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+                     FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}" TextWrapping="Wrap" Margin="0,0,0,4"/>
           <controls:Card HorizontalAlignment="Left" MaxWidth="360">
             <StackPanel Spacing="8">
               <TextBlock Text="Card Title" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
               <TextBlock Text="Cards use SurfaceBrush background with a subtle border and shadow. They serve as the primary container for grouped content."
-                         FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}" TextWrapping="Wrap"/>
-              <Button Content="Card Action" Classes="primary" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                         FontSize="{DynamicResource BodyFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}" TextWrapping="Wrap"/>
+              <Button Content="Card Action" HorizontalAlignment="Left" Margin="0,4,0,0" Classes="primary"/>
             </StackPanel>
           </controls:Card>
         </StackPanel>
@@ -433,9 +433,9 @@
         <StackPanel Spacing="8">
           <TextBlock Text="KpiCard (summary / KPI blocks)" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
-            <controls:KpiCard Grid.Column="0" Title="TOTAL SESSIONS" Value="12" Subtitle="2026-02-22" AccentBrush="{StaticResource PrimaryBrush}"/>
-            <controls:KpiCard Grid.Column="1" Title="SESSION STATUS" Value="No sessions" Subtitle="For selected date" AccentBrush="{StaticResource SecondaryBrush}"/>
-            <controls:KpiCard Grid.Column="2" Title="DATE" Value="2026-02-22" Subtitle="Currently viewing" AccentBrush="{StaticResource SuccessBrush}"/>
+            <controls:KpiCard Grid.Column="0" Title="TOTAL SESSIONS" Value="12" Subtitle="2026-02-22" AccentBrush="{DynamicResource PrimaryBrush}"/>
+            <controls:KpiCard Grid.Column="1" Title="SESSION STATUS" Value="No sessions" Subtitle="For selected date" AccentBrush="{DynamicResource SecondaryBrush}"/>
+            <controls:KpiCard Grid.Column="2" Title="DATE" Value="2026-02-22" Subtitle="Currently viewing" AccentBrush="{DynamicResource SuccessBrush}"/>
           </Grid>
         </StackPanel>
 
@@ -443,14 +443,14 @@
         <StackPanel Spacing="8">
           <TextBlock Text="Badges" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
           <StackPanel Orientation="Horizontal" Spacing="12">
-            <Border Padding="10,5" CornerRadius="{DynamicResource CornerRadius4}" Background="{StaticResource PrimaryLightBrush}">
-              <TextBlock Text="New" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource PrimaryBrush}"/>
+            <Border Padding="10,5" CornerRadius="{DynamicResource CornerRadius4}" Background="{DynamicResource PrimaryLightBrush}">
+              <TextBlock Text="New" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryBrush}"/>
             </Border>
-            <Border Padding="10,5" CornerRadius="{DynamicResource CornerRadius4}" Background="{StaticResource SecondaryLightBrush}">
-              <TextBlock Text="Pending" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource SecondaryBrush}"/>
+            <Border Padding="10,5" CornerRadius="{DynamicResource CornerRadius4}" Background="{DynamicResource SecondaryLightBrush}">
+              <TextBlock Text="Pending" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource SecondaryBrush}"/>
             </Border>
-            <Border Padding="10,5" CornerRadius="{DynamicResource CornerRadius4}" Background="{StaticResource ErrorBgBrush}">
-              <TextBlock Text="Alert" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource ErrorBrush}"/>
+            <Border Padding="10,5" CornerRadius="{DynamicResource CornerRadius4}" Background="{DynamicResource ErrorBgBrush}">
+              <TextBlock Text="Alert" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource ErrorBrush}"/>
             </Border>
           </StackPanel>
         </StackPanel>
@@ -474,14 +474,14 @@
         <!-- Modal preview -->
         <StackPanel Spacing="8">
           <TextBlock Text="Modal (preview)" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"/>
-          <Border Background="{StaticResource DarkSurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
-                  BorderBrush="{StaticResource DarkBorderBrush}" BorderThickness="1" BoxShadow="0 4 24 0 #30000000"
+          <Border Background="{DynamicResource DarkSurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}" Padding="24"
+                  BorderBrush="{DynamicResource DarkBorderBrush}" BorderThickness="1" BoxShadow="0 4 24 0 #30000000"
                   MaxWidth="360" HorizontalAlignment="Left">
             <StackPanel Spacing="16">
               <TextBlock Text="Confirm Action" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="{StaticResource SubtitleFontWeight}"
-                         Foreground="{StaticResource DarkTextPrimaryBrush}"/>
+                         Foreground="{DynamicResource DarkTextPrimaryBrush}"/>
               <TextBlock Text="Are you sure you want to proceed with this action? This cannot be undone."
-                         FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource DarkTextMutedBrush}" TextWrapping="Wrap"/>
+                         FontSize="{DynamicResource BodyFontSize}" Foreground="{DynamicResource DarkTextMutedBrush}" TextWrapping="Wrap"/>
               <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
                 <Button Content="Cancel"/>
                 <Button Content="Confirm" Classes="primary"/>
@@ -496,278 +496,278 @@
       <!-- ════════════════════════════════════════════════ -->
       <StackPanel Spacing="16">
         <TextBlock Text="ICONS" FontSize="{DynamicResource TitleFontSize}" FontWeight="{StaticResource TitleFontWeight}"
-                   Foreground="{StaticResource OnSurfaceBrush}"/>
+                   Foreground="{DynamicResource OnSurfaceBrush}"/>
         <WrapPanel Orientation="Horizontal">
           <!-- Navigation icons -->
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconDashboard}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconDashboard}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Dashboard" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Dashboard" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconTableRestaurant}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconTableRestaurant}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Table" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Table" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconPointOfSale}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconPointOfSale}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="POS" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="POS" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconInventory}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconInventory}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Inventory" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Inventory" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconKitchen}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconKitchen}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Kitchen" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Kitchen" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconBarChart}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconBarChart}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Reports" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Reports" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconSettings}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconSettings}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Settings" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Settings" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconReceipt}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconReceipt}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Receipt" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Receipt" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconDiscount}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconDiscount}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Discount" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Discount" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconShift}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconShift}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Shift" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Shift" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconAuditLog}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconAuditLog}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Audit" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Audit" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCustomers}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCustomers}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Customers" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Customers" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconEmployees}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconEmployees}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Employees" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Employees" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconRecipe}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconRecipe}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Recipe" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Recipe" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
 
           <!-- Action icons -->
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconAdd}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconAdd}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Add" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Add" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconEdit}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconEdit}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Edit" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Edit" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconDelete}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconDelete}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Delete" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Delete" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconSearch}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconSearch}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Search" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Search" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconRefresh}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconRefresh}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Refresh" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Refresh" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconPrint}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconPrint}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Print" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Print" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconSave}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconSave}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Save" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Save" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconExport}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconExport}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Export" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Export" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconFilter}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconFilter}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Filter" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Filter" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCalendar}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCalendar}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Calendar" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Calendar" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconLogout}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconLogout}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Logout" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Logout" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconClose}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconClose}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Close" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Close" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCheck}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCheck}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Check" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Check" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconWarning}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconWarning}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Warning" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Warning" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconInfo}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconInfo}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Info" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Info" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
 
           <!-- Misc icons -->
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCoffee}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCoffee}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Coffee" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Coffee" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconStar}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconStar}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Star" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Star" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconPerson}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconPerson}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Person" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Person" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCash}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCash}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Cash" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Cash" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCreditCard}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCreditCard}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Card" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Card" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconCost}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconCost}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Cost" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Cost" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconReport}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconReport}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Report" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Report" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconWaste}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconWaste}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Waste" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Waste" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
           <StackPanel Margin="0,0,12,12" Spacing="4" HorizontalAlignment="Center">
-            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{StaticResource SurfaceMutedBrush}"
-                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Padding="14">
-              <PathIcon Data="{StaticResource IconNotification}" Width="24" Height="24" Foreground="{StaticResource OnSurfaceBrush}"/>
+            <Border Width="52" Height="52" CornerRadius="{DynamicResource CornerRadius8}" Background="{DynamicResource SurfaceMutedBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Padding="14">
+              <PathIcon Data="{StaticResource IconNotification}" Width="24" Height="24" Foreground="{DynamicResource OnSurfaceBrush}"/>
             </Border>
-            <TextBlock Text="Bell" FontSize="9" TextAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}" MaxWidth="56"/>
+            <TextBlock Text="Bell" FontSize="9" TextAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}" MaxWidth="56"/>
           </StackPanel>
         </WrapPanel>
       </StackPanel>

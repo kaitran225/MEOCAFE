@@ -8,36 +8,36 @@
     <StackPanel Orientation="Horizontal" Spacing="6">
       <Button Content="B" FontWeight="Bold" Command="{Binding #Root.BoldCommand}"
               Padding="10,4" MinHeight="28" CornerRadius="6"
-              Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
               ToolTip.Tip="Bold (wraps selection with &lt;b&gt;)"/>
       <Button Content="I" FontStyle="Italic" Command="{Binding #Root.ItalicCommand}"
               Padding="10,4" MinHeight="28" CornerRadius="6"
-              Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
               ToolTip.Tip="Italic (wraps selection with &lt;i&gt;)"/>
       <Button Command="{Binding #Root.UnderlineCommand}"
               Padding="10,4" MinHeight="28" CornerRadius="6"
-              Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
               ToolTip.Tip="Underline (wraps selection with &lt;u&gt;)">
         <TextBlock Text="U" TextDecorations="Underline"/>
       </Button>
       <Button Content="• List" Command="{Binding #Root.BulletCommand}"
               Padding="10,4" MinHeight="28" CornerRadius="6"
-              Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+              Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
               ToolTip.Tip="Toggle bullet on selected lines"/>
 
-      <Border Width="1" Background="{StaticResource BorderBrush}" Margin="2,2"/>
+      <Border Width="1" Background="{DynamicResource BorderBrush}" Margin="2,2"/>
 
       <ComboBox ItemsSource="{Binding #Root.Mentions}"
                 SelectedItem="{Binding #Root.SelectedMention}"
                 PlaceholderText="Link ingredient…"
                 MinWidth="190" MinHeight="28" VerticalAlignment="Center"
-                Background="{StaticResource SurfaceMutedBrush}"
-                Foreground="{StaticResource OnSurfaceBrush}"
-                BorderBrush="{StaticResource BorderBrush}"/>
+                Background="{DynamicResource SurfaceMutedBrush}"
+                Foreground="{DynamicResource OnSurfaceBrush}"
+                BorderBrush="{DynamicResource BorderBrush}"/>
       <Button Content="Insert" Command="{Binding #Root.InsertMentionCommand}"
               Padding="12,4" MinHeight="28" CornerRadius="6" Classes="primary"
               ToolTip.Tip="Inserts [[name]] which links to the ingredient list"/>
@@ -48,21 +48,21 @@
              Text="{Binding #Root.Html, Mode=TwoWay}"
              AcceptsReturn="True" TextWrapping="Wrap"
              MinHeight="76" MaxHeight="110"
-             Background="{StaticResource SurfaceBrush}"
-             Foreground="{StaticResource OnSurfaceBrush}"
-             BorderBrush="{StaticResource BorderBrush}"
+             Background="{DynamicResource SurfaceBrush}"
+             Foreground="{DynamicResource OnSurfaceBrush}"
+             BorderBrush="{DynamicResource BorderBrush}"
              Watermark="Type the step… (blank lines become line breaks; use the toolbar for formatting)"/>
 
     <!-- Live preview -->
     <Border IsVisible="{Binding #Root.Html, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
-            Background="{StaticResource SurfaceMutedBrush}"
-            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+            Background="{DynamicResource SurfaceMutedBrush}"
+            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
             CornerRadius="8" Padding="10,8">
       <StackPanel Spacing="4">
         <TextBlock Text="Preview" FontSize="11" FontWeight="SemiBold"
-                   Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                   Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
         <controls:RichTextBlock Html="{Binding #Root.Html}" TextWrapping="Wrap"
-                                FontSize="13" Foreground="{StaticResource OnSurfaceBrush}"/>
+                                FontSize="13" Foreground="{DynamicResource OnSurfaceBrush}"/>
       </StackPanel>
     </Border>
   </StackPanel>

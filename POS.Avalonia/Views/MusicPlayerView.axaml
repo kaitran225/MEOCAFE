@@ -4,47 +4,47 @@
              xmlns:controls="using:POS.Avalonia.Controls"
              x:Class="POS.Avalonia.Views.MusicPlayerView"
              x:DataType="vm:MusicPlayerViewModel"
-             Background="{StaticResource BackgroundBrush}">
-  <Border Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
+  <Border Background="{DynamicResource BackgroundBrush}">
     <Grid ColumnDefinitions="3*,2*">
 
       <!-- Left: Now Playing -->
-      <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}" Margin="0,0,1,0">
+      <Border Grid.Column="0" Background="{DynamicResource SurfaceBrush}" Margin="0,0,1,0">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="{DynamicResource Spacing32}">
 
           <!-- Album Art Placeholder -->
           <Border Width="220" Height="220" CornerRadius="{DynamicResource CornerRadius16}"
-                  Background="{StaticResource BackgroundBrush}"
-                  BorderBrush="{StaticResource PrimaryBrush}" BorderThickness="2"
+                  Background="{DynamicResource BackgroundBrush}"
+                  BorderBrush="{DynamicResource PrimaryBrush}" BorderThickness="2"
                   HorizontalAlignment="Center"
                   BoxShadow="0 8 32 0 #40000000">
             <PathIcon Data="{StaticResource IconMusic}" Width="80" Height="80"
-                      Foreground="{StaticResource PrimaryBrush}" Opacity="0.6"/>
+                      Foreground="{DynamicResource PrimaryBrush}" Opacity="0.6"/>
           </Border>
 
           <!-- Track Info -->
           <StackPanel Spacing="{DynamicResource Spacing8}" HorizontalAlignment="Center">
             <TextBlock Text="{Binding CurrentTrack}"
                        FontSize="{DynamicResource LargeTitleFontSize}" FontWeight="Bold"
-                       Foreground="{StaticResource OnPrimaryBrush}"
+                       Foreground="{DynamicResource OnPrimaryBrush}"
                        HorizontalAlignment="Center"/>
             <TextBlock Text="{Binding Artist}"
                        FontSize="{DynamicResource SubtitleFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"
                        HorizontalAlignment="Center"/>
           </StackPanel>
 
           <!-- Progress Bar -->
           <StackPanel Spacing="{DynamicResource Spacing8}" Width="340">
-            <Border Height="6" CornerRadius="3" Background="{StaticResource BorderBrush}">
-              <Border Background="{StaticResource PrimaryBrush}" CornerRadius="3"
+            <Border Height="6" CornerRadius="3" Background="{DynamicResource BorderBrush}">
+              <Border Background="{DynamicResource PrimaryBrush}" CornerRadius="3"
                       HorizontalAlignment="Left" Width="{Binding Progress, FallbackValue=120}"/>
             </Border>
             <Grid ColumnDefinitions="*,*">
               <TextBlock Grid.Column="0" Text="1:18" FontSize="11"
-                         Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                         Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               <TextBlock Grid.Column="1" Text="3:42" FontSize="11"
-                         Foreground="{StaticResource OnSurfaceMutedBrush}"
+                         Foreground="{DynamicResource OnSurfaceMutedBrush}"
                          HorizontalAlignment="Right"/>
             </Grid>
           </StackPanel>
@@ -52,50 +52,44 @@
           <!-- Playback Controls -->
           <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing24}"
                       HorizontalAlignment="Center">
-            <Button Command="{Binding PreviousCommand}" Background="Transparent"
-                    BorderThickness="0" Padding="12" Cursor="Hand">
+            <Button Command="{Binding PreviousCommand}" Padding="12" Cursor="Hand" Classes="ghost">
               <PathIcon Data="{StaticResource IconChevronLeft}" Width="28" Height="28"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
             </Button>
 
-            <Button Command="{Binding PlayPauseCommand}"
-                    Width="64" Height="64" CornerRadius="32"
-                    Background="{StaticResource PrimaryBrush}"
-                    BorderThickness="0" Padding="0" Cursor="Hand"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Button Command="{Binding PlayPauseCommand}" Width="64" Height="64" Background="{DynamicResource PrimaryBrush}" BorderThickness="0" Padding="0" Cursor="Hand" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
               <Panel>
                 <PathIcon Data="{StaticResource IconChevronRight}" Width="28" Height="28"
-                          Foreground="{StaticResource OnPrimaryBrush}"
+                          Foreground="{DynamicResource OnPrimaryBrush}"
                           IsVisible="{Binding !IsPlaying}"/>
                 <TextBlock Text="❚❚" FontSize="18" FontWeight="Bold"
-                           Foreground="{StaticResource OnPrimaryBrush}"
+                           Foreground="{DynamicResource OnPrimaryBrush}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"
                            IsVisible="{Binding IsPlaying}"/>
               </Panel>
             </Button>
 
-            <Button Command="{Binding NextCommand}" Background="Transparent"
-                    BorderThickness="0" Padding="12" Cursor="Hand">
+            <Button Command="{Binding NextCommand}" Padding="12" Cursor="Hand" Classes="ghost">
               <PathIcon Data="{StaticResource IconChevronRight}" Width="28" Height="28"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
             </Button>
           </StackPanel>
         </StackPanel>
       </Border>
 
       <!-- Right: Playlist -->
-      <Border Grid.Column="1" Background="{StaticResource BackgroundBrush}" Padding="24">
+      <Border Grid.Column="1" Background="{DynamicResource BackgroundBrush}" Padding="24">
         <StackPanel Spacing="{DynamicResource Spacing16}">
           <StackPanel Spacing="2">
             <TextBlock Text="Playlist"
                        FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
-                       Foreground="{StaticResource OnPrimaryBrush}"/>
+                       Foreground="{DynamicResource OnPrimaryBrush}"/>
             <TextBlock Text="{Binding Playlist.Count, StringFormat='{}{0} tracks'}"
                        FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           </StackPanel>
 
-          <Border Height="1" Background="{StaticResource BorderBrush}"/>
+          <Border Height="1" Background="{DynamicResource BorderBrush}"/>
 
           <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ListBox ItemsSource="{Binding Playlist}"
@@ -108,32 +102,32 @@
                   <Setter Property="Margin" Value="0,2"/>
                 </Style>
                 <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                  <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+                  <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
                 </Style>
                 <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                  <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                  <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
                 </Style>
               </ListBox.Styles>
               <ListBox.ItemTemplate>
                 <DataTemplate>
                   <Grid ColumnDefinitions="Auto,*,Auto">
                     <Border Grid.Column="0" Width="36" Height="36" CornerRadius="8"
-                            Background="{StaticResource SurfaceMutedBrush}" Margin="0,0,12,0">
+                            Background="{DynamicResource SurfaceMutedBrush}" Margin="0,0,12,0">
                       <PathIcon Data="{StaticResource IconMusic}" Width="16" Height="16"
-                                Foreground="{StaticResource PrimaryBrush}"/>
+                                Foreground="{DynamicResource PrimaryBrush}"/>
                     </Border>
                     <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center">
                       <TextBlock Text="{Binding Title}"
                                  FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
-                                 Foreground="{StaticResource OnPrimaryBrush}"
+                                 Foreground="{DynamicResource OnPrimaryBrush}"
                                  TextTrimming="CharacterEllipsis"/>
                       <TextBlock Text="{Binding Artist}"
                                  FontSize="{DynamicResource CaptionFontSize}"
-                                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                                 Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                     </StackPanel>
                     <TextBlock Grid.Column="2" Text="{Binding Duration}"
                                FontSize="{DynamicResource CaptionFontSize}"
-                               Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               Foreground="{DynamicResource OnSurfaceMutedBrush}"
                                VerticalAlignment="Center"/>
                   </Grid>
                 </DataTemplate>

@@ -4,33 +4,33 @@
              xmlns:controls="using:POS.Avalonia.Controls"
              x:Class="POS.Avalonia.Views.AiChatView"
              x:DataType="vm:AiChatViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <Grid RowDefinitions="Auto,*,Auto">
 
     <!-- Header -->
-    <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}"
-            BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1"
+    <Border Grid.Row="0" Background="{DynamicResource SurfaceBrush}"
+            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,0,0,1"
             Padding="24,16">
       <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing12}">
         <Border Width="40" Height="40" CornerRadius="20"
-                Background="{StaticResource SurfaceMutedBrush}">
+                Background="{DynamicResource SurfaceMutedBrush}">
           <PathIcon Data="{StaticResource IconChat}" Width="20" Height="20"
-                    Foreground="{StaticResource PrimaryBrush}"/>
+                    Foreground="{DynamicResource PrimaryBrush}"/>
         </Border>
         <StackPanel Spacing="2" VerticalAlignment="Center">
           <TextBlock Text="Trợ lý HienXanh"
                      FontSize="{DynamicResource TitleFontSize}" FontWeight="Bold"
-                     Foreground="{StaticResource OnSurfaceBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceBrush}"/>
           <TextBlock Text="Powered by café intelligence"
                      FontSize="{DynamicResource CaptionFontSize}"
-                     Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
         </StackPanel>
       </StackPanel>
     </Border>
 
     <!-- Chat Messages -->
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"
-                  Background="{StaticResource BackgroundBrush}"
+                  Background="{DynamicResource BackgroundBrush}"
                   Padding="24,16">
       <ItemsControl ItemsSource="{Binding Messages}">
         <ItemsControl.ItemTemplate>
@@ -39,17 +39,17 @@
               <!-- AI Message (left-aligned) -->
               <Border IsVisible="{Binding IsAi}"
                       HorizontalAlignment="Left" MaxWidth="520"
-                      Background="{StaticResource SurfaceMutedBrush}"
+                      Background="{DynamicResource SurfaceMutedBrush}"
                       CornerRadius="4,16,16,16" Padding="16,12"
                       Margin="0,0,80,0">
                 <StackPanel Spacing="6">
                   <TextBlock Text="{Binding Text}"
                              FontSize="{DynamicResource BodyFontSize}"
-                             Foreground="{StaticResource OnSurfaceBrush}"
+                             Foreground="{DynamicResource OnSurfaceBrush}"
                              TextWrapping="Wrap"/>
                   <TextBlock Text="{Binding Timestamp, StringFormat='{}{0:HH:mm}'}"
                              FontSize="11"
-                             Foreground="{StaticResource OnSurfaceMutedBrush}"
+                             Foreground="{DynamicResource OnSurfaceMutedBrush}"
                              HorizontalAlignment="Left"/>
                 </StackPanel>
               </Border>
@@ -57,17 +57,17 @@
               <!-- User Message (right-aligned) -->
               <Border IsVisible="{Binding IsUser}"
                       HorizontalAlignment="Right" MaxWidth="520"
-                      Background="{StaticResource PrimaryBrush}"
+                      Background="{DynamicResource PrimaryBrush}"
                       CornerRadius="16,4,16,16" Padding="16,12"
                       Margin="80,0,0,0">
                 <StackPanel Spacing="6">
                   <TextBlock Text="{Binding Text}"
                              FontSize="{DynamicResource BodyFontSize}"
-                             Foreground="{StaticResource OnPrimaryBrush}"
+                             Foreground="{DynamicResource OnPrimaryBrush}"
                              TextWrapping="Wrap"/>
                   <TextBlock Text="{Binding Timestamp, StringFormat='{}{0:HH:mm}'}"
                              FontSize="11"
-                             Foreground="{StaticResource OnPrimaryBrush}" Opacity="0.7"
+                             Foreground="{DynamicResource OnPrimaryBrush}" Opacity="0.7"
                              HorizontalAlignment="Right"/>
                 </StackPanel>
               </Border>
@@ -78,8 +78,8 @@
     </ScrollViewer>
 
     <!-- Input Area -->
-    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}"
-            BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0"
+    <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}"
+            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="0,1,0,0"
             Padding="24,16">
       <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{DynamicResource Spacing8}">
         <TextBox Grid.Column="0" Text="{Binding InputText}"
@@ -88,15 +88,12 @@
                  CornerRadius="{DynamicResource CornerRadius12}"
                  Padding="16,12"
                  MinHeight="44"
-                 Background="{StaticResource SurfaceMutedBrush}"
-                 BorderBrush="{StaticResource BorderBrush}"
-                 Foreground="{StaticResource OnSurfaceBrush}"/>
-        <Button Grid.Column="1" Command="{Binding SendCommand}"
-                Classes="primary" CornerRadius="{DynamicResource CornerRadius12}"
-                Width="48" Height="48" Padding="0"
-                HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                 Background="{DynamicResource SurfaceMutedBrush}"
+                 BorderBrush="{DynamicResource BorderBrush}"
+                 Foreground="{DynamicResource OnSurfaceBrush}"/>
+        <Button Grid.Column="1" Command="{Binding SendCommand}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Classes="primary icon">
           <PathIcon Data="{StaticResource IconChevronRight}" Width="20" Height="20"
-                    Foreground="{StaticResource OnPrimaryBrush}"/>
+                    Foreground="{DynamicResource OnPrimaryBrush}"/>
         </Button>
       </Grid>
     </Border>

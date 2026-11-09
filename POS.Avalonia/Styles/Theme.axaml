@@ -1,93 +1,275 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!-- HienXanh: professional black UI + matcha accent -->
+  <!-- HienXanh theme: warm graphite canvas, off-white ink, muted olive brand accent,
+       terracotta reserved for attention. Hairline borders instead of shadows.
+       Each variant defines Color tokens; semantic brushes derive from them.
+       Views reference brushes with DynamicResource so a theme switch applies live. -->
 
-  <SolidColorBrush x:Key="PrimaryBrush" Color="#6B8E6B"/>
-  <SolidColorBrush x:Key="PrimaryLightBrush" Color="#3D5C40"/>
-  <SolidColorBrush x:Key="SecondaryBrush" Color="#8B6B4A"/>
-  <SolidColorBrush x:Key="SecondaryLightBrush" Color="#3A322C"/>
+  <!-- Theme-independent tokens -->
+  <BoxShadows x:Key="ShadowAppBar">0 1 2 0 #40000000</BoxShadows>
+  <BoxShadows x:Key="ShadowContent">0 1 3 0 #30000000</BoxShadows>
+  <BoxShadows x:Key="ShadowCard">0 1 2 0 #1F000000</BoxShadows>
+  <BoxShadows x:Key="ShadowDialog">0 8 32 0 #66000000</BoxShadows>
+  <BoxShadows x:Key="ShadowLogin">0 4 20 0 #40000000</BoxShadows>
+  <BoxShadows x:Key="ShadowCardLight">0 1 2 0 #14000000</BoxShadows>
+  <BoxShadows x:Key="ShadowCardSoft">0 1 2 0 #0D000000</BoxShadows>
 
-  <SolidColorBrush x:Key="ErrorBrush" Color="#EF5350"/>
-  <SolidColorBrush x:Key="ErrorBgBrush" Color="#33EF5350"/>
-  <SolidColorBrush x:Key="SuccessBrush" Color="#5A7D5A"/>
-  <SolidColorBrush x:Key="SuccessBgBrush" Color="#3322C55E"/>
+  <ResourceDictionary.ThemeDictionaries>
+    <!-- ============================ DARK (default) ============================ -->
+    <ResourceDictionary x:Key="Dark">
+      <!-- Primitive color tokens -->
+      <Color x:Key="PrimaryColor">#9BAF7D</Color>
+      <Color x:Key="PrimaryLightColor">#2A3222</Color>
+      <Color x:Key="PrimaryHoverColor">#A9BD8B</Color>
+      <Color x:Key="PrimaryPressedColor">#8A9E6D</Color>
+      <Color x:Key="SecondaryColor">#D97757</Color>
+      <Color x:Key="SecondaryLightColor">#3A2A22</Color>
+      <Color x:Key="ErrorColor">#E07A6E</Color>
+      <Color x:Key="ErrorBgColor">#33E07A6E</Color>
+      <Color x:Key="SuccessColor">#8FBF7B</Color>
+      <Color x:Key="SuccessBgColor">#338FBF7B</Color>
+      <Color x:Key="WarningColor">#E0B267</Color>
+      <Color x:Key="InfoColor">#82B1DC</Color>
+      <Color x:Key="AccentAmberColor">#E0B267</Color>
+      <Color x:Key="DangerColor">#E07A6E</Color>
+      <Color x:Key="DangerLightColor">#33E07A6E</Color>
+      <Color x:Key="FocusColor">#CFE0B4</Color>
 
-  <SolidColorBrush x:Key="AvailableBrush" Color="#22C55E"/>
-  <SolidColorBrush x:Key="OccupiedBrush" Color="#F59E0B"/>
-  <SolidColorBrush x:Key="WarningBrush" Color="#F59E0B"/>
-  <SolidColorBrush x:Key="InfoBrush" Color="#3B82F6"/>
-  <SolidColorBrush x:Key="AccentAmberBrush" Color="#FBBF24"/>
+      <Color x:Key="BackgroundColor">#141413</Color>
+      <Color x:Key="SurfaceColor">#1C1B19</Color>
+      <Color x:Key="SurfaceMutedColor">#262523</Color>
+      <Color x:Key="BorderColor">#353330</Color>
+      <Color x:Key="BorderStrongColor">#4A4741</Color>
+      <Color x:Key="BlackColor">#0E0E0D</Color>
+      <Color x:Key="BlackSurfaceColor">#181716</Color>
+      <Color x:Key="SidebarColor">#181716</Color>
+      <Color x:Key="OnSurfaceColor">#FAF9F5</Color>
+      <Color x:Key="OnSurfaceMutedColor">#B0AEA5</Color>
+      <Color x:Key="OnPrimaryColor">#12130F</Color>
 
-  <!-- Main surfaces (dark default) -->
-  <SolidColorBrush x:Key="BackgroundBrush" Color="#0F0F0F"/>
-  <SolidColorBrush x:Key="SurfaceBrush" Color="#1A1A1A"/>
-  <SolidColorBrush x:Key="SurfaceMutedBrush" Color="#252525"/>
-  <SolidColorBrush x:Key="BorderBrush" Color="#333333"/>
+      <Color x:Key="NavSelectedColor">#9BAF7D</Color>
+      <Color x:Key="SidebarBorderColor">#302E2A</Color>
+      <Color x:Key="SidebarHoverColor">#24231F</Color>
+      <Color x:Key="SidebarItemColor">#339BAF7D</Color>
+      <Color x:Key="AppBarIconBgColor">#22FFFFFF</Color>
+      <Color x:Key="AppBarUserBgColor">#18FFFFFF</Color>
+      <Color x:Key="AppBarButtonBgColor">#30FFFFFF</Color>
+      <Color x:Key="AppBarButtonBorderColor">#28FFFFFF</Color>
 
-  <SolidColorBrush x:Key="BlackBrush" Color="#0A0A0A"/>
-  <SolidColorBrush x:Key="BlackSurfaceBrush" Color="#141414"/>
-  <SolidColorBrush x:Key="SidebarBrush" Color="#141414"/>
-  <SolidColorBrush x:Key="OnSurfaceBrush" Color="#F1F5F9"/>
-  <SolidColorBrush x:Key="OnSurfaceMutedBrush" Color="#94A3B8"/>
+      <Color x:Key="OverlayDimColor">#CC0A0A09</Color>
+      <Color x:Key="OverlayDimStrongColor">#E60A0A09</Color>
+      <Color x:Key="StockLowColor">#E0B267</Color>
+      <Color x:Key="AvailableColor">#8FBF7B</Color>
+      <Color x:Key="OccupiedColor">#E0B267</Color>
+      <Color x:Key="DarkBorderHoverColor">#4A4741</Color>
+      <Color x:Key="DarkTextSecondaryColor">#B7CC98</Color>
 
-  <SolidColorBrush x:Key="OnPrimaryBrush" Color="#FFFFFF"/>
-  <SolidColorBrush x:Key="AppBarIconBgBrush" Color="#22FFFFFF"/>
-  <SolidColorBrush x:Key="AppBarUserBgBrush" Color="#18FFFFFF"/>
-  <SolidColorBrush x:Key="AppBarButtonBgBrush" Color="#30FFFFFF"/>
-  <SolidColorBrush x:Key="AppBarButtonBorderBrush" Color="#28FFFFFF"/>
+      <!-- Semantic brushes -->
+      <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+      <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{StaticResource PrimaryHoverColor}"/>
+      <SolidColorBrush x:Key="PrimaryPressedBrush" Color="{StaticResource PrimaryPressedColor}"/>
+      <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}"/>
+      <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
+      <SolidColorBrush x:Key="SecondaryLightBrush" Color="{StaticResource SecondaryLightColor}"/>
+      <SolidColorBrush x:Key="FocusBrush" Color="{StaticResource FocusColor}"/>
 
-  <SolidColorBrush x:Key="NavSelectedBrush" Color="#6B8E6B"/>
-  <SolidColorBrush x:Key="NavSelectedFgBrush" Color="#FFFFFF"/>
-  <SolidColorBrush x:Key="SidebarBorderBrush" Color="#333333"/>
-  <SolidColorBrush x:Key="SidebarHoverBrush" Color="#2A2A2A"/>
-  <SolidColorBrush x:Key="SidebarItemBrush" Color="#336B8E6B"/>
+      <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="ErrorBgBrush" Color="{StaticResource ErrorBgColor}"/>
+      <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+      <SolidColorBrush x:Key="SuccessBgBrush" Color="{StaticResource SuccessBgColor}"/>
+      <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+      <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}"/>
+      <SolidColorBrush x:Key="AccentAmberBrush" Color="{StaticResource AccentAmberColor}"/>
+      <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}"/>
+      <SolidColorBrush x:Key="DangerLightBrush" Color="{StaticResource DangerLightColor}"/>
 
-  <!-- Legacy dark tokens (aliases) -->
-  <SolidColorBrush x:Key="DarkBackgroundBrush" Color="#0F0F0F"/>
-  <SolidColorBrush x:Key="DarkSurfaceBrush" Color="#1A1A1A"/>
-  <SolidColorBrush x:Key="DarkSurfaceAltBrush" Color="#252525"/>
-  <SolidColorBrush x:Key="DarkBorderBrush" Color="#333333"/>
-  <SolidColorBrush x:Key="DarkBorderHoverBrush" Color="#444444"/>
-  <SolidColorBrush x:Key="DarkTextPrimaryBrush" Color="#F1F5F9"/>
-  <SolidColorBrush x:Key="DarkTextMutedBrush" Color="#94A3B8"/>
-  <SolidColorBrush x:Key="DarkTextSecondaryBrush" Color="#A5C893"/>
+      <SolidColorBrush x:Key="AvailableBrush" Color="{StaticResource AvailableColor}"/>
+      <SolidColorBrush x:Key="OccupiedBrush" Color="{StaticResource OccupiedColor}"/>
 
-  <SolidColorBrush x:Key="OverlayDimBrush" Color="#CC000000"/>
-  <SolidColorBrush x:Key="OverlayDimStrongBrush" Color="#E6000000"/>
+      <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+      <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+      <SolidColorBrush x:Key="SurfaceMutedBrush" Color="{StaticResource SurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+      <SolidColorBrush x:Key="BorderStrongBrush" Color="{StaticResource BorderStrongColor}"/>
+      <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource BlackColor}"/>
+      <SolidColorBrush x:Key="BlackSurfaceBrush" Color="{StaticResource BlackSurfaceColor}"/>
+      <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarColor}"/>
+      <SolidColorBrush x:Key="OnSurfaceBrush" Color="{StaticResource OnSurfaceColor}"/>
+      <SolidColorBrush x:Key="OnSurfaceMutedBrush" Color="{StaticResource OnSurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}"/>
 
-  <!-- Stock indicators -->
-  <SolidColorBrush x:Key="StockLowBrush" Color="#FBBF24"/>
+      <SolidColorBrush x:Key="AppBarIconBgBrush" Color="{StaticResource AppBarIconBgColor}"/>
+      <SolidColorBrush x:Key="AppBarUserBgBrush" Color="{StaticResource AppBarUserBgColor}"/>
+      <SolidColorBrush x:Key="AppBarButtonBgBrush" Color="{StaticResource AppBarButtonBgColor}"/>
+      <SolidColorBrush x:Key="AppBarButtonBorderBrush" Color="{StaticResource AppBarButtonBorderColor}"/>
 
-  <!-- Status bar accents for table/order cards -->
-  <SolidColorBrush x:Key="StatusBarAvailableBrush" Color="#22C55E"/>
-  <SolidColorBrush x:Key="StatusBarOccupiedBrush" Color="#F59E0B"/>
-  <SolidColorBrush x:Key="StatusBarReservedBrush" Color="{StaticResource ErrorBrush}"/>
+      <SolidColorBrush x:Key="NavSelectedBrush" Color="{StaticResource NavSelectedColor}"/>
+      <SolidColorBrush x:Key="NavSelectedFgBrush" Color="{StaticResource OnPrimaryColor}"/>
+      <SolidColorBrush x:Key="SidebarBorderBrush" Color="{StaticResource SidebarBorderColor}"/>
+      <SolidColorBrush x:Key="SidebarHoverBrush" Color="{StaticResource SidebarHoverColor}"/>
+      <SolidColorBrush x:Key="SidebarItemBrush" Color="{StaticResource SidebarItemColor}"/>
 
-  <!-- Badge tints -->
-  <SolidColorBrush x:Key="BadgeNewBrush" Color="{StaticResource PrimaryLightBrush}"/>
-  <SolidColorBrush x:Key="BadgePendingBrush" Color="{StaticResource SecondaryLightBrush}"/>
-  <SolidColorBrush x:Key="BadgeAlertBrush" Color="{StaticResource ErrorBgBrush}"/>
-  <SolidColorBrush x:Key="BadgeBrush100" Color="#64FFFFFF"/>
-  <SolidColorBrush x:Key="BadgeBrush200" Color="#40FFFFFF"/>
-  <SolidColorBrush x:Key="BadgeBrush300" Color="{StaticResource ErrorBrush}"/>
-  <SolidColorBrush x:Key="BadgeBrush400" Color="{StaticResource SuccessBrush}"/>
+      <!-- Legacy dark tokens (aliases) -->
+      <SolidColorBrush x:Key="DarkBackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+      <SolidColorBrush x:Key="DarkSurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+      <SolidColorBrush x:Key="DarkSurfaceAltBrush" Color="{StaticResource SurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="DarkBorderBrush" Color="{StaticResource BorderColor}"/>
+      <SolidColorBrush x:Key="DarkBorderHoverBrush" Color="{StaticResource DarkBorderHoverColor}"/>
+      <SolidColorBrush x:Key="DarkTextPrimaryBrush" Color="{StaticResource OnSurfaceColor}"/>
+      <SolidColorBrush x:Key="DarkTextMutedBrush" Color="{StaticResource OnSurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="DarkTextSecondaryBrush" Color="{StaticResource DarkTextSecondaryColor}"/>
 
-  <!-- KPI card accent opacities -->
-  <SolidColorBrush x:Key="KpiWarningBrush" Color="#FFFBBF24"/>
-  <SolidColorBrush x:Key="KpiWarningBgBrush" Color="#FFFBBF24" Opacity="0.3"/>
-  <SolidColorBrush x:Key="KpiErrorBrush" Color="{StaticResource ErrorBrush}"/>
-  <SolidColorBrush x:Key="KpiErrorBgBrush" Color="{StaticResource ErrorBrush}" Opacity="0.2"/>
+      <SolidColorBrush x:Key="OverlayDimBrush" Color="{StaticResource OverlayDimColor}"/>
+      <SolidColorBrush x:Key="OverlayDimStrongBrush" Color="{StaticResource OverlayDimStrongColor}"/>
 
-  <!-- Icon tint for kpi/accents -->
-  <SolidColorBrush x:Key="KpiIconPrimaryBrush" Color="{StaticResource PrimaryBrush}"/>
-  <SolidColorBrush x:Key="KpiIconErrorBrush" Color="{StaticResource ErrorBrush}"/>
-  <SolidColorBrush x:Key="KpiIconWarningBrush" Color="#FFFBBF24"/>
+      <SolidColorBrush x:Key="StockLowBrush" Color="{StaticResource StockLowColor}"/>
 
-  <x:String x:Key="ShadowAppBar">0 2 12 0 #60000000</x:String>
-  <x:String x:Key="ShadowContent">0 4 20 0 #50000000</x:String>
-  <x:String x:Key="ShadowCard">0 2 12 0 #40000000</x:String>
-  <x:String x:Key="ShadowDialog">0 4 24 0 #70000000</x:String>
-  <x:String x:Key="ShadowLogin">0 4 20 0 #50000000</x:String>
-  <x:String x:Key="ShadowCardLight">0 2 8 0 #35000000</x:String>
-  <x:String x:Key="ShadowCardSoft">0 2 8 0 #10000000</x:String>
+      <SolidColorBrush x:Key="StatusBarAvailableBrush" Color="{StaticResource AvailableColor}"/>
+      <SolidColorBrush x:Key="StatusBarOccupiedBrush" Color="{StaticResource OccupiedColor}"/>
+      <SolidColorBrush x:Key="StatusBarReservedBrush" Color="{StaticResource ErrorColor}"/>
+
+      <SolidColorBrush x:Key="BadgeNewBrush" Color="{StaticResource PrimaryLightColor}"/>
+      <SolidColorBrush x:Key="BadgePendingBrush" Color="{StaticResource SecondaryLightColor}"/>
+      <SolidColorBrush x:Key="BadgeAlertBrush" Color="{StaticResource ErrorBgColor}"/>
+      <SolidColorBrush x:Key="BadgeBrush100" Color="#64FFFFFF"/>
+      <SolidColorBrush x:Key="BadgeBrush200" Color="#40FFFFFF"/>
+      <SolidColorBrush x:Key="BadgeBrush300" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="BadgeBrush400" Color="{StaticResource SuccessColor}"/>
+
+      <SolidColorBrush x:Key="KpiWarningBrush" Color="{StaticResource AccentAmberColor}"/>
+      <SolidColorBrush x:Key="KpiWarningBgBrush" Color="{StaticResource AccentAmberColor}" Opacity="0.3"/>
+      <SolidColorBrush x:Key="KpiErrorBrush" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="KpiErrorBgBrush" Color="{StaticResource ErrorColor}" Opacity="0.2"/>
+      <SolidColorBrush x:Key="KpiIconPrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+      <SolidColorBrush x:Key="KpiIconErrorBrush" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="KpiIconWarningBrush" Color="{StaticResource AccentAmberColor}"/>
+    </ResourceDictionary>
+
+    <!-- ============================ LIGHT ============================ -->
+    <ResourceDictionary x:Key="Light">
+      <Color x:Key="PrimaryColor">#52653D</Color>
+      <Color x:Key="PrimaryLightColor">#E9EEDE</Color>
+      <Color x:Key="PrimaryHoverColor">#5D7146</Color>
+      <Color x:Key="PrimaryPressedColor">#435334</Color>
+      <Color x:Key="SecondaryColor">#A8552F</Color>
+      <Color x:Key="SecondaryLightColor">#F6E8E1</Color>
+      <Color x:Key="ErrorColor">#B0392C</Color>
+      <Color x:Key="ErrorBgColor">#1AB0392C</Color>
+      <Color x:Key="SuccessColor">#4C7042</Color>
+      <Color x:Key="SuccessBgColor">#1A4C7042</Color>
+      <Color x:Key="WarningColor">#96631C</Color>
+      <Color x:Key="InfoColor">#3D6C93</Color>
+      <Color x:Key="AccentAmberColor">#96631C</Color>
+      <Color x:Key="DangerColor">#B0392C</Color>
+      <Color x:Key="DangerLightColor">#1AB0392C</Color>
+      <Color x:Key="FocusColor">#52653D</Color>
+
+      <Color x:Key="BackgroundColor">#FAF9F5</Color>
+      <Color x:Key="SurfaceColor">#FFFFFF</Color>
+      <Color x:Key="SurfaceMutedColor">#F0EEE7</Color>
+      <Color x:Key="BorderColor">#E3E0D5</Color>
+      <Color x:Key="BorderStrongColor">#C9C5B6</Color>
+      <Color x:Key="BlackColor">#141413</Color>
+      <Color x:Key="BlackSurfaceColor">#FFFFFF</Color>
+      <Color x:Key="SidebarColor">#FFFFFF</Color>
+      <Color x:Key="OnSurfaceColor">#141413</Color>
+      <Color x:Key="OnSurfaceMutedColor">#6B675E</Color>
+      <Color x:Key="OnPrimaryColor">#FBFBF7</Color>
+
+      <Color x:Key="NavSelectedColor">#52653D</Color>
+      <Color x:Key="SidebarBorderColor">#E8E5DA</Color>
+      <Color x:Key="SidebarHoverColor">#F2F0E8</Color>
+      <Color x:Key="SidebarItemColor">#1452653D</Color>
+      <Color x:Key="AppBarIconBgColor">#12000000</Color>
+      <Color x:Key="AppBarUserBgColor">#0D000000</Color>
+      <Color x:Key="AppBarButtonBgColor">#1F000000</Color>
+      <Color x:Key="AppBarButtonBorderColor">#1F000000</Color>
+
+      <Color x:Key="OverlayDimColor">#99000000</Color>
+      <Color x:Key="OverlayDimStrongColor">#CC000000</Color>
+      <Color x:Key="StockLowColor">#96631C</Color>
+      <Color x:Key="AvailableColor">#3E7A3C</Color>
+      <Color x:Key="OccupiedColor">#96631C</Color>
+      <Color x:Key="DarkBorderHoverColor">#BDB9AB</Color>
+      <Color x:Key="DarkTextSecondaryColor">#52653D</Color>
+
+      <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+      <SolidColorBrush x:Key="PrimaryHoverBrush" Color="{StaticResource PrimaryHoverColor}"/>
+      <SolidColorBrush x:Key="PrimaryPressedBrush" Color="{StaticResource PrimaryPressedColor}"/>
+      <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}"/>
+      <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
+      <SolidColorBrush x:Key="SecondaryLightBrush" Color="{StaticResource SecondaryLightColor}"/>
+      <SolidColorBrush x:Key="FocusBrush" Color="{StaticResource FocusColor}"/>
+
+      <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="ErrorBgBrush" Color="{StaticResource ErrorBgColor}"/>
+      <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}"/>
+      <SolidColorBrush x:Key="SuccessBgBrush" Color="{StaticResource SuccessBgColor}"/>
+      <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}"/>
+      <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}"/>
+      <SolidColorBrush x:Key="AccentAmberBrush" Color="{StaticResource AccentAmberColor}"/>
+      <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource DangerColor}"/>
+      <SolidColorBrush x:Key="DangerLightBrush" Color="{StaticResource DangerLightColor}"/>
+
+      <SolidColorBrush x:Key="AvailableBrush" Color="{StaticResource AvailableColor}"/>
+      <SolidColorBrush x:Key="OccupiedBrush" Color="{StaticResource OccupiedColor}"/>
+
+      <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+      <SolidColorBrush x:Key="SurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+      <SolidColorBrush x:Key="SurfaceMutedBrush" Color="{StaticResource SurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+      <SolidColorBrush x:Key="BorderStrongBrush" Color="{StaticResource BorderStrongColor}"/>
+      <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource BlackColor}"/>
+      <SolidColorBrush x:Key="BlackSurfaceBrush" Color="{StaticResource BlackSurfaceColor}"/>
+      <SolidColorBrush x:Key="SidebarBrush" Color="{StaticResource SidebarColor}"/>
+      <SolidColorBrush x:Key="OnSurfaceBrush" Color="{StaticResource OnSurfaceColor}"/>
+      <SolidColorBrush x:Key="OnSurfaceMutedBrush" Color="{StaticResource OnSurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="OnPrimaryBrush" Color="{StaticResource OnPrimaryColor}"/>
+
+      <SolidColorBrush x:Key="AppBarIconBgBrush" Color="{StaticResource AppBarIconBgColor}"/>
+      <SolidColorBrush x:Key="AppBarUserBgBrush" Color="{StaticResource AppBarUserBgColor}"/>
+      <SolidColorBrush x:Key="AppBarButtonBgBrush" Color="{StaticResource AppBarButtonBgColor}"/>
+      <SolidColorBrush x:Key="AppBarButtonBorderBrush" Color="{StaticResource AppBarButtonBorderColor}"/>
+
+      <SolidColorBrush x:Key="NavSelectedBrush" Color="{StaticResource NavSelectedColor}"/>
+      <SolidColorBrush x:Key="NavSelectedFgBrush" Color="{StaticResource OnPrimaryColor}"/>
+      <SolidColorBrush x:Key="SidebarBorderBrush" Color="{StaticResource SidebarBorderColor}"/>
+      <SolidColorBrush x:Key="SidebarHoverBrush" Color="{StaticResource SidebarHoverColor}"/>
+      <SolidColorBrush x:Key="SidebarItemBrush" Color="{StaticResource SidebarItemColor}"/>
+
+      <SolidColorBrush x:Key="DarkBackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+      <SolidColorBrush x:Key="DarkSurfaceBrush" Color="{StaticResource SurfaceColor}"/>
+      <SolidColorBrush x:Key="DarkSurfaceAltBrush" Color="{StaticResource SurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="DarkBorderBrush" Color="{StaticResource BorderColor}"/>
+      <SolidColorBrush x:Key="DarkBorderHoverBrush" Color="{StaticResource DarkBorderHoverColor}"/>
+      <SolidColorBrush x:Key="DarkTextPrimaryBrush" Color="{StaticResource OnSurfaceColor}"/>
+      <SolidColorBrush x:Key="DarkTextMutedBrush" Color="{StaticResource OnSurfaceMutedColor}"/>
+      <SolidColorBrush x:Key="DarkTextSecondaryBrush" Color="{StaticResource DarkTextSecondaryColor}"/>
+
+      <SolidColorBrush x:Key="OverlayDimBrush" Color="{StaticResource OverlayDimColor}"/>
+      <SolidColorBrush x:Key="OverlayDimStrongBrush" Color="{StaticResource OverlayDimStrongColor}"/>
+
+      <SolidColorBrush x:Key="StockLowBrush" Color="{StaticResource StockLowColor}"/>
+
+      <SolidColorBrush x:Key="StatusBarAvailableBrush" Color="{StaticResource AvailableColor}"/>
+      <SolidColorBrush x:Key="StatusBarOccupiedBrush" Color="{StaticResource OccupiedColor}"/>
+      <SolidColorBrush x:Key="StatusBarReservedBrush" Color="{StaticResource ErrorColor}"/>
+
+      <SolidColorBrush x:Key="BadgeNewBrush" Color="{StaticResource PrimaryLightColor}"/>
+      <SolidColorBrush x:Key="BadgePendingBrush" Color="{StaticResource SecondaryLightColor}"/>
+      <SolidColorBrush x:Key="BadgeAlertBrush" Color="{StaticResource ErrorBgColor}"/>
+      <SolidColorBrush x:Key="BadgeBrush100" Color="#14000000"/>
+      <SolidColorBrush x:Key="BadgeBrush200" Color="#24000000"/>
+      <SolidColorBrush x:Key="BadgeBrush300" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="BadgeBrush400" Color="{StaticResource SuccessColor}"/>
+
+      <SolidColorBrush x:Key="KpiWarningBrush" Color="{StaticResource AccentAmberColor}"/>
+      <SolidColorBrush x:Key="KpiWarningBgBrush" Color="{StaticResource AccentAmberColor}" Opacity="0.25"/>
+      <SolidColorBrush x:Key="KpiErrorBrush" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="KpiErrorBgBrush" Color="{StaticResource ErrorColor}" Opacity="0.18"/>
+      <SolidColorBrush x:Key="KpiIconPrimaryBrush" Color="{StaticResource PrimaryColor}"/>
+      <SolidColorBrush x:Key="KpiIconErrorBrush" Color="{StaticResource ErrorColor}"/>
+      <SolidColorBrush x:Key="KpiIconWarningBrush" Color="{StaticResource AccentAmberColor}"/>
+    </ResourceDictionary>
+  </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

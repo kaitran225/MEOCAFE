@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="using:Avalonia.Data.Converters"
+             x:Class="POS.Avalonia.Controls.EmptyState"
+             x:Name="Root">
+  <!-- One empty state for every list: icon, what is missing, what to do next. -->
+  <Border Background="{DynamicResource BackgroundBrush}"
+          BorderBrush="{DynamicResource BorderBrush}"
+          BorderThickness="1"
+          CornerRadius="{DynamicResource CornerRadius12}"
+          Padding="32,40"
+          HorizontalAlignment="Stretch">
+    <StackPanel HorizontalAlignment="Center" Spacing="8">
+      <PathIcon Data="{Binding #Root.Icon}"
+                Width="32" Height="32"
+                Foreground="{DynamicResource OnSurfaceMutedBrush}" Opacity="0.6"
+                HorizontalAlignment="Center"
+                IsVisible="{Binding #Root.Icon, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+      <TextBlock Text="{Binding #Root.Title}"
+                 FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
+                 Foreground="{DynamicResource OnSurfaceBrush}"
+                 HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+      <TextBlock Text="{Binding #Root.Hint}"
+                 FontSize="{DynamicResource CaptionFontSize}"
+                 Foreground="{DynamicResource OnSurfaceMutedBrush}"
+                 HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="360"
+                 IsVisible="{Binding #Root.Hint, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+      <ContentPresenter Content="{Binding #Root.ActionContent}"
+                        HorizontalAlignment="Center" Margin="0,8,0,0"/>
+    </StackPanel>
+  </Border>
+</UserControl>

@@ -7,34 +7,34 @@
     <Button Command="{Binding #Root.DecrementCommand}"
             Width="32" Height="32"
             Padding="0"
-            Background="{StaticResource PrimaryBrush}"
-            Foreground="{StaticResource OnPrimaryBrush}"
+            Background="{DynamicResource PrimaryBrush}"
+            Foreground="{DynamicResource OnPrimaryBrush}"
             CornerRadius="{DynamicResource CornerRadius4}"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center">
       <PathIcon Data="{StaticResource IconSubtract}"
                 Width="14" Height="14"
-                Foreground="{StaticResource OnPrimaryBrush}"/>
+                Foreground="{DynamicResource OnPrimaryBrush}"/>
     </Button>
     <TextBlock Text="{Binding #Root.Value}"
                MinWidth="32"
                TextAlignment="Center"
                FontSize="{DynamicResource BodyFontSize}"
                FontWeight="{StaticResource SubtitleFontWeight}"
-               Foreground="{StaticResource OnSurfaceBrush}"
+               Foreground="{DynamicResource OnSurfaceBrush}"
                VerticalAlignment="Center"
                HorizontalAlignment="Center"/>
     <Button Command="{Binding #Root.IncrementCommand}"
             Width="32" Height="32"
             Padding="0"
-            Background="{StaticResource PrimaryBrush}"
-            Foreground="{StaticResource OnPrimaryBrush}"
+            Background="{DynamicResource PrimaryBrush}"
+            Foreground="{DynamicResource OnPrimaryBrush}"
             CornerRadius="{DynamicResource CornerRadius4}"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center">
       <PathIcon Data="{StaticResource IconAdd}"
                 Width="14" Height="14"
-                Foreground="{StaticResource OnPrimaryBrush}"/>
+                Foreground="{DynamicResource OnPrimaryBrush}"/>
     </Button>
   </StackPanel>
 </UserControl>

@@ -1,7 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.VisualTree;
 using POS.Avalonia.Controls;
+using POS.Avalonia.ViewModels;
 
 namespace POS.Avalonia.Views;
 
@@ -11,12 +13,17 @@ public partial class BentoHomeView : UserControl
 
     private void OnRootSizeChanged(object? sender, SizeChangedEventArgs e)
     {
-        var width = e.NewSize.Width;
-        var columns = width switch
+        // Square tiles grow with the column width, so add columns as the window widens
+        // instead of letting one tile eat the screen.
+        var columns = e.NewSize.Width switch
         {
-            < 640 => 2,
-            < 920 => 3,
-            _ => 4
+            < 520 => 2,
+            < 760 => 3,
+            < 1000 => 4,
+            < 1240 => 5,
+            < 1480 => 6,
+            < 1720 => 7,
+            _ => 8
         };
 
         foreach (var panel in this.GetVisualDescendants())
@@ -24,5 +31,12 @@ public partial class BentoHomeView : UserControl
             if (panel is BentoGridPanel grid)
                 grid.Columns = columns;
         }
+    }
+
+    /// <summary>Tiles are generated from BentoHomeViewModel, so resolve the tile from its DataContext.</summary>
+    private void OnTileClick(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button { DataContext: BentoTile tile } && DataContext is BentoHomeViewModel home)
+            home.OpenTileCommand.Execute(tile);
     }
 }

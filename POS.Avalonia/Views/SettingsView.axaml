@@ -1,22 +1,21 @@
 <UserControl xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:POS.Avalonia.ViewModels" xmlns:controls="using:POS.Avalonia.Controls"
              x:Class="POS.Avalonia.Views.SettingsView" x:DataType="vm:SettingsViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <Grid RowDefinitions="Auto,*">
     <!-- Header -->
     <controls:PageTitle Grid.Row="0" Title="{Binding Title}" Margin="24,24,24,0">
       <StackPanel Orientation="Horizontal" Spacing="8">
-        <TextBlock Text="Saved!" Foreground="{StaticResource SuccessBrush}" VerticalAlignment="Center"
+        <TextBlock Text="Saved!" Foreground="{DynamicResource SuccessBrush}" VerticalAlignment="Center"
                    FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
                    IsVisible="{Binding SaveSuccess}" Margin="0,0,8,0"/>
         <Button Command="{Binding RefreshCommand}" ToolTip.Tip="Refresh" Padding="8" MinWidth="36" MinHeight="36">
           <PathIcon Data="{StaticResource IconRefresh}" Width="18" Height="18"/>
         </Button>
-        <Button Command="{Binding SaveCommand}" Classes="primary" IsEnabled="{Binding CanSave}"
-                Padding="16,8">
+        <Button Command="{Binding SaveCommand}" IsEnabled="{Binding CanSave}" Padding="16,8" Classes="primary">
           <Button.Content>
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <PathIcon Data="{StaticResource IconSave}" Width="16" Height="16" Foreground="{StaticResource OnPrimaryBrush}"/>
+              <PathIcon Data="{StaticResource IconSave}" Width="16" Height="16" Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Lưu" VerticalAlignment="Center"/>
             </StackPanel>
           </Button.Content>
@@ -27,9 +26,9 @@
     <!-- Content: left sidebar + main -->
     <Grid Grid.Row="1" ColumnDefinitions="180,*" Margin="24,16,24,24">
       <!-- Left sidebar nav -->
-      <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}"
+      <Border Grid.Column="0" Background="{DynamicResource SurfaceBrush}"
               CornerRadius="{DynamicResource CornerRadius12}" Padding="8" Margin="0,0,16,0"
-              BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+              BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1">
         <ListBox ItemsSource="{Binding SettingsSections}" SelectedItem="{Binding SelectedSettingsSection}"
                  Background="Transparent" BorderThickness="0" Padding="0">
           <ListBox.Styles>
@@ -38,8 +37,8 @@
               <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius8}"/>
             </Style>
             <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-              <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-              <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+              <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+              <Setter Property="Foreground" Value="{DynamicResource OnPrimaryBrush}"/>
             </Style>
           </ListBox.Styles>
           <ListBox.ItemTemplate>
@@ -56,45 +55,45 @@
           <!-- Display -->
           <StackPanel Spacing="8" IsVisible="{Binding IsDisplaySectionVisible}">
             <TextBlock Text="Display Settings" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <StackPanel Spacing="16">
                 <TextBlock Text="Choose a window size preset or fullscreen mode. Click Apply to resize."
-                           FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                           FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                 <Grid ColumnDefinitions="140,*" ColumnSpacing="16" RowSpacing="12">
                   <TextBlock Text="Window Size" VerticalAlignment="Center"
-                             FontSize="{DynamicResource BodyFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                             FontSize="{DynamicResource BodyFontSize}" Foreground="{DynamicResource OnSurfaceBrush}"/>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
                     <ComboBox ItemsSource="{Binding UiSizeOptions}" SelectedItem="{Binding SelectedUiSize}" MinWidth="160"/>
-                    <Button Content="Áp dụng" Command="{Binding ApplyDisplaySizeCommand}" Classes="primary" Padding="12,6"/>
+                    <Button Content="Áp dụng" Command="{Binding ApplyDisplaySizeCommand}" Padding="12,6" Classes="primary"/>
                     <Button Content="Hủy" Command="{Binding CancelDisplaySizeCommand}" Padding="12,6"/>
                   </StackPanel>
                 </Grid>
                 <Grid ColumnDefinitions="200,*" Margin="0,12,0,0">
-                  <TextBlock Text="Giao diện" VerticalAlignment="Center" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                  <TextBlock Text="Giao diện" VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                   <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
                     <ComboBox ItemsSource="{Binding ThemeOptions}" SelectedItem="{Binding SelectedTheme}" MinWidth="160"/>
-                    <Button Content="Áp dụng" Command="{Binding ApplyThemeCommand}" Classes="primary" Padding="12,6"/>
+                    <Button Content="Áp dụng" Command="{Binding ApplyThemeCommand}" Padding="12,6" Classes="primary"/>
                   </StackPanel>
                 </Grid>
-                <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius8}" Padding="12">
+                <Border Background="{DynamicResource SurfaceMutedBrush}" CornerRadius="{DynamicResource CornerRadius8}" Padding="12">
                   <StackPanel Spacing="4">
                     <TextBlock Text="Current Window" FontSize="{DynamicResource CaptionFontSize}"
-                               FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                               FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                     <TextBlock Text="{Binding DebugInfo.DimensionText}" FontSize="{DynamicResource CaptionFontSize}"
-                               Foreground="{StaticResource OnSurfaceBrush}"/>
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
                     <StackPanel Orientation="Horizontal" Spacing="16">
                       <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock Text="W:" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                        <TextBlock Text="{Binding DebugInfo.Width}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                        <TextBlock Text="W:" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                        <TextBlock Text="{Binding DebugInfo.Width}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceBrush}"/>
                       </StackPanel>
                       <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock Text="H:" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                        <TextBlock Text="{Binding DebugInfo.Height}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                        <TextBlock Text="H:" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                        <TextBlock Text="{Binding DebugInfo.Height}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceBrush}"/>
                       </StackPanel>
                       <StackPanel Orientation="Horizontal" Spacing="4">
-                        <TextBlock Text="Fullscreen:" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                        <TextBlock Text="{Binding DebugInfo.IsFullScreen}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                        <TextBlock Text="Fullscreen:" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                        <TextBlock Text="{Binding DebugInfo.IsFullScreen}" FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceBrush}"/>
                       </StackPanel>
                     </StackPanel>
                   </StackPanel>
@@ -106,7 +105,7 @@
           <!-- Business -->
           <StackPanel Spacing="8" IsVisible="{Binding IsBusinessSectionVisible}">
             <TextBlock Text="Business Settings" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="12">
                 <TextBlock Text="Shop Name" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}"/>
@@ -126,7 +125,7 @@
           <!-- Operational toggles -->
           <StackPanel Spacing="8" IsVisible="{Binding IsOperationalSectionVisible}">
             <TextBlock Text="Operational" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <StackPanel Spacing="16">
                 <ToggleSwitch IsChecked="{Binding AutoPrintReceipt}" Content="Auto-print receipt after payment"
@@ -140,11 +139,11 @@
           <!-- Printer -->
           <StackPanel Spacing="8" IsVisible="{Binding IsPrinterSectionVisible}">
             <TextBlock Text="Printer Settings" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <StackPanel Spacing="16">
                 <TextBlock Text="Enter host:port (e.g. 192.168.1.50:9100). Leave empty to log only."
-                           FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                           FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                 <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="12">
                   <TextBlock Text="Receipt Printer" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}"/>
                   <ComboBox Grid.Column="1" ItemsSource="{Binding PrinterOptions}" SelectedItem="{Binding PrinterReceipt}"
@@ -166,7 +165,7 @@
           <!-- Receipt (thank you + icon input) -->
           <StackPanel Spacing="8" IsVisible="{Binding IsReceiptSectionVisible}">
             <TextBlock Text="Receipt Settings" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto" ColumnSpacing="16" RowSpacing="12">
                 <TextBlock Text="Thank You Text" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}"/>
@@ -180,7 +179,7 @@
           <!-- Payment -->
           <StackPanel Spacing="8" IsVisible="{Binding IsPaymentSectionVisible}">
             <TextBlock Text="Payment Methods" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <Grid ColumnDefinitions="140,*" RowDefinitions="Auto" ColumnSpacing="16" RowSpacing="12">
                 <TextBlock Text="Methods" VerticalAlignment="Center" FontSize="{DynamicResource BodyFontSize}"/>
@@ -192,14 +191,14 @@
           <!-- Database -->
           <StackPanel Spacing="8" IsVisible="{Binding IsDatabaseSectionVisible}">
             <TextBlock Text="Cơ sở dữ liệu" FontSize="{DynamicResource SubtitleFontSize}"
-                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
+                       FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{DynamicResource OnSurfaceBrush}"/>
             <controls:Card>
               <StackPanel Spacing="16">
-                <Border Background="{StaticResource ErrorBgBrush}" Padding="10,8" CornerRadius="{DynamicResource CornerRadius4}">
+                <Border Background="{DynamicResource ErrorBgBrush}" Padding="10,8" CornerRadius="{DynamicResource CornerRadius4}">
                   <StackPanel Orientation="Horizontal" Spacing="6">
-                    <PathIcon Data="{StaticResource IconWarning}" Width="14" Height="14" Foreground="{StaticResource ErrorBrush}"/>
+                    <PathIcon Data="{StaticResource IconWarning}" Width="14" Height="14" Foreground="{DynamicResource ErrorBrush}"/>
                     <TextBlock Text="Khởi động lại app sau khi đổi đường dẫn CSDL. Đóng app trước khi git pull/push."
-                               FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource ErrorBrush}" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                               FontSize="{DynamicResource CaptionFontSize}" Foreground="{DynamicResource ErrorBrush}" VerticalAlignment="Center" TextWrapping="Wrap"/>
                   </StackPanel>
                 </Border>
                 <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="16" RowSpacing="12">
@@ -212,7 +211,7 @@
                   </Button>
                 </Grid>
                 <TextBlock Text="{Binding GitSyncMessage}" TextWrapping="Wrap"
-                           Foreground="{StaticResource OnSurfaceMutedBrush}" FontSize="{DynamicResource CaptionFontSize}"/>
+                           Foreground="{DynamicResource OnSurfaceMutedBrush}" FontSize="{DynamicResource CaptionFontSize}"/>
               </StackPanel>
             </controls:Card>
           </StackPanel>

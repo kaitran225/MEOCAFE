@@ -35,14 +35,16 @@ public partial class App : Application
                 base.OnFrameworkInitializationCompleted();
                 return;
             }
-            var mainVm = Program.GetService<MainViewModel>();
-            var mainWindow = new MainWindow { DataContext = mainVm };
+            // Theme first: views resolve theme resources while they are constructed,
+            // so the variant must be set before the window and its content exist.
             try
             {
                 var store = Program.GetService<Services.ISettingsStore>();
                 Services.ThemeApplier.Apply(store.Get("UI:Theme"));
             }
             catch { /* first run */ }
+            var mainVm = Program.GetService<MainViewModel>();
+            var mainWindow = new MainWindow { DataContext = mainVm };
             try
             {
                 var store = Program.GetService<Services.ISettingsStore>();

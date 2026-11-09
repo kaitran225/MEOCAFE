@@ -87,6 +87,8 @@ public partial class OrderSelectionViewModel : ViewModelBase
     [ObservableProperty] private string _recipeSidebarOrderNote = "";
     [ObservableProperty] private string _paymentError = "";
     [ObservableProperty] private decimal _changeDue;
+    /// <summary>Service type of the current bill; drives the selected state of the Dine-in / Takeaway / Delivery choice buttons.</summary>
+    [ObservableProperty] private string _selectedServiceType = "Dine-in";
 
     public decimal SplitTotal => PaymentEntries.Sum(e => e.Amount);
     public bool ShowSingleAmount => !IsSplitPayment;
@@ -158,6 +160,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
     partial void OnCurrentBillIndexChanged(int value)
     {
         OnPropertyChanged(nameof(CurrentBill));
+        SelectedServiceType = CurrentBill?.ServiceType ?? "Dine-in";
         OpenReceiptPreviewCommand.NotifyCanExecuteChanged();
         OpenDrinkTagsPreviewCommand.NotifyCanExecuteChanged();
     }
@@ -241,6 +244,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
     {
         if (CurrentBill == null || string.IsNullOrEmpty(type)) return;
         CurrentBill.ServiceType = type;
+        SelectedServiceType = type;
         CurrentBill.TableId = null;
         CurrentBill.TableName = "";
         CurrentBill.DeliveryAddress = null;
@@ -254,6 +258,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
     {
         if (CurrentBill == null) return;
         CurrentBill.ServiceType = "Dine-in";
+        SelectedServiceType = "Dine-in";
         CurrentBill.TableId = table?.Id;
         CurrentBill.TableName = table?.Name ?? "";
         CurrentBill.Label = string.IsNullOrEmpty(CurrentBill.TableName) ? "Bill " + (Bills.Count) : CurrentBill.TableName;
@@ -267,6 +272,7 @@ public partial class OrderSelectionViewModel : ViewModelBase
     {
         if (CurrentBill == null) return;
         CurrentBill.ServiceType = "Delivery";
+        SelectedServiceType = "Delivery";
         CurrentBill.DeliveryAddress = DeliveryAddress;
         CurrentBill.DeliveryFee = decimal.TryParse(DeliveryFeeText, out var f) ? f : 0;
         CurrentBill.TableId = null;

@@ -113,14 +113,35 @@ public sealed class AnalyticsRepository : IAnalyticsRepository
         return list;
     }
 
+    public async Task<IReadOnlyList<float>> GetSalesByHourAsync(DateTime date, CancellationToken cancellationToken = default)
+    {
+        var values = new float[24];
+        await using var conn = _factory.CreateConnection();
+        await conn.OpenAsync(cancellationToken).ConfigureAwait(false);
+        await using var cmd = conn.CreateTextCommand(
+            "SELECT CAST(strftime('%H', created_at) AS INTEGER) AS h, COALESCE(SUM(total_price), 0) FROM orders WHERE date(created_at) = date(@Date) GROUP BY h");
+        cmd.Parameters.AddWithValue("@Date", date.ToString("yyyy-MM-dd"));
+        await using var reader = await cmd.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+        while (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
+        {
+            var hour = reader.GetInt32(0);
+            if (hour is >= 0 and < 24)
+                values[hour] = (float)reader.GetDecimal(1);
+        }
+        return values;
+    }
+
     public async Task<SalesSummaryDto> GetSalesSummaryAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default)
     {
         await using var conn = _factory.CreateConnection();
         await conn.OpenAsync(cancellationToken).ConfigureAwait(false);
         await using var cmd = conn.CreateTextCommand(
             "SELECT COALESCE(SUM(total_price), 0), COUNT(*), COALESCE(AVG(total_price), 0) FROM orders WHERE created_at >= @From AND created_at <= @To");
-        cmd.Parameters.AddWithValue("@From", from.ToString("O"));
-        cmd.Parameters.AddWithValue("@To", to.ToString("O"));
+        // orders.created_at is written with datetime('now') => "yyyy-MM-dd HH:mm:ss".
+        // Binding as round-trip ("O") strings puts a 'T' where the column has a space,
+        // so lexicographic comparison silently excluded the whole range.
+        cmd.Parameters.AddWithValue("@From", from.ToString("yyyy-MM-dd HH:mm:ss"));
+        cmd.Parameters.AddWithValue("@To", to.ToString("yyyy-MM-dd HH:mm:ss"));
         await using var reader = await cmd.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
         if (await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
             return new SalesSummaryDto

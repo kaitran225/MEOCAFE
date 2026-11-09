@@ -1,15 +1,24 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="using:Avalonia.Data.Converters"
              x:Class="POS.Avalonia.Controls.PageTitle"
              x:Name="Root">
-  <Grid ColumnDefinitions="*,Auto">
-    <TextBlock Text="{Binding #Root.Title}"
-               FontSize="{DynamicResource TitleFontSize}"
-               FontWeight="{StaticResource TitleFontWeight}"
-               Foreground="{StaticResource DarkTextPrimaryBrush}"
-               VerticalAlignment="Center"/>
-    <ContentPresenter Grid.Column="1"
+  <!-- Shared screen header: title, optional one-line context, action slot on the right. -->
+  <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+    <StackPanel Grid.Row="0" Spacing="4" VerticalAlignment="Center">
+      <TextBlock Text="{Binding #Root.Title}"
+                 FontSize="{DynamicResource LargeTitleFontSize}"
+                 FontWeight="{StaticResource TitleFontWeight}"
+                 Foreground="{DynamicResource OnSurfaceBrush}"
+                 TextWrapping="Wrap"/>
+      <TextBlock Text="{Binding #Root.Subtitle}"
+                 FontSize="{DynamicResource BodyFontSize}"
+                 Foreground="{DynamicResource OnSurfaceMutedBrush}"
+                 TextWrapping="Wrap"
+                 IsVisible="{Binding #Root.Subtitle, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"/>
+    </StackPanel>
+    <ContentPresenter Grid.Column="1" Grid.RowSpan="2"
                       Content="{Binding #Root.ActionContent}"
-                      VerticalAlignment="Center"/>
+                      VerticalAlignment="Center" Margin="16,0,0,0"/>
   </Grid>
 </UserControl>

@@ -4,27 +4,23 @@
              xmlns:core="using:POS.Core.Models"
              xmlns:controls="using:POS.Avalonia.Controls"
              x:Class="POS.Avalonia.Views.AuditLogView" x:DataType="vm:AuditLogViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <Grid RowDefinitions="Auto,*">
     <!-- Header -->
     <StackPanel Grid.Row="0" Spacing="{DynamicResource Spacing16}" Margin="24,24,24,0">
       <controls:PageTitle Title="Audit Log">
         <StackPanel Orientation="Horizontal" Spacing="{DynamicResource Spacing8}">
-          <Button Padding="12,8"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Padding="12,8" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconExport}" Width="16" Height="16"
-                        Foreground="{StaticResource OnSurfaceBrush}"/>
+                        Foreground="{DynamicResource OnSurfaceBrush}"/>
               <TextBlock Text="Export"/>
             </StackPanel>
           </Button>
-          <Button Command="{Binding LoadCommand}" Classes="primary" Padding="12,8"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding LoadCommand}" Padding="12,8" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Refresh"/>
             </StackPanel>
           </Button>
@@ -40,13 +36,13 @@
         <controls:Card Padding="20,16">
         <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto" VerticalAlignment="Center">
           <PathIcon Data="{StaticResource IconFilter}" Width="18" Height="18"
-                    Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center"
+                    Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center"
                     Margin="0,0,16,0"/>
 
           <!-- Date From -->
           <StackPanel Grid.Column="1" Spacing="2" VerticalAlignment="Center" Margin="0,0,12,0">
             <TextBlock Text="From" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <CalendarDatePicker SelectedDate="{Binding FilterFrom}"
                                 Width="150" Watermark="Start date"/>
           </StackPanel>
@@ -54,19 +50,19 @@
           <!-- Date To -->
           <StackPanel Grid.Column="2" Spacing="2" VerticalAlignment="Center" Margin="0,0,16,0">
             <TextBlock Text="To" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <CalendarDatePicker SelectedDate="{Binding FilterTo}"
                                 Width="150" Watermark="End date"/>
           </StackPanel>
 
           <Border Grid.Column="3" Width="1" Height="36"
-                  Background="{StaticResource BorderBrush}" VerticalAlignment="Center"
+                  Background="{DynamicResource BorderBrush}" VerticalAlignment="Center"
                   Margin="0,0,16,0"/>
 
           <!-- User Filter -->
           <StackPanel Grid.Column="4" Spacing="2" VerticalAlignment="Center" Margin="0,0,12,0">
             <TextBlock Text="User" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBox Text="{Binding FilterUser}" Watermark="Filter by user"
                      Width="140" Padding="8,6"/>
           </StackPanel>
@@ -74,7 +70,7 @@
           <!-- Action Type Filter -->
           <StackPanel Grid.Column="5" Spacing="2" VerticalAlignment="Center" Margin="0,0,16,0">
             <TextBlock Text="Action" FontSize="{DynamicResource CaptionFontSize}"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBox Text="{Binding FilterAction}" Watermark="Filter by action"
                      Width="140" Padding="8,6"/>
           </StackPanel>
@@ -82,13 +78,10 @@
           <Panel Grid.Column="6"/>
 
           <!-- Apply Filter Button -->
-          <Button Grid.Column="7" Command="{Binding LoadCommand}"
-                  Padding="16,10" VerticalAlignment="Bottom" Margin="0,0,0,0"
-                  Background="{StaticResource PrimaryBrush}" Foreground="{StaticResource OnPrimaryBrush}"
-                  CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Grid.Column="7" Command="{Binding LoadCommand}" Padding="16,10" VerticalAlignment="Bottom" Margin="0,0,0,0" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
               <PathIcon Data="{StaticResource IconSearch}" Width="16" Height="16"
-                        Foreground="{StaticResource OnPrimaryBrush}"/>
+                        Foreground="{DynamicResource OnPrimaryBrush}"/>
               <TextBlock Text="Apply Filters"/>
             </StackPanel>
           </Button>
@@ -99,7 +92,7 @@
         <Grid ColumnDefinitions="*,Auto">
         <TextBlock Text="{Binding Entries.Count, StringFormat='{}{0} entries found'}"
                    FontSize="{DynamicResource CaptionFontSize}"
-                   Foreground="{StaticResource OnSurfaceMutedBrush}"
+                   Foreground="{DynamicResource OnSurfaceMutedBrush}"
                    VerticalAlignment="Center"/>
         </Grid>
 
@@ -110,15 +103,15 @@
             <TextBlock Text="Activity Log"
                        FontSize="{DynamicResource SubtitleFontSize}"
                        FontWeight="{StaticResource SubtitleFontWeight}"
-                       Foreground="{StaticResource OnSurfaceBrush}"/>
-            <Border Grid.Column="1" Background="{StaticResource SurfaceMutedBrush}"
+                       Foreground="{DynamicResource OnSurfaceBrush}"/>
+            <Border Grid.Column="1" Background="{DynamicResource SurfaceMutedBrush}"
                     CornerRadius="100" Padding="10,4">
               <StackPanel Orientation="Horizontal" Spacing="6">
                 <PathIcon Data="{StaticResource IconAuditLog}" Width="14" Height="14"
-                          Foreground="{StaticResource PrimaryBrush}"/>
+                          Foreground="{DynamicResource PrimaryBrush}"/>
                 <TextBlock Text="{Binding Entries.Count, StringFormat='{}{0} records'}"
                            FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                           Foreground="{StaticResource PrimaryBrush}"/>
+                           Foreground="{DynamicResource PrimaryBrush}"/>
               </StackPanel>
             </Border>
           </Grid>
@@ -127,21 +120,21 @@
           <Grid ColumnDefinitions="150,120,120,100,*" Margin="12,0">
             <TextBlock Grid.Column="0" Text="Timestamp"
                        FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="1" Text="User"
                        FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="2" Text="Action"
                        FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="3" Text="Entity"
                        FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
             <TextBlock Grid.Column="4" Text="Details"
                        FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
-                       Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                       Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           </Grid>
-          <Border Height="1" Background="{StaticResource BorderBrush}"/>
+          <Border Height="1" Background="{DynamicResource BorderBrush}"/>
 
           <!-- Table Rows -->
           <ItemsControl ItemsSource="{Binding Entries}">
@@ -151,7 +144,7 @@
                         Background="Transparent">
                   <Border.Styles>
                     <Style Selector="Border:pointerover">
-                      <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}"/>
+                      <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
                     </Style>
                   </Border.Styles>
                   <Grid ColumnDefinitions="150,120,120,100,*">
@@ -159,42 +152,42 @@
                     <StackPanel Grid.Column="0" Spacing="2" VerticalAlignment="Center">
                       <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:dd/MM/yyyy}'}"
                                  FontSize="{DynamicResource BodyFontSize}"
-                                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                                 Foreground="{DynamicResource OnSurfaceBrush}"/>
                       <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:HH:mm:ss}'}"
                                  FontSize="{DynamicResource CaptionFontSize}"
-                                 Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                                 Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                     </StackPanel>
                     <!-- User -->
                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                       <Border Width="28" Height="28" CornerRadius="100"
-                              Background="{StaticResource SurfaceMutedBrush}">
+                              Background="{DynamicResource SurfaceMutedBrush}">
                         <PathIcon Data="{StaticResource IconPerson}" Width="14" Height="14"
-                                  Foreground="{StaticResource PrimaryBrush}"
+                                  Foreground="{DynamicResource PrimaryBrush}"
                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
                       </Border>
                       <TextBlock Text="{Binding Username}"
                                  FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
-                                 Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                                 Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"/>
                     </StackPanel>
                     <!-- Action -->
                     <Panel Grid.Column="2" VerticalAlignment="Center">
                       <controls:StatusBadge Text="{Binding Action}"
-                                            BadgeBrush="{StaticResource SecondaryBrush}"/>
+                                            BadgeBrush="{DynamicResource SecondaryBrush}"/>
                     </Panel>
                     <!-- Entity -->
                     <StackPanel Grid.Column="3" Spacing="2" VerticalAlignment="Center">
                       <TextBlock Text="{Binding EntityType, FallbackValue='—'}"
                                  FontSize="{DynamicResource BodyFontSize}"
-                                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                                 Foreground="{DynamicResource OnSurfaceBrush}"/>
                       <TextBlock Text="{Binding EntityId, StringFormat='ID: {0}', FallbackValue=''}"
                                  FontSize="{DynamicResource CaptionFontSize}"
-                                 Foreground="{StaticResource OnSurfaceMutedBrush}"
+                                 Foreground="{DynamicResource OnSurfaceMutedBrush}"
                                  IsVisible="{Binding EntityId, Converter={x:Static ObjectConverters.IsNotNull}}"/>
                     </StackPanel>
                     <!-- Details -->
                     <TextBlock Grid.Column="4" Text="{Binding Details, FallbackValue='—'}"
                                FontSize="{DynamicResource BodyFontSize}"
-                               Foreground="{StaticResource OnSurfaceMutedBrush}"
+                               Foreground="{DynamicResource OnSurfaceMutedBrush}"
                                TextWrapping="Wrap" VerticalAlignment="Center"/>
                   </Grid>
                 </Border>
@@ -203,20 +196,10 @@
           </ItemsControl>
 
           <!-- Empty State -->
-          <Border Padding="32,24" Background="{StaticResource BackgroundBrush}"
-                  CornerRadius="{DynamicResource CornerRadius8}" HorizontalAlignment="Stretch"
-                  IsVisible="{Binding !Entries.Count}">
-            <StackPanel HorizontalAlignment="Center" Spacing="8">
-              <PathIcon Data="{StaticResource IconAuditLog}" Width="32" Height="32"
-                        Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.5"/>
-              <TextBlock Text="No audit log entries found" FontSize="{DynamicResource BodyFontSize}"
-                         Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
-              <TextBlock Text="Adjust your filters and try again."
-                         FontSize="{DynamicResource CaptionFontSize}"
-                         Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.7"
-                         HorizontalAlignment="Center"/>
-            </StackPanel>
-          </Border>
+          <controls:EmptyState Icon="{StaticResource IconAuditLog}"
+                             Title="No audit log entries found"
+                             Hint="Adjust your filters and try again."
+                             IsVisible="{Binding !Entries.Count}"/>
         </StackPanel>
       </controls:Card>
       </StackPanel>

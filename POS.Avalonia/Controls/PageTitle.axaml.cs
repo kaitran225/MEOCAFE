@@ -12,6 +12,15 @@ public partial class PageTitle : UserControl
     public static readonly StyledProperty<object?> ActionContentProperty =
         AvaloniaProperty.Register<PageTitle, object?>(nameof(ActionContent));
 
+    public static readonly StyledProperty<string?> SubtitleProperty =
+        AvaloniaProperty.Register<PageTitle, string?>(nameof(Subtitle));
+
+    public string? Subtitle
+    {
+        get => GetValue(SubtitleProperty);
+        set => SetValue(SubtitleProperty, value);
+    }
+
     public string? Title
     {
         get => GetValue(TitleProperty);

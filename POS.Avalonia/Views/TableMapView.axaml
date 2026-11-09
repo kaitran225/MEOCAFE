@@ -7,33 +7,31 @@
              x:Class="POS.Avalonia.Views.TableMapView"
              x:Name="Root"
              x:DataType="vm:TableMapViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
   <Grid RowDefinitions="Auto,Auto,Auto,*">
     <!-- Header: title + zone dropdown + Add Table / Refresh -->
-    <Border Grid.Row="0" Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}"
+    <Border Grid.Row="0" Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource BorderBrush}"
             BorderThickness="0,0,0,1" Padding="24,20">
       <Grid ColumnDefinitions="Auto,*,Auto">
         <StackPanel Grid.Column="0" Spacing="4" VerticalAlignment="Center">
-          <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <TextBlock Text="{Binding Title}" FontSize="24" FontWeight="Bold" Foreground="{DynamicResource OnSurfaceBrush}"/>
           <TextBlock Text="Manage your floor layout and table availability."
-                     FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                     FontSize="13" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
         </StackPanel>
         <ComboBox Grid.Column="1" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
                   PlaceholderText="Zone" MinWidth="160" HorizontalAlignment="Left" VerticalAlignment="Center"
-                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}"/>
+                  Background="{DynamicResource SurfaceMutedBrush}" Foreground="{DynamicResource OnSurfaceBrush}"
+                  BorderBrush="{DynamicResource BorderBrush}"/>
         <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
           <Button Command="{Binding OpenAddTableCommand}" IsVisible="{Binding IsManager}" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <PathIcon Data="{StaticResource IconAdd}" Foreground="{StaticResource OnPrimaryBrush}" Width="16" Height="16"/>
+              <PathIcon Data="{StaticResource IconAdd}" Foreground="{DynamicResource OnPrimaryBrush}" Width="16" Height="16"/>
               <TextBlock Text="Add Table"/>
             </StackPanel>
           </Button>
-          <Button Command="{Binding LoadCommand}"
-                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}">
+          <Button Command="{Binding LoadCommand}" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <PathIcon Data="{StaticResource IconRefresh}" Foreground="{StaticResource OnSurfaceBrush}" Width="16" Height="16"/>
+              <PathIcon Data="{StaticResource IconRefresh}" Foreground="{DynamicResource OnSurfaceBrush}" Width="16" Height="16"/>
               <TextBlock Text="Refresh"/>
             </StackPanel>
           </Button>
@@ -44,21 +42,21 @@
     <ProgressBar Grid.Row="1" IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
 
     <!-- Legend -->
-    <Border Grid.Row="2" Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
-            Padding="12,8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" Margin="24,12,24,0">
+    <Border Grid.Row="2" Background="{DynamicResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius8}"
+            Padding="12,8" BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1" Margin="24,12,24,0">
       <StackPanel Orientation="Horizontal" Spacing="24">
-        <TextBlock Text="Status:" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
+        <TextBlock Text="Status:" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
         <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-          <Border Width="12" Height="12" CornerRadius="6" Background="{StaticResource StatusBarAvailableBrush}"/>
-          <TextBlock Text="Available" FontSize="12" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <Border Width="12" Height="12" CornerRadius="6" Background="{DynamicResource StatusBarAvailableBrush}"/>
+          <TextBlock Text="Available" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-          <Border Width="12" Height="12" CornerRadius="6" Background="{StaticResource StatusBarOccupiedBrush}"/>
-          <TextBlock Text="Occupied" FontSize="12" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <Border Width="12" Height="12" CornerRadius="6" Background="{DynamicResource StatusBarOccupiedBrush}"/>
+          <TextBlock Text="Occupied" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-          <Border Width="12" Height="12" CornerRadius="6" Background="{StaticResource StatusBarReservedBrush}"/>
-          <TextBlock Text="Reserved" FontSize="12" Foreground="{StaticResource OnSurfaceBrush}"/>
+          <Border Width="12" Height="12" CornerRadius="6" Background="{DynamicResource StatusBarReservedBrush}"/>
+          <TextBlock Text="Reserved" FontSize="12" Foreground="{DynamicResource OnSurfaceBrush}"/>
         </StackPanel>
       </StackPanel>
     </Border>
@@ -75,9 +73,9 @@
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="models:TableMapCardItem">
             <Border Width="220" MinHeight="160" Margin="0,0,16,16"
-                    Background="{StaticResource SurfaceBrush}"
+                    Background="{DynamicResource SurfaceBrush}"
                     CornerRadius="{DynamicResource CornerRadius12}"
-                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderBrush="{DynamicResource BorderBrush}"
                     BorderThickness="1"
                     BoxShadow="0 2 8 0 #10000000"
                     ClipToBounds="True">
@@ -97,26 +95,24 @@
                 </Border>
 
                 <!-- Card content -->
-                <Button Grid.Row="1" Grid.Column="0" Command="{Binding #Root.DataContext.NewOrderAtTableCommand}"
-                        CommandParameter="{Binding}" Padding="12,10" Background="Transparent" BorderThickness="0"
-                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Cursor="Hand">
+                <Button Grid.Row="1" Grid.Column="0" Command="{Binding #Root.DataContext.NewOrderAtTableCommand}" CommandParameter="{Binding}" Padding="12,10" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Cursor="Hand" Classes="ghost">
                   <StackPanel Spacing="8">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                       <Border Width="40" Height="40" CornerRadius="{DynamicResource CornerRadius8}"
-                              Background="{StaticResource SurfaceMutedBrush}">
+                              Background="{DynamicResource SurfaceMutedBrush}">
                         <PathIcon Data="{StaticResource IconTableRestaurant}" Width="20" Height="20"
-                                  Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                  Foreground="{DynamicResource PrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                       </Border>
                       <StackPanel Spacing="2" VerticalAlignment="Center">
                         <TextBlock Text="{Binding Table.Name}" FontSize="16" FontWeight="Bold"
-                                   Foreground="{StaticResource OnSurfaceBrush}"/>
+                                   Foreground="{DynamicResource OnSurfaceBrush}"/>
                         <TextBlock Text="{Binding Table.Zone}" FontSize="11"
-                                   Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                                   Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                       </StackPanel>
                     </StackPanel>
                     <!-- Status badge -->
                     <Border HorizontalAlignment="Left" CornerRadius="4" Padding="8,4"
-                            Background="{StaticResource SurfaceMutedBrush}">
+                            Background="{DynamicResource SurfaceMutedBrush}">
                       <Border.Background>
                         <Binding Path="Table.Status">
                           <Binding.Converter>
@@ -128,33 +124,31 @@
                         </Binding>
                       </Border.Background>
                       <TextBlock Text="{Binding Table.Status}" FontSize="11" FontWeight="SemiBold"
-                                 Foreground="{StaticResource OnSurfaceBrush}"/>
+                                 Foreground="{DynamicResource OnSurfaceBrush}"/>
                     </Border>
                     <Grid ColumnDefinitions="*,Auto">
                       <StackPanel Spacing="2">
-                        <TextBlock Text="Seats" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                        <TextBlock Text="Seats" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                         <StackPanel Orientation="Horizontal" Spacing="4">
                           <PathIcon Data="{StaticResource IconPerson}" Width="12" Height="12"
-                                    Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                                    Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                           <TextBlock Text="{Binding Table.Capacity}" FontSize="13" FontWeight="SemiBold"
-                                     Foreground="{StaticResource OnSurfaceBrush}"/>
+                                     Foreground="{DynamicResource OnSurfaceBrush}"/>
                         </StackPanel>
                       </StackPanel>
                       <StackPanel Grid.Column="1" Spacing="2" IsVisible="{Binding ElapsedDisplay, Converter={x:Static ObjectConverters.IsNotNull}}">
-                        <TextBlock Text="Elapsed" FontSize="10" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                        <TextBlock Text="Elapsed" FontSize="10" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                         <TextBlock Text="{Binding ElapsedDisplay}" FontSize="13" FontWeight="Bold"
-                                   Foreground="{StaticResource PrimaryBrush}"/>
+                                   Foreground="{DynamicResource PrimaryBrush}"/>
                       </StackPanel>
                     </Grid>
                   </StackPanel>
                 </Button>
 
                 <!-- Three-dot menu -->
-                <Button Grid.Row="1" Grid.Column="1" Padding="8" Background="Transparent" BorderThickness="0"
-                        VerticalAlignment="Top" HorizontalAlignment="Right"
-                        IsVisible="{Binding #Root.DataContext.IsManager}">
+                <Button Grid.Row="1" Grid.Column="1" Padding="8" VerticalAlignment="Top" HorizontalAlignment="Right" IsVisible="{Binding #Root.DataContext.IsManager}" Classes="ghost">
                   <PathIcon Data="{StaticResource IconMoreVertical}" Width="20" Height="20"
-                            Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+                            Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
                   <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                       <MenuItem Header="Reserve" Command="{Binding #Root.DataContext.ReserveTableCommand}"
@@ -163,7 +157,7 @@
                                 CommandParameter="{Binding Table}"/>
                       <MenuItem Header="Delete" Command="{Binding #Root.DataContext.DeleteTableCommand}"
                                 CommandParameter="{Binding Table}"
-                                Foreground="{StaticResource ErrorBrush}"/>
+                                Foreground="{DynamicResource ErrorBrush}"/>
                     </MenuFlyout>
                   </Button.Flyout>
                 </Button>
@@ -174,15 +168,15 @@
       </ItemsControl>
       </ScrollViewer>
       <Border Padding="48,32" HorizontalAlignment="Center" VerticalAlignment="Center"
-            Background="{StaticResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
-            BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+            Background="{DynamicResource SurfaceBrush}" CornerRadius="{DynamicResource CornerRadius12}"
+            BorderBrush="{DynamicResource BorderBrush}" BorderThickness="1"
             IsVisible="{Binding NoTables}">
         <StackPanel HorizontalAlignment="Center" Spacing="12">
           <PathIcon Data="{StaticResource IconTableRestaurant}" Width="40" Height="40"
-                    Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.4" HorizontalAlignment="Center"/>
-          <TextBlock Text="No tables in this zone" FontSize="18" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+                    Foreground="{DynamicResource OnSurfaceMutedBrush}" Opacity="0.4" HorizontalAlignment="Center"/>
+          <TextBlock Text="No tables in this zone" FontSize="18" Foreground="{DynamicResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
           <TextBlock Text="Change zone or add your first table to get started."
-                     FontSize="13" Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.7" HorizontalAlignment="Center"/>
+                     FontSize="13" Foreground="{DynamicResource OnSurfaceMutedBrush}" Opacity="0.7" HorizontalAlignment="Center"/>
         </StackPanel>
       </Border>
     </Grid>
@@ -190,25 +184,23 @@
     <controls:ModalOverlay IsOpen="{Binding IsTableEditOpen}" Title="Table Details">
       <StackPanel Spacing="16" MinWidth="320">
         <StackPanel Spacing="6">
-          <TextBlock Text="Name" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBlock Text="Name" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBox Text="{Binding TableFormName}" Watermark="e.g. Table 1"/>
         </StackPanel>
         <StackPanel Spacing="6">
-          <TextBlock Text="Capacity" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBlock Text="Capacity" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBox Text="{Binding TableFormCapacity}" Watermark="e.g. 4"/>
         </StackPanel>
         <StackPanel Spacing="6">
-          <TextBlock Text="Zone / Floor" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+          <TextBlock Text="Zone / Floor" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
           <TextBox Text="{Binding TableFormZone}" Watermark="e.g. Main floor"/>
         </StackPanel>
-        <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,4"/>
+        <Border Height="1" Background="{DynamicResource BorderBrush}" Margin="0,4"/>
         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
-          <Button Content="Cancel" Command="{Binding CloseTableEditCommand}"
-                  Background="{StaticResource SurfaceMutedBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  CornerRadius="{DynamicResource CornerRadius8}" BorderThickness="0" Padding="16,8"/>
-          <Button Command="{Binding SaveTableCommand}" Classes="primary" Padding="16,8">
+          <Button Content="Cancel" Command="{Binding CloseTableEditCommand}" BorderThickness="0" Padding="16,8" Classes="secondary"/>
+          <Button Command="{Binding SaveTableCommand}" Padding="16,8" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="6">
-              <PathIcon Data="{StaticResource IconCheck}" Foreground="{StaticResource OnPrimaryBrush}" Width="14" Height="14"/>
+              <PathIcon Data="{StaticResource IconCheck}" Foreground="{DynamicResource OnPrimaryBrush}" Width="14" Height="14"/>
               <TextBlock Text="Save"/>
             </StackPanel>
           </Button>

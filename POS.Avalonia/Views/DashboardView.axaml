@@ -2,193 +2,258 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:POS.Avalonia.ViewModels"
              xmlns:controls="using:POS.Avalonia.Controls"
-             xmlns:models="using:POS.Core.Models"
+             xmlns:models="using:POS.Avalonia.Models"
+             xmlns:core="using:POS.Core.Models"
+             xmlns:conv="using:Avalonia.Data.Converters"
              x:Class="POS.Avalonia.Views.DashboardView"
              x:DataType="vm:DashboardViewModel"
-             Background="{StaticResource BackgroundBrush}">
+             Background="{DynamicResource BackgroundBrush}">
+  <UserControl.Styles>
+    <Style Selector="Border.chart-bar">
+      <Setter Property="Background" Value="{DynamicResource SurfaceMutedBrush}"/>
+    </Style>
+    <Style Selector="Border.chart-bar.peak">
+      <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+    </Style>
+  </UserControl.Styles>
+
   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-    <StackPanel Spacing="32" Margin="32">
+    <StackPanel Spacing="{DynamicResource Spacing24}" Margin="{DynamicResource Margin32}">
+
+      <!-- Header -->
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Spacing="2">
+          <TextBlock Text="Tổng quan" FontSize="{DynamicResource LargeTitleFontSize}" FontWeight="Bold"
+                     Foreground="{DynamicResource OnSurfaceBrush}"/>
+          <TextBlock Text="{Binding TodayCaption}" FontSize="{DynamicResource CaptionFontSize}"
+                     Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+        </StackPanel>
+        <Button Grid.Column="1" Command="{Binding LoadCommand}" Padding="12,8" VerticalAlignment="Center" Classes="secondary">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <PathIcon Data="{StaticResource IconRefresh}" Width="16" Height="16"
+                      Foreground="{DynamicResource OnSurfaceBrush}"/>
+            <TextBlock Text="Làm mới" VerticalAlignment="Center" Foreground="{DynamicResource OnSurfaceBrush}"/>
+          </StackPanel>
+        </Button>
+      </Grid>
+
       <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="4"/>
 
-      <StackPanel Spacing="32" IsVisible="{Binding NotLoading}">
-        <!-- KPI Cards -->
-        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="24">
-          <controls:KpiCard Grid.Column="0" Title="Total Sales"
-                            Value="{Binding TotalSales, StringFormat='{}{0:N0} ₫'}"
-                            Subtitle=""
-                            AccentBrush="{StaticResource PrimaryBrush}"
-                            />
-          <controls:KpiCard Grid.Column="1" Title="Avg Ticket"
+      <!-- Error state -->
+      <Border IsVisible="{Binding FormError, Converter={x:Static conv:StringConverters.IsNotNullOrEmpty}}"
+              Background="{DynamicResource ErrorBgBrush}" BorderBrush="{DynamicResource ErrorBrush}"
+              BorderThickness="1" CornerRadius="{DynamicResource CornerRadius8}" Padding="16,12">
+        <TextBlock Text="{Binding FormError}" Foreground="{DynamicResource ErrorBrush}" TextWrapping="Wrap"/>
+      </Border>
+
+      <StackPanel Spacing="{DynamicResource Spacing24}" IsVisible="{Binding NotLoading}">
+
+        <!-- KPI cards -->
+        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="{DynamicResource Spacing16}">
+          <controls:KpiCard Grid.Column="0" Title="Doanh thu hôm nay"
+                            Value="{Binding TodayRevenue, StringFormat='{}{0:N0} ₫'}"
+                            Subtitle="Đơn đã thanh toán"
+                            Icon="{StaticResource IconMoney}"
+                            AccentBrush="{DynamicResource PrimaryBrush}"/>
+          <controls:KpiCard Grid.Column="1" Title="Đơn hôm nay"
+                            Value="{Binding TodayOrders, StringFormat='{}{0}'}"
+                            Subtitle="Số đơn phát sinh"
+                            Icon="{StaticResource IconShoppingCart}"
+                            AccentBrush="{DynamicResource InfoBrush}"/>
+          <controls:KpiCard Grid.Column="2" Title="Giá trị TB / đơn"
                             Value="{Binding AverageTicket, StringFormat='{}{0:N0} ₫'}"
-                            Subtitle=""
-                            AccentBrush="{StaticResource PrimaryBrush}"
-                            />
-          <controls:KpiCard Grid.Column="2" Title="Open Orders"
-                            Value="—"
-                            Subtitle="Active"
-                            AccentBrush="{StaticResource SecondaryBrush}"/>
-          <controls:KpiCard Grid.Column="3" Title="Voids"
-                            Value="—"
-                            Subtitle=""
-                            AccentBrush="{StaticResource ErrorBrush}"
-                            />
+                            Subtitle="Doanh thu ÷ số đơn"
+                            Icon="{StaticResource IconReceipt}"
+                            AccentBrush="{DynamicResource SecondaryBrush}"/>
+          <controls:KpiCard Grid.Column="3" Title="Đơn đang xử lý"
+                            Value="{Binding OpenOrders, StringFormat='{}{0}'}"
+                            Subtitle="Bếp chưa hoàn tất"
+                            Icon="{StaticResource IconKitchen}"
+                            AccentBrush="{DynamicResource WarningBrush}"/>
         </Grid>
 
-        <!-- Main content: Top Products + Side widgets; gap 32 -->
-        <Grid ColumnDefinitions="2*,*" ColumnSpacing="32" RowDefinitions="Auto">
-          <!-- Top Products: Revenue + Trend bar cols, View Report link, min-height -->
-          <controls:Card Grid.Column="0" MinHeight="320">
-            <StackPanel Spacing="16">
+        <!-- Best sellers + side widgets -->
+        <Grid ColumnDefinitions="2*,*" ColumnSpacing="{DynamicResource Spacing24}">
+          <controls:Card Grid.Column="0" MinHeight="380">
+            <StackPanel Spacing="{DynamicResource Spacing16}">
               <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Text="Top Products" FontSize="18" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <Button Grid.Column="1" Background="Transparent" BorderThickness="0" Padding="0,4" Foreground="{StaticResource PrimaryBrush}">
-                  <TextBlock Text="View Report" FontSize="13" FontWeight="SemiBold"/>
-                </Button>
+                <StackPanel Spacing="2">
+                  <TextBlock Text="Món bán chạy" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="Bold"
+                             Foreground="{DynamicResource OnSurfaceBrush}"/>
+                  <TextBlock Text="7 ngày gần nhất · theo doanh thu" FontSize="{DynamicResource CaptionFontSize}"
+                             Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="Xem báo cáo" Command="{Binding OpenDailySalesCommand}" Padding="8,4" Foreground="{DynamicResource PrimaryBrush}" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold" VerticalAlignment="Center" Classes="ghost"/>
               </Grid>
-              <!-- Table header: #, Item, Qty, Revenue, Trend -->
-              <Grid ColumnDefinitions="40,*,Auto,Auto,100" Margin="0,0,0,4">
-                <TextBlock Text="#" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                <TextBlock Grid.Column="1" Text="Item Name" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}" Margin="8,0,0,0"/>
-                <TextBlock Grid.Column="2" Text="Qty" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                <TextBlock Grid.Column="3" Text="Revenue" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
-                <TextBlock Grid.Column="4" Text="Trend" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource OnSurfaceMutedBrush}"/>
+
+              <Grid ColumnDefinitions="28,*,104,84" Margin="8,0">
+                <TextBlock Text="#" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                           Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                <TextBlock Grid.Column="1" Text="Món" Margin="12,0,0,0" FontSize="{DynamicResource CaptionFontSize}"
+                           FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                <TextBlock Grid.Column="2" Text="Doanh thu" TextAlignment="Right" FontSize="{DynamicResource CaptionFontSize}"
+                           FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                <TextBlock Grid.Column="3" Text="Tỷ trọng" TextAlignment="Right" FontSize="{DynamicResource CaptionFontSize}"
+                           FontWeight="SemiBold" Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </Grid>
-              <Border Height="1" Background="{StaticResource BorderBrush}"/>
+              <Border Height="1" Background="{DynamicResource BorderBrush}"/>
+
               <ItemsControl ItemsSource="{Binding TopProducts}">
                 <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <Border Padding="8,12" Margin="0,2" CornerRadius="{DynamicResource CornerRadius8}">
-                      <Grid ColumnDefinitions="32,*,Auto,Auto,100">
-                        <Border Width="28" Height="28" CornerRadius="{DynamicResource CornerRadius4}"
-                                Background="{StaticResource PrimaryLightBrush}" HorizontalAlignment="Center">
-                          <PathIcon Data="{StaticResource IconCoffee}" Width="14" Height="14" Foreground="{StaticResource PrimaryBrush}"/>
-                        </Border>
-                        <TextBlock Grid.Column="1" Text="{Binding Key}" FontSize="{DynamicResource BodyFontSize}"
-                                   Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center" Margin="12,0,0,0" TextTrimming="CharacterEllipsis"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Value, StringFormat='{}{0:N0}'}"
+                  <DataTemplate x:DataType="models:TopProductRow">
+                    <Border Padding="8,10" CornerRadius="{DynamicResource CornerRadius8}" Margin="0,1">
+                      <Grid ColumnDefinitions="28,*,104,84">
+                        <TextBlock Text="{Binding Rank}" FontSize="{DynamicResource CaptionFontSize}" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="12,0,8,0" TextTrimming="CharacterEllipsis"
+                                   FontSize="{DynamicResource BodyFontSize}" Foreground="{DynamicResource OnSurfaceBrush}"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Revenue, StringFormat='{}{0:N0} ₫'}" TextAlignment="Right"
                                    FontSize="{DynamicResource BodyFontSize}" FontWeight="SemiBold"
-                                   Foreground="{StaticResource PrimaryBrush}" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Text="—"
-                                   FontSize="{DynamicResource BodyFontSize}"
-                                   Foreground="{StaticResource OnSurfaceMutedBrush}" VerticalAlignment="Center"/>
-                        <Border Grid.Column="4" Height="8" CornerRadius="4" Background="{StaticResource SurfaceMutedBrush}" VerticalAlignment="Center" Margin="8,0,0,0" ClipToBounds="True">
-                          <Border Width="92" Height="8" CornerRadius="4" Background="{StaticResource PrimaryBrush}" HorizontalAlignment="Left" Opacity="0.7"/>
+                                   Foreground="{DynamicResource OnSurfaceBrush}" VerticalAlignment="Center"/>
+                        <Border Grid.Column="3" Width="84" Height="8" CornerRadius="4" ClipToBounds="True"
+                                Background="{DynamicResource SurfaceMutedBrush}" HorizontalAlignment="Right"
+                                VerticalAlignment="Center">
+                          <Border Width="{Binding ShareBarWidth}" Height="8" CornerRadius="4"
+                                  Background="{DynamicResource PrimaryBrush}" HorizontalAlignment="Left"/>
                         </Border>
                       </Grid>
                     </Border>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
-              </ItemsControl>                  <Border Padding="32,24" Background="{StaticResource SurfaceBrush}"
-                      CornerRadius="{DynamicResource CornerRadius8}" HorizontalAlignment="Stretch"
-                      IsVisible="{Binding TopProductsEmpty}">
+              </ItemsControl>
+
+              <!-- Empty state -->
+              <Border IsVisible="{Binding TopProductsEmpty}" Padding="24" CornerRadius="{DynamicResource CornerRadius8}"
+                      Background="{DynamicResource BackgroundBrush}">
                 <StackPanel HorizontalAlignment="Center" Spacing="8">
                   <PathIcon Data="{StaticResource IconCoffee}" Width="32" Height="32"
-                            Foreground="{StaticResource OnSurfaceMutedBrush}" Opacity="0.5"/>
-                  <TextBlock Text="No sales this week yet" FontSize="{DynamicResource BodyFontSize}"
-                             Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
+                            Foreground="{DynamicResource OnSurfaceMutedBrush}" Opacity="0.5"/>
+                  <TextBlock Text="Chưa có doanh thu trong 7 ngày gần nhất" FontSize="{DynamicResource BodyFontSize}"
+                             Foreground="{DynamicResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
                 </StackPanel>
               </Border>
             </StackPanel>
           </controls:Card>
 
-          <!-- Right side widgets -->
-          <StackPanel Grid.Column="1" Spacing="24" Margin="0,0,0,0">
-            <!-- Peak Hours placeholder -->
+          <StackPanel Grid.Column="1" Spacing="{DynamicResource Spacing24}">
+            <!-- Peak hours -->
             <controls:Card Padding="20">
-              <StackPanel Spacing="{DynamicResource Spacing16}">
-                <TextBlock Text="Peak Hours" FontSize="{DynamicResource SubtitleFontSize}"
-                           FontWeight="{StaticResource SubtitleFontWeight}" Foreground="{StaticResource OnSurfaceBrush}"/>
-                <Grid Height="160" ColumnDefinitions="*,*,*,*,*,*" VerticalAlignment="Bottom">
-                  <Border Grid.Column="0" Background="{StaticResource SurfaceMutedBrush}"
-                          CornerRadius="4,4,0,0" Height="36" VerticalAlignment="Bottom" Margin="2,0"/>
-                  <Border Grid.Column="1" Background="{StaticResource SurfaceMutedBrush}"
-                          CornerRadius="4,4,0,0" Height="60" VerticalAlignment="Bottom" Margin="2,0"/>
-                  <Border Grid.Column="2" Background="{StaticResource PrimaryBrush}"
-                          CornerRadius="4,4,0,0" Height="96" VerticalAlignment="Bottom" Margin="2,0"/>
-                  <Border Grid.Column="3" Background="{StaticResource SurfaceMutedBrush}"
-                          CornerRadius="4,4,0,0" Height="72" VerticalAlignment="Bottom" Margin="2,0"/>
-                  <Border Grid.Column="4" Background="{StaticResource SurfaceMutedBrush}"
-                          CornerRadius="4,4,0,0" Height="48" VerticalAlignment="Bottom" Margin="2,0"/>
-                  <Border Grid.Column="5" Background="{StaticResource SurfaceMutedBrush}"
-                          CornerRadius="4,4,0,0" Height="24" VerticalAlignment="Bottom" Margin="2,0"/>
+              <StackPanel Spacing="{DynamicResource Spacing12}">
+                <Grid ColumnDefinitions="*,Auto">
+                  <StackPanel Spacing="2">
+                    <TextBlock Text="Giờ cao điểm" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="Bold"
+                               Foreground="{DynamicResource OnSurfaceBrush}"/>
+                    <TextBlock Text="Doanh thu theo 2 giờ" FontSize="{DynamicResource CaptionFontSize}"
+                               Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                  </StackPanel>
+                  <PathIcon Grid.Column="1" Data="{StaticResource IconBarChart}" Width="18" Height="18"
+                            Foreground="{DynamicResource PrimaryBrush}" VerticalAlignment="Center"/>
                 </Grid>
-                <Grid ColumnDefinitions="*,*,*,*">
-                  <TextBlock Text="10am" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Left"/>
-                  <TextBlock Grid.Column="1" Text="12pm" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
-                  <TextBlock Grid.Column="2" Text="2pm" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Center"/>
-                  <TextBlock Grid.Column="3" Text="4pm" FontSize="11" Foreground="{StaticResource OnSurfaceMutedBrush}" HorizontalAlignment="Right"/>
+
+                <Grid Height="112">
+                  <ItemsControl ItemsSource="{Binding HourlySales}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <UniformGrid Columns="8"/>
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate x:DataType="models:HourlySalesBar">
+                        <Grid Height="112" VerticalAlignment="Bottom" ToolTip.Tip="{Binding Tooltip}">
+                          <Border Classes="chart-bar" Classes.peak="{Binding IsPeak}" Height="{Binding BarHeight}"
+                                  Margin="4,0" CornerRadius="4,4,0,0" VerticalAlignment="Bottom"/>
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
                 </Grid>
+
+                <ItemsControl ItemsSource="{Binding HourlySales}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <UniformGrid Columns="8"/>
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:HourlySalesBar">
+                      <TextBlock Text="{Binding Label}" FontSize="11" HorizontalAlignment="Center"
+                                 Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <TextBlock Text="Chưa có doanh thu hôm nay" IsVisible="{Binding HourlySalesEmpty}"
+                           FontSize="{DynamicResource CaptionFontSize}" HorizontalAlignment="Center"
+                           Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
               </StackPanel>
             </controls:Card>
 
-            <!-- Low Stock: colored dot, item name, quantity, Order button -->
+            <!-- Low stock -->
             <controls:Card Padding="20">
-              <StackPanel Spacing="12">
+              <StackPanel Spacing="{DynamicResource Spacing12}">
                 <Grid ColumnDefinitions="*,Auto">
-                  <TextBlock Text="Low Stock" FontSize="18" FontWeight="Bold" Foreground="{StaticResource OnSurfaceBrush}"/>
-                  <Border Grid.Column="1" Background="{StaticResource ErrorBgBrush}" CornerRadius="100" Padding="8,4">
-                    <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} items'}" FontSize="12" FontWeight="SemiBold"
-                               Foreground="{StaticResource ErrorBrush}"/>
+                  <TextBlock Text="Sắp hết hàng" FontSize="{DynamicResource SubtitleFontSize}" FontWeight="Bold"
+                             Foreground="{DynamicResource OnSurfaceBrush}"/>
+                  <Border Grid.Column="1" Background="{DynamicResource ErrorBgBrush}" CornerRadius="100" Padding="10,4">
+                    <TextBlock Text="{Binding LowStockCount, StringFormat='{}{0} món'}" FontSize="12" FontWeight="SemiBold"
+                               Foreground="{DynamicResource ErrorBrush}"/>
                   </Border>
                 </Grid>
+
                 <ItemsControl ItemsSource="{Binding LowStockItems}">
                   <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="models:MenuItem">
-                      <Border Padding="12,10" Margin="0,0,0,8" Background="{StaticResource BackgroundBrush}"
+                    <DataTemplate x:DataType="core:MenuItem">
+                      <Border Padding="12,10" Margin="0,0,0,8" Background="{DynamicResource BackgroundBrush}"
                               CornerRadius="{DynamicResource CornerRadius8}">
-                        <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                          <Border Width="10" Height="10" CornerRadius="5" Background="{StaticResource ErrorBrush}" VerticalAlignment="Center" Margin="0,0,12,0"/>
-                          <TextBlock Grid.Column="1" Text="{Binding Name}" FontSize="{DynamicResource BodyFontSize}"
-                                     Foreground="{StaticResource OnSurfaceBrush}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
-                          <TextBlock Grid.Column="2" Text="{Binding Quantity, StringFormat='{}{0}'}"
-                                     FontSize="{DynamicResource CaptionFontSize}" Foreground="{StaticResource OnSurfaceMutedBrush}"
-                                     VerticalAlignment="Center" Margin="8,0"/>
-                          <Button Grid.Column="3" Content="Order" Padding="10,6" FontSize="12" Classes="primary"/>
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                          <Border Width="8" Height="8" CornerRadius="4" Background="{DynamicResource ErrorBrush}"
+                                  VerticalAlignment="Center" Margin="0,0,12,0"/>
+                          <TextBlock Grid.Column="1" Text="{Binding Name}" TextTrimming="CharacterEllipsis"
+                                     FontSize="{DynamicResource BodyFontSize}" Foreground="{DynamicResource OnSurfaceBrush}"
+                                     VerticalAlignment="Center"/>
+                          <TextBlock Grid.Column="2" Text="{Binding Quantity}" FontSize="{DynamicResource CaptionFontSize}"
+                                     FontWeight="SemiBold" Foreground="{DynamicResource ErrorBrush}" VerticalAlignment="Center"/>
                         </Grid>
                       </Border>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <TextBlock Text="No low stock items" FontSize="{DynamicResource CaptionFontSize}"
-                           Foreground="{StaticResource OnSurfaceMutedBrush}" IsVisible="{Binding LowStockEmpty}"
-                           HorizontalAlignment="Center" Margin="0,8,0,0"/>
+
+                <TextBlock Text="Không có món nào sắp hết" IsVisible="{Binding LowStockEmpty}"
+                           FontSize="{DynamicResource CaptionFontSize}" HorizontalAlignment="Center" Margin="0,4,0,0"
+                           Foreground="{DynamicResource OnSurfaceMutedBrush}"/>
+
+                <Button Content="Mở kho hàng" Command="{Binding OpenInventoryCommand}" HorizontalAlignment="Stretch" Padding="12,8" Classes="secondary"/>
               </StackPanel>
             </controls:Card>
           </StackPanel>
         </Grid>
 
-        <!-- Quick Actions: gap 16px, top spacing 32px -->
-        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16" RowDefinitions="Auto" Margin="0,32,0,0">
-          <Button Grid.Column="0" HorizontalAlignment="Stretch" Padding="16"
-                  Background="{StaticResource BlackBrush}" Foreground="{StaticResource OnPrimaryBrush}"
-                  CornerRadius="{DynamicResource CornerRadius12}">
+        <!-- Quick actions -->
+        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="{DynamicResource Spacing16}">
+          <Button Grid.Column="0" Command="{Binding OpenSalesCommand}" HorizontalAlignment="Stretch" Padding="16" Classes="primary">
             <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-              <PathIcon Data="{StaticResource IconAddCircle}" Foreground="{StaticResource OnPrimaryBrush}" Width="18" Height="18"/>
-              <TextBlock Text="New Order" FontWeight="SemiBold"/>
+              <PathIcon Data="{StaticResource IconAddCircle}" Foreground="{DynamicResource OnPrimaryBrush}" Width="18" Height="18"/>
+              <TextBlock Text="Bán hàng" FontWeight="SemiBold"/>
             </StackPanel>
           </Button>
-          <Button Grid.Column="1" HorizontalAlignment="Stretch" Padding="16"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  CornerRadius="{DynamicResource CornerRadius12}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+          <Button Grid.Column="1" Command="{Binding OpenTablesCommand}" HorizontalAlignment="Stretch" Padding="16" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-              <PathIcon Data="{StaticResource IconTableRestaurant}" Foreground="{StaticResource OnSurfaceBrush}" Width="18" Height="18"/>
-              <TextBlock Text="Manage Tables"/>
+              <PathIcon Data="{StaticResource IconTableRestaurant}" Foreground="{DynamicResource OnSurfaceBrush}" Width="18" Height="18"/>
+              <TextBlock Text="Sơ đồ bàn"/>
             </StackPanel>
           </Button>
-          <Button Grid.Column="2" HorizontalAlignment="Stretch" Padding="16"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  CornerRadius="{DynamicResource CornerRadius12}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+          <Button Grid.Column="2" Command="{Binding OpenInventoryCommand}" HorizontalAlignment="Stretch" Padding="16" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-              <PathIcon Data="{StaticResource IconPerson}" Foreground="{StaticResource OnSurfaceBrush}" Width="18" Height="18"/>
-              <TextBlock Text="Add Customer"/>
+              <PathIcon Data="{StaticResource IconInventory}" Foreground="{DynamicResource OnSurfaceBrush}" Width="18" Height="18"/>
+              <TextBlock Text="Kho hàng"/>
             </StackPanel>
           </Button>
-          <Button Grid.Column="3" HorizontalAlignment="Stretch" Padding="16"
-                  Background="{StaticResource SurfaceBrush}" Foreground="{StaticResource OnSurfaceBrush}"
-                  CornerRadius="{DynamicResource CornerRadius12}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+          <Button Grid.Column="3" Command="{Binding OpenDailySalesCommand}" HorizontalAlignment="Stretch" Padding="16" Classes="secondary">
             <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-              <PathIcon Data="{StaticResource IconPrint}" Foreground="{StaticResource OnSurfaceBrush}" Width="18" Height="18"/>
-              <TextBlock Text="Day Report"/>
+              <PathIcon Data="{StaticResource IconReport}" Foreground="{DynamicResource OnSurfaceBrush}" Width="18" Height="18"/>
+              <TextBlock Text="Báo cáo ngày"/>
             </StackPanel>
           </Button>
         </Grid>
